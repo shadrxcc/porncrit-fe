@@ -14,6 +14,7 @@ const config: Config = {
         body: "#230110",
         'mauve-30':  'rgba(172, 102, 134, 0.30)',
         'whitealpha-10': 'rgba(255, 255, 255, 0.10)',
+        'pink-2': "#EC1C79"
       },
       borderRadius:{
         primary:"35px"
