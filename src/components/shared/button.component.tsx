@@ -22,7 +22,7 @@ export type ButtonProps = React.DetailedHTMLProps<
 > &
     ButtonOptions;
 
-type ButtonVariant = "outline" | "pink" | "secondary" | "white";
+type ButtonVariant = "outline" | "pink" | "secondary" | "white" | "tags";
 
 const getVariant = (variant: ButtonVariant) => {
     switch (variant) {
@@ -31,7 +31,9 @@ const getVariant = (variant: ButtonVariant) => {
         case "white":
             return "bg-white text-pink";
         case "secondary":
-            return "bg-none text-white"
+            return "bg-none text-white";
+        case "tags":
+            return "bg-mauve text-white"
         default:
             return "bg-pink text-white";
     }

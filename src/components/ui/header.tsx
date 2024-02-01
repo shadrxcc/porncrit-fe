@@ -23,6 +23,7 @@ const Header = () => {
         <ButtonComponent variant="secondary" className="rounded-primary">Log in</ButtonComponent>
         <ButtonComponent variant="pink" className="rounded-primary">Sign up</ButtonComponent>
       </div>
+      
       <HambergerMenu className="lg:hidden" size="32" color="#f71d7f"/>
 
     </nav>
