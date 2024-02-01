@@ -7,6 +7,7 @@ import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
 import FooterComponent from "../components/ui/footer.component";
+import SignupComponent from "@/components/ui/signup-form.component";
 
 export default function Home() {
   return (

@@ -5,6 +5,8 @@ import ButtonComponent from "../shared/button.component";
 import SearchInput from "../shared/searchinput.component";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import Modal from "../shared/modal.component";
+import SignupComponent from "./signup-form.component";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
@@ -13,12 +15,12 @@ const Header = () => {
     <nav className="flex relative pt-5 border-b border-mauve-30 justify-between items-center pb-6 px-5 s:px-9">
       <div className="flex gap-x-12 items-center">
         <img src="/logo.png" width={100} className="" alt="" />
-        <div  id="navbar" className={`${menu ?  "#navbar active" : "#navbar"} absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}>
+        <div id="navbar" className={`${menu ?  "#navbar active" : "#navbar"} text-sm absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}>
           <p>Home</p>
           <p>Reviews</p>
           <p>Lists</p>
           <p>Fans</p>
-          <div className="lg:hidden gap-y-8">
+          <div className="lg:hidden flex flex-col gap-y-5">
             <ButtonComponent variant="secondary" className="rounded-primary">
               Log in
             </ButtonComponent>
@@ -28,6 +30,10 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      <SignupComponent/>
+
+      <Modal>hello</Modal>
 
       <div className="hidden lg:block">
         <SearchInput placeholder="Search" />
