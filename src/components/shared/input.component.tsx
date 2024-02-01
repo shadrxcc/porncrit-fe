@@ -14,7 +14,7 @@ const InputComponent: React.FC<InputProps> = ({ label, widthClass, ...props }) =
                 {" "}
                 <label className="text-sm text-brown" htmlFor={label}>{label}</label>
                 <input
-                    className={`px-4 bg-lightpink border border-lightpink h-12 border-accent text-sm placeholder:text-lightgray text-grey !outline-none w-full focus:outline-none py-3.5 rounded-lg`}
+                    className={`px-4 bg-lightpink bg-opacity-10 border-opacity-10 border border-lightpink h-12 border-accent text-sm text-brown !outline-none w-full focus:outline-none py-3.5 rounded-lg`}
                     {...props}
                 />
 
