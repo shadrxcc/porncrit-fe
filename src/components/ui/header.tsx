@@ -5,7 +5,7 @@ import ButtonComponent from "../shared/button.component";
 import SearchInput from "../shared/searchinput.component";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import ForgottenPassword from "./forgotten-password.component";
+
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
@@ -31,7 +31,7 @@ const Header = () => {
       </div>
 {/* <SignInComponent/> */}
       {/* <SignupComponent/> */}
-      <ForgottenPassword/>
+      {/* <ForgottenPassword/> */}
 
       <div className="hidden lg:block">
         <SearchInput placeholder="Search" />
