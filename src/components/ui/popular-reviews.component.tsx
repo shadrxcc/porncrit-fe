@@ -6,7 +6,7 @@ const PopularReviewsComponent = () => {
             <div className="flex flex-col gap-y-2">
                 <div className="flex items-center gap-x-3"><img width={33} src="/assets/images/user.png" alt="" /><p className="text-pink-2 text-sm">Username</p></div>
                 <div className="flex flex-col lg:flex-row gap-3">
-                    <Image className="w-full lg:w-min" width={177} height={100} src={`/assets/images/videothumb.png`} alt="hot-nasty-porn" />
+                    <Image className="w-full lg:w-min" width={177} height={100} src={`/assets/images/videothumb.png`} priority alt="hot-nasty-porn" />
                     <div className="flex flex-col gap-y-2.5">
                         <div className="flex flex-col gap-y-3.5">
                             <p className="text-sm font-medium">Title Goes here cut short if need...</p>
