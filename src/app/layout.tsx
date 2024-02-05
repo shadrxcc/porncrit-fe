@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import { Seo } from "@/components/shared/seo";
 
 
 export const metadata: Metadata = {
-  title: "PornCrit",
-  description: "The social platform for lovers of porn.",
+  ...Seo,  
 };
 
 export default function RootLayout({
@@ -14,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+      </body>
     </html>
   );
 }
