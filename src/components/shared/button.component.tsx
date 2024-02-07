@@ -60,7 +60,7 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
     };
 
     const merged = clsx(
-        "px-[17px] py-2.5 text-sm font-medium justify-center items-center inline-flex gap-2.5",
+        "px-[17px] py-2.5 text-sm rounded-[20px] font-medium justify-center items-center inline-flex gap-2.5",
         getVariant(variant),
         className
     );

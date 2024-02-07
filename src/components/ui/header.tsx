@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import SignInComponent from "./sign-in.component";
 import SignupComponent from "./signup-form.component";
+import Link from "next/link";
 // import ForgottenPassword from "./forgotten-password.component";
 
 const Header = () => {
@@ -29,8 +30,8 @@ const Header = () => {
       <div className="flex gap-x-12 items-center">
         <img src="/logo.png" width={100} className="" alt="" />
         <div id="navbar" className={`${menu ?  "#navbar active" : "#navbar"} absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}>
-          <p>Home</p>
-          <p>Reviews</p>
+          <Link href={`/`}><p>Home</p></Link>
+          <Link href={`/reviews`}><p>Reviews</p></Link>
           <p>Lists</p>
           <p>Fans</p>
           <div className="lg:hidden flex flex-col gap-y-5">

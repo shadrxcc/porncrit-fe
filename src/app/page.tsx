@@ -1,18 +1,43 @@
 import ButtonComponent from "@/components/shared/button.component";
-import Header from "@/components/ui/header";
+
 import HeroComponent from "@/components/ui/hero.component";
 import IndustryNewsComponent from "@/components/ui/industry-news.component";
 import PopularFanComponent from "@/components/ui/popular-fan.component";
 import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
-import FooterComponent from "../components/ui/footer.component";
+
+import WatchedActivity from "@/components/ui/watched-activity.component";
+import UserFollowedComponent from "@/components/ui/userfollowed.component";
+import UserCommentedComponent from "@/components/ui/usercomment-activity.component";
+import SuggestedFanComponent from "@/components/ui/suggestedfan.component";
 
 export default function Home() {
   return (
     <main className="">
-      <Header />
       <HeroComponent />
+      <div className="flex px-4 lg:px-16 xl:px-32 mt-11 flex-col lg:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
+      <div className="flex flex-[2_1_0] flex-col gap-y-5">
+        <p className="text-xl font-bold">Recent activity</p>
+        <div className="flex flex-col gap-y-7">
+        <div className="flex flex-col gap-y-7">
+        <WatchedActivity/>
+        <UserFollowedComponent/>
+        <UserCommentedComponent/>
+        </div>
+        <p className="text-mauve text-sm font-medium">See more</p>
+        </div>
+        </div>
+
+        <div className="flex-[1.2_1_0] flex flex-col gap-y-5">
+        <p className="text-xl font-bold">Suggested fans</p>
+          <div className="flex flex-col gap-y-7">
+          <SuggestedFanComponent/>
+          </div>
+        </div>
+
+
+      </div>
       <div className="flex px-4 lg:px-16 xl:px-32 mt-11 flex-col lg:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
         <div className="flex flex-[2_1_0] flex-col gap-y-5">
           <p className="text-xl font-bold">Popular reviews this week</p>
@@ -91,7 +116,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <FooterComponent />
     </main>
   );
 }
