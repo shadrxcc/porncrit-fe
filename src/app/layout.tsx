@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
       <Header/>
-        <div className="px-4 sm:px-8 lg:px-20">
+        <div className="px-4 sm:px-8">
         {children}
         </div>
         <FooterComponent/>
