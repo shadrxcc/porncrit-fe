@@ -12,40 +12,63 @@ import Link from "next/link";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
-  const [signup, setSignUp] = useState(false)
-  const [login, setLogIn] = useState(false)
+  const [signup, setSignUp] = useState(false);
+  const [login, setLogIn] = useState(false);
 
   const openLogin = () => {
-    setMenu(false)
-    setLogIn(true)
-  }
+    setMenu(false);
+    setLogIn(true);
+  };
 
   const openSignUp = () => {
-    setMenu(false)
-    setSignUp(true)
-  }
+    setMenu(false);
+    setSignUp(true);
+  };
 
   return (
     <nav className="flex relative pt-5 border-b border-mauve-30 justify-between items-center pb-6 px-5 sm:px-9">
       <div className="flex gap-x-12 items-center">
         <img src="/logo.png" width={100} className="" alt="" />
-        <div id="navbar" className={`${menu ?  "#navbar active" : "#navbar"} absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}>
-          <Link href={`/`}><p>Home</p></Link>
-          <Link href={`/reviews`}><p>Reviews</p></Link>
-          <p>Lists</p>
-          <p>Fans</p>
+        <div
+          id="navbar"
+          className={`${
+            menu ? "#navbar active" : "#navbar"
+          } absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}
+        >
+          <Link href={`/`}>
+            <p>Home</p>
+          </Link>
+          <Link href={`/reviews`}>
+            <p>Reviews</p>
+          </Link>
+          <Link href={`/lists`}>
+            <p>Lists</p>
+          </Link>
+          <Link href={`/fans`}>
+            {" "}
+            <p>Fans</p>
+          </Link>
+
           <div className="lg:hidden flex flex-col gap-y-5">
-            <ButtonComponent onClick={openLogin} variant="secondary" className="rounded-primary">
+            <ButtonComponent
+              onClick={openLogin}
+              variant="secondary"
+              className="rounded-primary"
+            >
               Log in
             </ButtonComponent>
-            <ButtonComponent onClick={openSignUp} variant="pink" className="rounded-primary">
+            <ButtonComponent
+              onClick={openSignUp}
+              variant="pink"
+              className="rounded-primary"
+            >
               Sign up
             </ButtonComponent>
           </div>
         </div>
       </div>
-{login ? <SignInComponent/> : null}
-{signup ?  <SignupComponent/> : null}
+      {login ? <SignInComponent /> : null}
+      {signup ? <SignupComponent /> : null}
       {/* */}
       {/* <ForgottenPassword/> */}
 
@@ -54,10 +77,18 @@ const Header = () => {
       </div>
 
       <div className="hidden lg:flex gap-x-[22px]">
-        <ButtonComponent onClick={openLogin} variant="secondary" className="rounded-primary">
+        <ButtonComponent
+          onClick={openLogin}
+          variant="secondary"
+          className="rounded-primary"
+        >
           Log in
         </ButtonComponent>
-        <ButtonComponent onClick={openSignUp} variant="pink" className="rounded-primary">
+        <ButtonComponent
+          onClick={openSignUp}
+          variant="pink"
+          className="rounded-primary"
+        >
           Sign up
         </ButtonComponent>
       </div>
