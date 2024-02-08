@@ -21,12 +21,12 @@ const PopularListComponent = () => {
           />
           <div className="flex flex-row flex-wrap lg:flex-col gap-2.5 ">
             <p className="text-xs text-mauve">125 videos</p>
-            <span>
-              <img src="/assets/images/comment.svg" alt="" />{" "}
+            <span className="flex items-center gap-x-1.5">
+              <img src="/assets/icons/comment.svg" alt="" />{" "}
               <p className="text-xs text-mauve">35 comments</p>
             </span>
-            <span>
-              <img src="/assets/images/fav.svg" alt="" />{" "}
+            <span className="flex items-center gap-x-1.5">
+              <img src="/assets/icons/fav.svg" alt="" />{" "}
               <p className="text-xs text-mauve">27 likes</p>
             </span>
           </div>
