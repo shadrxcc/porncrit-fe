@@ -1,5 +1,6 @@
 import React from 'react'
 import ButtonComponent from '../shared/button.component'
+import Link from 'next/link'
 
 const PornFansComponent = () => {
   return (
@@ -9,7 +10,7 @@ const PornFansComponent = () => {
         <div className="flex items-center gap-x-7">
           <img width={65} src="/assets/images/user.png" alt="user" />
           <div className="flex flex-col gapp-y-3">
-            <p className="text-pink text-sm">Username</p>
+          <Link href={`/user-account`}><p className="text-pink text-sm">Username</p></Link>
             <p className="text-sm">177 followers</p>
           </div>
         </div>

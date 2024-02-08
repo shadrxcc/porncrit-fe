@@ -1,12 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const PopularListComponent = () => {
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-x-3">
+      <Link href={`/user-account`}><div className="flex items-center gap-x-3">
         <img src="/assets/images/user.png" width={33} alt="pfp" />
         <p className="text-sm text-pink-2 font-medium">Username</p>
-      </div>
+      </div></Link>
 
       <div className="flex flex-col gap-y-3">
         <p className="text-sm">List title (including if watchlist)</p>

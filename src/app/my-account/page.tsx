@@ -12,16 +12,16 @@ const page = () => {
               <p className="text-pink text-sm">Username Goes here</p>
               <div className="flex items-center gap-x-5 justify-between">
                 <p className="text-sm">
-                  177 <span className="text-pink">followers</span>
+                  1.8k <span className="text-pink">followers</span>
                 </p>
                 <p className="text-sm">
-                  177 <span className="text-pink">followers</span>
+                  1.4k <span className="text-pink">followers</span>
                 </p>
               </div>
             </div>
           </div>
 
-          <ButtonComponent className="w-full">Follow</ButtonComponent>
+          <ButtonComponent className="w-full">Edit account</ButtonComponent>
           <div className="flex flex-col gap-y-2">
             <p className="text-sm font-medium">Your bio</p>
             <p className="text-sm">

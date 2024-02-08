@@ -1,13 +1,14 @@
+import Link from "next/link";
 import ButtonComponent from "../shared/button.component";
 
 const PopularFanComponent = () => {
   return (
     <div className="flex flex-col gap-y-2">
-      <div className="flex  flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2">
         <div className="flex items-center gap-x-7">
           <img width={65} src="/assets/images/user.png" alt="user" />
           <div className="flex flex-col gapp-y-3">
-            <p className="text-pink text-sm">Username</p>
+            <Link href={`/user-account`}><p className="text-pink text-sm">Username</p></Link>
             <p className="text-sm">177 followers</p>
           </div>
         </div>

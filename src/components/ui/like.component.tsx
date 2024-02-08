@@ -11,7 +11,7 @@ const LikeComponent = () => {
       />
       <div className="space-y-2">
         <p className="text-sm">Title goes here cut short if need...</p>
-        <div className="flex items-center gap-x-2">
+        <div className="flex text-sm items-center gap-x-2">
           <img src="/assets/icons/fav.svg" width={20} alt="like-icon" />
           <p>1 min ago </p>
         </div>

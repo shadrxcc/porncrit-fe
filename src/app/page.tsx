@@ -100,7 +100,7 @@ export default function Home() {
         <div className="flex flex-[1.2_1_0] flex-col gap-y-3">
           <p className="text-xl font-bold">Popular tags this week</p>
           <div className="flex items-center gap-x-2">
-            <img width={50} src="/assets/images/tori.png" alt="tori" />
+            <img className="cursor-pointer" width={50} src="/assets/images/tori.png" alt="tori" />
             <ButtonComponent className="rounded-[20px]" variant="tags">
               Tori Black
             </ButtonComponent>

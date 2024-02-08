@@ -16,7 +16,6 @@ export type Tab = {
 };
 
 type TabComponentProps = {
-  tabs: Tab[];
   defaultIndex?: number;
 };
 

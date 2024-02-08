@@ -1,5 +1,6 @@
 import Image from "next/image"
 import ButtonComponent from "../shared/button.component"
+import Link from "next/link"
 
 
 const SuggestedFanComponent = () => {
@@ -8,7 +9,7 @@ const SuggestedFanComponent = () => {
         <div className="flex items-center gap-x-7">
            <Image width={65} height={65} src={`/assets/images/user.png`} alt="" />
            <div className="text-sm">
-            <p className="text-pink">Username</p>
+            <Link href={`/user-account`}><p className="text-pink">Username</p></Link>
             <p>177 followers</p>
             </div> 
         </div>

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const UserFollowedComponent = () => {
@@ -10,7 +11,7 @@ const UserFollowedComponent = () => {
         </div>
 
         <div>
-            <p className="text-sm"><span className="text-pink">Username</span> started following <span className="text-pink">username</span></p>
+            <p className="text-sm"><Link href={`/user-account`}><span className="text-pink">Username</span></Link> started following <Link href={`/user-account`}><span className="text-pink">Username</span></Link></p>
             <p className="text-mauve text-sm font-medium">6 days ago</p>
         </div>
     </div>
