@@ -17,44 +17,42 @@ export default function Home() {
     <main className="">
       <HeroComponent />
       <div className="flex px-4 lg:px-16 xl:px-32 mt-11 flex-col lg:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
-      <div className="flex flex-[2_1_0] flex-col gap-y-5">
-        <p className="text-xl font-bold">Recent activity</p>
-        <div className="flex flex-col gap-y-7">
-        <div className="flex flex-col gap-y-7">
-        <WatchedActivity/>
-        <UserFollowedComponent/>
-        <UserCommentedComponent/>
-        </div>
-        <p className="text-mauve text-sm font-medium">See more</p>
-        </div>
-        </div>
-
-        <div className="flex-[1.2_1_0] flex flex-col gap-y-5">
-        <p className="text-xl font-bold">Suggested fans</p>
+        {/* show when a user has a following list */}
+        <div className="flex flex-[2_1_0] flex-col gap-y-5">
+          <p className="text-xl font-bold">Recent activity</p>
           <div className="flex flex-col gap-y-7">
-          <SuggestedFanComponent/>
+            <div className="flex flex-col gap-y-7">
+              <WatchedActivity />
+              <UserFollowedComponent />
+              <UserCommentedComponent />
+            </div>
+            <p className="text-mauve text-sm font-medium">See more</p>
           </div>
         </div>
 
-
+        <div className="flex-[1.2_1_0] flex flex-col gap-y-5">
+          <p className="text-xl font-bold">Suggested fans</p>
+          <div className="flex flex-col gap-y-7">
+            <SuggestedFanComponent />
+          </div>
+        </div>
       </div>
       <div className="flex px-4 lg:px-16 xl:px-32 mt-11 flex-col lg:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
         <div className="flex flex-[2_1_0] flex-col gap-y-5">
           <p className="text-xl font-bold">Popular reviews this week</p>
           <div className="flex flex-col gap-y-10">
-          {[1, 2, 3, 4].map((e) => (
-            <PopularReviewsComponent key={e} />
-          ))}
+            {[1, 2, 3, 4].map((e) => (
+              <PopularReviewsComponent key={e} />
+            ))}
           </div>
-          
         </div>
 
         <div className="flex-[1.2_1_0] flex flex-col gap-y-5">
           <p className="text-xl font-bold">Popular lists</p>
           <div className="flex flex-col gap-y-7">
-          {[1, 2, 3, 4, 5].map((e) => (
-             <PopularListComponent key={e} />
-          ))}
+            {[1, 2, 3, 4, 5].map((e) => (
+              <PopularListComponent key={e} />
+            ))}
           </div>
         </div>
       </div>
@@ -100,7 +98,12 @@ export default function Home() {
         <div className="flex flex-[1.2_1_0] flex-col gap-y-3">
           <p className="text-xl font-bold">Popular tags this week</p>
           <div className="flex items-center gap-x-2">
-            <img className="cursor-pointer" width={50} src="/assets/images/tori.png" alt="tori" />
+            <img
+              className="cursor-pointer"
+              width={50}
+              src="/assets/images/tori.png"
+              alt="tori"
+            />
             <ButtonComponent className="rounded-[20px]" variant="tags">
               Tori Black
             </ButtonComponent>
