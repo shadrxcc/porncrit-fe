@@ -11,9 +11,9 @@ const SignupComponent = () => {
           <p className='text-mauve text-sm'>To rate & review. Discuss & discover. Like, list & log the videos you love. And connect with fans!</p></div>
         <div className='flex flex-col gap-y-3.5'>
           <div className='flex flex-col gap-y-8'>
-            <InputComponent label='Email address' />
-            <InputComponent label='Username' />
-            <InputComponent label='Password' />
+            <InputComponent type="email" label='Email address' />
+            <InputComponent type="text" label='Username' />
+            <InputComponent type="password" label='Password' />
             <div className='flex gap-x-3.5'>
 
               <input type="checkbox" name="terms" id="terms" /><p className='text-brown'>I’m 18 or older and accept PornCrit’s <span className='text-pink underline'>Terms and Conditions</span> and <span className='text-pink underline'>Privacy Policy</span>.</p>

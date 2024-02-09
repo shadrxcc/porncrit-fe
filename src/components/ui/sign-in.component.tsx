@@ -11,8 +11,8 @@ const SignInComponent = () => {
                 </div>
                 <div className='flex flex-col w-full gap-y-3.5'>
                     <div className='flex flex-col gap-y-8'>
-                        <InputComponent label='Email address or Username' />
-                        <InputComponent label='Password' />
+                        <InputComponent type='email' label='Email address or Username' />
+                        <InputComponent type='password' label='Password' />
                     </div>
                     <div className='flex flex-col items-center justify-center gap-y-2.5'>
                         <ButtonComponent className='rounded-[35px]'>Sign in</ButtonComponent>
