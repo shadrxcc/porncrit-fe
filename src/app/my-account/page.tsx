@@ -1,5 +1,6 @@
 import ButtonComponent from "@/components/shared/button.component";
 import ProfileTabComponent from "@/components/ui/profile-tab.component";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -21,7 +22,7 @@ const page = () => {
             </div>
           </div>
 
-          <ButtonComponent className="w-full">Edit account</ButtonComponent>
+          <Link href={`/my-account/edit-profile`}><ButtonComponent className="w-full">Edit account</ButtonComponent></Link>
           <div className="flex flex-col gap-y-2">
             <p className="text-sm font-medium">Your bio</p>
             <p className="text-sm">

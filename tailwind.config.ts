@@ -16,7 +16,8 @@ const config: Config = {
         'whitealpha-10': 'rgba(255, 255, 255, 0.10)',
         'pink-2': "#EC1C79",
         brown: "#3C021C",
-        lightpink: "#F71D7F"
+        lightpink: "#F71D7F",
+        rose: "#BDA7B1"
       },
       borderRadius:{
         primary:"35px"

@@ -8,6 +8,7 @@ import MyLikes from "./mylikes.component";
 import MyFollowers from "./myfollowers";
 import MyActivityComponent from "./myactivity.component";
 import MyLists from "./mylist.component";
+import MyWatched from "./mywatched.component";
 
 
 export type Tab = {
@@ -56,7 +57,7 @@ const ProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
         case 0:
-            return 
+            return <MyWatched/>
         case 1:
             return <MyReviews/>
         case 2:
