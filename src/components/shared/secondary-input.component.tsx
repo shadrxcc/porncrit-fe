@@ -3,7 +3,7 @@
 type InputProps = {
     label: string;
     widthClass?: string;
-    placeholder: string;
+    placeholder?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }
 
@@ -11,7 +11,7 @@ const SecondaryInputComponent: React.FC<InputProps> = ({ label, widthClass, ...p
 
     return (
         <>
-            <div className={`flex flex-col gap-y-1 ${widthClass}`}>
+            <div className={`flex flex-col gap-y-3 ${widthClass}`}>
                 {" "}
                 <label className="text-sm text-white" htmlFor={label}>{label}</label>
                 <input

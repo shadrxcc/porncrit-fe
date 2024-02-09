@@ -17,7 +17,8 @@ const config: Config = {
         'pink-2': "#EC1C79",
         brown: "#3C021C",
         lightpink: "#F71D7F",
-        rose: "#BDA7B1"
+        rose: "#BDA7B1",
+        default: "#C4C4C4"
       },
       borderRadius:{
         primary:"35px"
