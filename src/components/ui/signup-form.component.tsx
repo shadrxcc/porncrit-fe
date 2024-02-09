@@ -3,9 +3,9 @@ import Modal from '../shared/modal.component'
 import InputComponent from '../shared/input.component'
 import ButtonComponent from '../shared/button.component'
 
-const SignupComponent = () => {
+const SignupComponent = ({login}:{login:()=>void}) => {
   return (
-    <Modal>
+
       <div className='flex flex-col items-center gap-y-4'>
         <div className='flex flex-col items-center gap-y-2'><p className='text-center text-brown font-bold text-xl'>Join PornCrit</p>
           <p className='text-mauve text-sm'>To rate & review. Discuss & discover. Like, list & log the videos you love. And connect with fans!</p></div>
@@ -22,13 +22,11 @@ const SignupComponent = () => {
 
           </div><div className='flex flex-col items-center justify-center gap-y-2.5'>
             <ButtonComponent className='rounded-[35px]'>Sign up</ButtonComponent>
-            <p className='text-pink text-sm'>Sign in</p>
+            <ButtonComponent onClick={login} className='!bg-transparent !text-pink !p-0'>Sign in</ButtonComponent>
           </div>
         </div>
 
       </div>
-
-    </Modal>
   )
 }
 

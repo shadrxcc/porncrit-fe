@@ -10,23 +10,43 @@ import SignupComponent from "./signup-form.component";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-// import ForgottenPassword from "./forgotten-password.component";
+import MyModal from "../shared/modal.component";
+import ForgottenPassword from "./forgotten-password.component";
+
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
   const [signup, setSignUp] = useState(false);
-  const [login, setLogIn] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false)
+
+
   let pathname = usePathname() || "/";
 
-  const openLogin = () => {
+
+  function closeModal() {
+    setSignUp(false)
+    setLogin(false)
+  }
+
+  function openSignUp() {
     setMenu(false);
-    setLogIn(true);
+    setLogin(false)
+    setForgotPassword(false)
+    setSignUp(true)
+  }
+
+  function openLogin() {
+    setMenu(false);
+    setSignUp(false)
+    setForgotPassword(false)
+    setLogin(true);
   };
 
-  const openSignUp = () => {
-    setMenu(false);
-    setSignUp(true);
-  };
+  function openForgotPassword() {
+    setLogin(false)
+    setForgotPassword(true)
+  }
 
   const navItems = [
     {
@@ -75,7 +95,7 @@ const NavLink = ({
 };
 
   return (
-    <nav className="flex relative pt-5 border-b border-mauve-30 justify-between items-center pb-6 px-5 sm:px-9">
+    <>  <nav className="flex relative pt-5 border-b border-mauve-30 justify-between items-center pb-6 px-5 sm:px-9">
       <div className="flex gap-x-12 items-center">
         <Link href={`/`}><img src="/logo.png" width={150} className="" alt="" /></Link>
         <div
@@ -110,9 +130,7 @@ const NavLink = ({
             </ButtonComponent>
           </div>
         </div>
-      </div>
-      {login ? <SignInComponent /> : null}
-      {signup ? <SignupComponent /> : null}
+      </div>      
       {/* */}
       {/* <ForgottenPassword/> */}
 
@@ -137,6 +155,9 @@ const NavLink = ({
         </ButtonComponent>
       </div>
 
+    <MyModal isOpen={login} closeModal={closeModal}><SignInComponent forgot={openForgotPassword}/></MyModal>
+    <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent login={openLogin}/></MyModal>
+    <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
       <div className="flex items-center gap-x-6 lg:hidden">
         <img src="/assets/icons/search.svg" width={25} alt="search-icon" />
         <button onClick={() => setMenu(!menu)}>
@@ -148,6 +169,8 @@ const NavLink = ({
         </button>
       </div>
     </nav>
+    </>
+  
   );
 };
 

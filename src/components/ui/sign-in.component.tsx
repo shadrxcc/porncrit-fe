@@ -1,11 +1,9 @@
 import React from 'react'
-import Modal from '../shared/modal.component'
 import InputComponent from '../shared/input.component'
 import ButtonComponent from '../shared/button.component'
 
-const SignInComponent = () => {
+const SignInComponent = ({forgot}:{forgot:()=>void}) => {
     return (
-        <Modal>
             <div className='flex flex-col items-center gap-y-4 '>
                 <div className='flex flex-col items-center gap-y-2'><p className='text-center text-brown font-bold text-xl'>Welcome back to PornCrit</p>
                 </div>
@@ -16,13 +14,11 @@ const SignInComponent = () => {
                     </div>
                     <div className='flex flex-col items-center justify-center gap-y-2.5'>
                         <ButtonComponent className='rounded-[35px]'>Sign in</ButtonComponent>
-                        <p className='text-pink cursor-pointer text-sm'>Forgotten password?</p>
+                        <ButtonComponent onClick={forgot} className='!text-pink !bg-transparent'>Forgotten password?</ButtonComponent>
                     </div>
                 </div>
 
             </div>
-
-        </Modal>
     )
 }
 

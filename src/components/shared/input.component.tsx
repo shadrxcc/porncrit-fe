@@ -1,7 +1,7 @@
 
 
 type InputProps = {
-    label: string;
+    label?: string;
     widthClass?: string;
     type: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

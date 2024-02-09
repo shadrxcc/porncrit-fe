@@ -1,27 +1,30 @@
 import ButtonComponent from "../shared/button.component"
 import InputComponent from "../shared/input.component"
-import Modal from "../shared/modal.component"
 
-const ForgottenPasswordComponent = () => {
+type ForgottenPasswordProps = {
+    login: () => void;
+    signup: () => void;
+}
+
+const ForgottenPasswordComponent = (props:ForgottenPasswordProps) => {
+const {login, signup} = props;
+
   return (
-    <Modal>
             <div className='flex flex-col items-center gap-y-4 '>
                 <div className='flex flex-col items-center gap-y-2'><p className='text-center text-brown font-bold text-xl'>Forgotten password</p>
                 <p className='text-mauve text-sm'>Enter the email address connected to your account and we’ll send you a code to reset your password. </p>
                 </div>
                 <div className='flex flex-col w-full gap-y-3.5'>
                     <div className='flex flex-col gap-y-8'>
-                        <InputComponent label='Enter email address' />
+                        <InputComponent type="email" label='Enter email address' />
                     </div>
                     <div className='flex flex-col items-center justify-center gap-y-2.5'>
                         <ButtonComponent className='rounded-[35px]'>Send code</ButtonComponent>
-                        <p className='text-mauve text-sm'>Back to <span className="text-pink font-semibold">sign in</span> or <span className="text-pink font-semibold">sign up</span></p>
+                        <p className='text-mauve text-sm'>Back to <span onClick={login} className="text-pink cursor-pointer font-semibold">sign in</span> or <span onClick={signup} className="text-pink cursor-pointer font-semibold">sign up</span></p>
                     </div>
                 </div>
 
             </div>
-
-        </Modal>
   )
 }
 
