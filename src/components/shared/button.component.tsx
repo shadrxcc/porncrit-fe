@@ -66,7 +66,7 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
     );
 
     return (
-        <div className="flex" ref={scope}>
+        <div className="flex flex-col" ref={scope}>
             <button
                 ref={ref}
                 className={merged}
