@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import ListLikes from "./listlikes.component";
+import ListCommentsComponent from "./listcomments.component";
+import ListedVideo from "@/components/ui/listedvideo-component"
 
 
 
@@ -37,18 +40,18 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
       setActiveTabIndex(index);
     };
   
-//     const getTabContent = () => {
-//       switch (activeTabIndex) {
-//           case 0:
-//               return <MyWatched/>
-//           case 1:
-//               return <MyReviews/>
-//           case 2:
-//               return <MyActivityComponent/>
-//           default:
-//               return null;
-//       }
-//   };
+    const getTabContent = () => {
+      switch (activeTabIndex) {
+          case 0:
+              return <ListedVideo/>
+          case 1:
+              return <ListCommentsComponent/>
+          case 2:
+              return <ListLikes/>
+          default:
+              return null;
+      }
+  };
   
   
     return (
@@ -95,7 +98,7 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
         </div>
   
         <div className="mt-9">
-          {/* {getTabContent()} */}
+          {getTabContent()}
         </div>
       </div>
     );

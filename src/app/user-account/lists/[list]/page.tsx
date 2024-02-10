@@ -1,12 +1,9 @@
 import ButtonComponent from "@/components/shared/button.component";
 import ListTabs from "@/components/ui/list-tabs.component";
-import ListCommentsComponent from "@/components/ui/listcomments.component";
-import ListedVideo from "@/components/ui/listedvideo-component";
-import ListLikes from "@/components/ui/listlikes.component";
 
 const page = () => {
   return (
-    <div className="flex flex-col lg:flex-row gap-y-10 lg:px-16 gap-x-16 mt-8">
+    <div className="flex lg:px-20 flex-col lg:flex-row gap-y-10 gap-x-16 mt-8">
       <div className="flex-[0.6_1_0]">
         <div className="flex flex-col gap-y-[18px]">
           <div className="flex items-center gap-x-4">
@@ -57,9 +54,6 @@ const page = () => {
       </div>
       <div className="flex-[1.5_1_0]">
       <ListTabs/>
-      <ListedVideo/>
-      <ListCommentsComponent/>
-      <ListLikes/>
       </div>
     </div>
   );
