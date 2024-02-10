@@ -1,5 +1,5 @@
 import ButtonComponent from "@/components/shared/button.component";
-import ProfileTabComponent from "@/components/ui/profile-tab.component";
+import ProfileTabComponent from "@/components/ui/my-profile-tab.component";
 import Link from "next/link";
 
 const page = () => {

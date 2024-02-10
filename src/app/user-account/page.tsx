@@ -1,5 +1,6 @@
 import ButtonComponent from "@/components/shared/button.component";
-import ProfileTabComponent from "@/components/ui/profile-tab.component";
+import ListCommentsComponent from "@/components/ui/listcomments.component";
+import ProfileTabComponent from "@/components/ui/user-profile-tab.component";
 
 const page = () => {
   return (
@@ -71,6 +72,7 @@ const page = () => {
       </div>
       <div className="flex-[2_1_0]">
       <ProfileTabComponent/>
+      <ListCommentsComponent/>
       </div>
     </div>
   );

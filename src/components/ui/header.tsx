@@ -102,7 +102,7 @@ const NavLink = ({
           id="navbar"
           className={`${
             menu ? "#navbar active" : "#navbar"
-          } absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}
+          } absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 right-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}
         >
           {navItems.map((e) => (
                             <NavLink

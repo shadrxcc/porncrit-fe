@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ButtonComponent from "../shared/button.component";
 
-const ReviewsComponent = () => {
+const UserReviewComponent = () => {
   return (
     <div className="flex lg:w-[90%] flex-col gap-y-4">
     <div className="flex flex-col lg:flex-row gap-y-5 lg:items-center gap-x-20">
@@ -45,4 +45,4 @@ const ReviewsComponent = () => {
   );
 };
 
-export default ReviewsComponent;
+export default UserReviewComponent;

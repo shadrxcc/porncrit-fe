@@ -1,4 +1,4 @@
-import ReviewsComponent from "./reviews.component";
+import ReviewsComponent from "./myreview.component";
 
 const MyReviews = () => {
     return <div className="flex mt-9 flex-col gap-y-9">

@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import MyReviews from "./personal-reviews.component";
+
 import MyLikes from "./mylikes.component";
 import MyFollowers from "./myfollowers";
 import MyActivityComponent from "./myactivity.component";
 import MyLists from "./mylist.component";
 import MyWatched from "./mywatched.component";
+import UserReviews from "./user-reviews.component";
 
 
 export type Tab = {
@@ -47,7 +48,7 @@ const tabs = [
   },
 ];
 
-const ProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
+const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
 
   const onTabClick = (index: number) => {
@@ -59,7 +60,7 @@ const ProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
         case 0:
             return <MyWatched/>
         case 1:
-            return <MyReviews/>
+            return <UserReviews/>
         case 2:
             return <MyActivityComponent/>
         case 3:
@@ -124,4 +125,4 @@ const ProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   );
 };
 
-export default ProfileTabComponent;
+export default UserProfileTabComponent;
