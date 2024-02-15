@@ -45,6 +45,7 @@ const Video = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
+  const [liked, setLiked] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -91,8 +92,8 @@ const Video = ({ defaultIndex = 0 }: TabComponentProps) => {
             <ButtonComponent variant="outline-pink" className="!gap-x-1.5">
               <img src="/assets/icons/list.svg" alt="" /> List
             </ButtonComponent>
-            <ButtonComponent variant="outline-pink" className="!gap-x-1.5">
-              <img src="/assets/icons/white-like.svg" alt="" /> Like
+            <ButtonComponent onClick={() => setLiked(!liked)} variant={liked? "pink" : "outline-pink"} className="!gap-x-1.5">
+              {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
             </ButtonComponent>
           </div>
         </div>
