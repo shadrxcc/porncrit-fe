@@ -22,7 +22,7 @@ const config: Config = {
       },
       borderRadius:{
         primary:"35px"
-      }
+      },
     },
   },
   plugins: [],
