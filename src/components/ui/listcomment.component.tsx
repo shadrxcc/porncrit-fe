@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import ArrowDropDown from "../shared/arrow-dropdown.component";
 import ButtonComponent from "../shared/button.component";
