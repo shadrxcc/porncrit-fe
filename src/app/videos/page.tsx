@@ -3,7 +3,7 @@
 import ButtonComponent from "@/components/shared/button.component";
 import ListCommentsComponent from "@/components/ui/listcomments.component";
 
-import ListLikes from "@/components/ui/listlikes.component";
+
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -16,10 +16,6 @@ import VideoViewed from "@/components/ui/video-viewed.component";
 export type Tab = {
   id: string;
   title: string;
-};
-
-type TabComponentProps = {
-  defaultIndex?: number;
 };
 
 const tabs = [
@@ -41,8 +37,8 @@ const tabs = [
   },
 ];
 
-const Video = ({ defaultIndex = 0 }: TabComponentProps) => {
-  const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
+const Video = () => {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
   const [liked, setLiked] = useState(false)
