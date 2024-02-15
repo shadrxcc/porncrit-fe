@@ -9,6 +9,9 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import MyModal from "@/components/shared/modal.component";
 import WriteReview from "@/components/ui/write-review.component";
+import VideoListed from "@/components/ui/video-listed.component";
+import VideoLikedComponent from "@/components/ui/video-liked.component";
+import VideoViewed from "@/components/ui/video-viewed.component";
 
 export type Tab = {
   id: string;
@@ -52,9 +55,11 @@ const Video = ({ defaultIndex = 0 }: TabComponentProps) => {
       case 0:
         return <ListCommentsComponent />;
       case 1:
-        return <ListCommentsComponent />;
+        return <VideoListed />;
       case 2:
-        return <ListLikes />;
+        return <VideoLikedComponent />;
+      case 3:
+        return <VideoViewed/>
       default:
         return null;
     }
@@ -165,7 +170,7 @@ const Video = ({ defaultIndex = 0 }: TabComponentProps) => {
               </p>
               <div className="flex items-center gap-x-1.5">
                 <img src="/assets/images/rating.png" width={50} alt="" />
-                <p className="text-[10px]">based on 18.4k ratings</p>
+                <p className="text-xs">based on 18.4k ratings</p>
               </div>
             </div>
 

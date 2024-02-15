@@ -1,6 +1,8 @@
 import Image from "next/image";
 import ButtonComponent from "../shared/button.component";
 
+import TextArea from "../shared/text-area.component";
+
 const WriteReview = ({closeModal}: {closeModal: () => void}) => {
   return (
     <div className="flex flex-col gap-y-3">
@@ -32,6 +34,9 @@ const WriteReview = ({closeModal}: {closeModal: () => void}) => {
 
       <div>
         <p className="text-brown text-sm leading-5 font-[350]">Review</p>
+    
+    <TextArea rows={3}  placeholder="Let your fellow videos fans know what you think..."/>
+       
       </div>
       <div>
       <div className="flex justify-end">
@@ -42,7 +47,7 @@ const WriteReview = ({closeModal}: {closeModal: () => void}) => {
             Cancel
           </ButtonComponent>
           <ButtonComponent className="!w-fit place-self-end">
-            Comment
+          Publish review
           </ButtonComponent>
         </div>
       </div>
