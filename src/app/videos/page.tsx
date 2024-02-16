@@ -12,6 +12,7 @@ import WriteReview from "@/components/ui/write-review.component";
 import VideoListed from "@/components/ui/video-listed.component";
 import VideoLikedComponent from "@/components/ui/video-liked.component";
 import VideoViewed from "@/components/ui/video-viewed.component";
+import SavelistComponent from "@/components/ui/savelist.component";
 
 export type Tab = {
   id: string;
@@ -42,6 +43,7 @@ const Video = () => {
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
   const [liked, setLiked] = useState(false)
+  const [save, setSave] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -82,7 +84,7 @@ const Video = () => {
               <img src="/assets/icons/play.svg" alt="" />{" "}
               {watch ? "Rewatch" : "Watch now"}
             </ButtonComponent>
-            <ButtonComponent variant="outline-pink" className="!gap-x-1.5">
+            <ButtonComponent onClick={() => setSave(true)} variant="outline-pink" className="!gap-x-1.5">
               <img src="/assets/icons/add.svg" alt="" /> Save
             </ButtonComponent>
             <ButtonComponent variant="outline-pink" className="!gap-x-1.5">
@@ -103,6 +105,10 @@ const Video = () => {
         </ButtonComponent>
         <MyModal closeModal={() => setWrite(false)} isOpen={write}>
           <WriteReview closeModal={() => setWrite(false)} />
+        </MyModal>
+
+        <MyModal closeModal={() => setSave(false)} isOpen={save}>
+          <SavelistComponent close={() => setSave(false)} />
         </MyModal>
 
         <div className="flex flex-col gap-y-3">
