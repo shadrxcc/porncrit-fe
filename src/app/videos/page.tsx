@@ -18,7 +18,7 @@ export type Tab = {
   title: string;
 };
 
-const tabs = [
+const tabs: Tab[] = [
   {
     title: "Reviews",
     id: "reviews",
