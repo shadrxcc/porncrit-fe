@@ -1,5 +1,6 @@
 import Image from "next/image"
 import ButtonComponent from "../shared/button.component";
+import Link from "next/link";
 
 const ListComponent = () => {
     return  <div className="space-y-3 lg:w-[80%]">
@@ -28,7 +29,7 @@ const ListComponent = () => {
         </div>
       </div>
 
-      <ButtonComponent variant="outline">View</ButtonComponent>
+     <Link href={`/user-account/lists/1`}> <ButtonComponent variant="outline">View</ButtonComponent></Link>
       </div>
     </div>
   </div>
