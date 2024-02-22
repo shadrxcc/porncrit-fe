@@ -26,7 +26,7 @@ const ListCommentComponent = () => {
         <div className="flex items-center gap-x-2">
           <img src="/assets/images/user.png" width={45} alt="" />
           <p className="text-sm">
-            Written by <span className="text-pink font-bold">John</span>
+            Review by <span className="text-pink font-bold">John</span>
           </p>
         </div>
         <img src="/assets/images/rating.png" width={70} alt="" />
@@ -54,12 +54,12 @@ const ListCommentComponent = () => {
           </ButtonComponent>
 
           <ButtonComponent variant="secondary" className="!w-fit !p-0">
-          <FavoriteLight />
+            <FavoriteLight />
             <p className="text-xs">Like</p>
           </ButtonComponent>
 
           <div className="flex items-center gap-x-1.5">
-            
+
           </div>
         </div>
       </div>

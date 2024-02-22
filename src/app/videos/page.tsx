@@ -12,7 +12,10 @@ import WriteReview from "@/components/ui/write-review.component";
 import VideoListed from "@/components/ui/video-listed.component";
 import VideoLikedComponent from "@/components/ui/video-liked.component";
 import VideoViewed from "@/components/ui/video-viewed.component";
-import SavelistComponent from "@/components/ui/savelist.component";
+import AddListComponent from "@/components/ui/addtolist.component";
+import { Disclosure, Transition } from "@headlessui/react";
+import { ChevronUpIcon } from "@heroicons/react/20/solid";
+
 
 export type Tab = {
   id: string;
@@ -43,7 +46,7 @@ const Video = () => {
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
   const [liked, setLiked] = useState(false)
-  const [save, setSave] = useState(false)
+  const [list, setList] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -64,7 +67,7 @@ const Video = () => {
     }
   };
   return (
-    <div className="flex flex-col lg:flex-row mx-auto justify-center mt-[30px] gap-11 lg:px-20">
+    <div className="flex flex-col lg:flex-col mx-auto justify-center mt-[30px] gap-11 lg:px-20">
       <div className="space-y-3.5 flex-1">
         <div className="flex flex-col gap-y-3.5">
           <Image
@@ -85,10 +88,10 @@ const Video = () => {
                 <img src="/assets/icons/play.svg" alt="" />{" "}
                 {watch ? "Rewatch" : "Watch now"}
               </ButtonComponent>
-              <ButtonComponent onClick={() => setSave(true)} variant="outline-pink" className="!gap-x-1.5 flex-1 w-full">
+              <ButtonComponent variant="outline-pink" className="!gap-x-1.5 flex-1 w-full">
                 <img src="/assets/icons/add.svg" alt="" /> Save
               </ButtonComponent>
-              <ButtonComponent variant="outline-pink" className="!gap-x-1.5 flex-1 w-full">
+              <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 flex-1 w-full">
                 <img src="/assets/icons/list.svg" alt="" /> List
               </ButtonComponent>
               <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 flex-1 w-full">
@@ -109,62 +112,126 @@ const Video = () => {
           <WriteReview closeModal={() => setWrite(false)} />
         </MyModal>
 
-        <MyModal closeModal={() => setSave(false)} isOpen={save}>
-          <SavelistComponent />
+        <MyModal closeModal={() => setList(false)} isOpen={list}>
+          <AddListComponent />
         </MyModal>
 
-        <div className="flex flex-col gap-y-3">
-          <p className="text-sm font-medium">Tags</p>
-          <div className="flex"><div className="flex flex-wrap items-center gap-4">
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Big boobs
-            </ButtonComponent>
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Brunette
-            </ButtonComponent>
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Masturbation
-            </ButtonComponent>
-          </div></div>
-          <div></div>
-        </div>
+        <Disclosure>
+          {({ open }) => (
+            <>
+              <Disclosure.Button className="flex w-full justify-between text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
+                <span>Tags</span>
+                <ChevronUpIcon
+                  className={`${open ? 'rotate-180 transform' : ''
+                    } h-5 w-5 text-pink`}
+                />
+              </Disclosure.Button>
+              <Transition
+                show={open}
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+              ><Disclosure.Panel className="pb-2 pt-3" static>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <ButtonComponent className="rounded-[20px]" variant="tags">
+                      Big boobs
+                    </ButtonComponent>
+                    <ButtonComponent className="rounded-[20px]" variant="tags">
+                      Brunette
+                    </ButtonComponent>
+                    <ButtonComponent className="rounded-[20px]" variant="tags">
+                      Masturbation
+                    </ButtonComponent>
+                  </div>
+                </Disclosure.Panel></Transition>
 
-        <div className="flex flex-col gap-y-3">
-          <p className="text-sm font-medium">Performers</p>
-          <div className="flex items-center gap-x-2">
-            <img width={50} src="/assets/images/tori.png" alt="tori" />
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Tori Black
-            </ButtonComponent>
-          </div>
-        </div>
+            </>
+          )}
+        </Disclosure>
 
-        <div className="flex flex-col gap-y-3">
-          <p className="text-sm font-medium">Similar</p>
-          <div className="flex flex-wrap items-center gap-4">
-            <Image
-              src={`/assets/images/videothumb.png`}
-              className="rounded-[1.5px]"
-              width={106}
-              height={60}
-              alt=""
-            />
-            <Image
-              src={`/assets/images/sexyvideo.png`}
-              className="rounded-[1.5px]"
-              width={106}
-              height={60}
-              alt=""
-            />
-            <Image
-              src={`/assets/images/hotvideo.png`}
-              className="rounded-[1.5px]"
-              width={106}
-              height={60}
-              alt=""
-            />
-          </div>
-        </div>
+        <Disclosure>
+          {({ open }) => (
+            <>
+              <Disclosure.Button className="flex w-full justify-between text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
+                <span>Performers</span>
+                <ChevronUpIcon
+                  className={`${open ? 'rotate-180 transform' : ''
+                    } h-5 w-5 text-pink`}
+                />
+              </Disclosure.Button>
+              <Transition
+                show={open}
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+              ><Disclosure.Panel className="pb-2 pt-3" static>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-x-2">
+                      <img width={50} src="/assets/images/tori.png" alt="tori" />
+                      <ButtonComponent className="rounded-[20px]" variant="tags">
+                        Tori Black
+                      </ButtonComponent>
+                    </div>
+                  </div>
+                </Disclosure.Panel></Transition>
+
+            </>
+          )}
+        </Disclosure>
+
+        <Disclosure>
+          {({ open }) => (
+            <>
+              <Disclosure.Button className="flex w-full justify-between text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
+                <span>Similar</span>
+                <ChevronUpIcon
+                  className={`${open ? 'rotate-180 transform' : ''
+                    } h-5 w-5 text-pink`}
+                />
+              </Disclosure.Button>
+              <Transition
+                show={open}
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+              ><Disclosure.Panel className="pb-2 pt-3" static>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <Image
+                      src={`/assets/images/videothumb.png`}
+                      className="rounded-[1.5px]"
+                      width={106}
+                      height={60}
+                      alt=""
+                    />
+                    <Image
+                      src={`/assets/images/sexyvideo.png`}
+                      className="rounded-[1.5px]"
+                      width={106}
+                      height={60}
+                      alt=""
+                    />
+                    <Image
+                      src={`/assets/images/hotvideo.png`}
+                      className="rounded-[1.5px]"
+                      width={106}
+                      height={60}
+                      alt=""
+                    />
+                  </div>
+                </Disclosure.Panel></Transition>
+
+            </>
+          )}
+        </Disclosure>
       </div>
       <div className="space-y-3 flex-[1.5_1_0]">
         <div className="text-sm flex flex-col gap-y-4">

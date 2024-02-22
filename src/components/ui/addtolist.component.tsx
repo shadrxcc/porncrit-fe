@@ -2,7 +2,7 @@ import React from 'react'
 import ButtonComponent from '../shared/button.component'
 import AddSvg from '../shared/add.component'
 
-const SavelistComponent = () => {
+const AddToListComponent = () => {
   return (
     <div className=''>
         <div className="flex items-center justify-between"><p className='text-brown text-sm font-extrabold'>Save videos to...</p></div>
@@ -38,4 +38,4 @@ const SavelistComponent = () => {
   )
 }
 
-export default SavelistComponent
+export default AddToListComponent;

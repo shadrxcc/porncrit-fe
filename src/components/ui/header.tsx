@@ -15,6 +15,7 @@ import MenuSvg from "../shared/menu-svg.component";
 import SearchSvg from "../shared/searchsvg.component";
 import CloseSvg from "../shared/close.component";
 import ClosePinkSvg from "../shared/close-pink.component";
+import SearchModal from "../shared/search.modal";
 
 
 const Header = () => {
@@ -22,6 +23,7 @@ const Header = () => {
   const [signup, setSignUp] = useState(false);
   const [login, setLogin] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false)
+  const [search, setSearch] = useState(false)
 
 
   let pathname = usePathname() || "/";
@@ -139,7 +141,7 @@ const Header = () => {
       </div>
 
       <div className="hidden lg:flex items-center gap-x-[22px]">
-        <ButtonComponent variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
+        <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
         <ButtonComponent
           onClick={openLogin}
           variant="secondary"
@@ -156,11 +158,12 @@ const Header = () => {
         </ButtonComponent>
       </div>
 
+      <SearchModal isOpen={search} closeModal={()=>setSearch(false)}/>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
       <div className="flex items-center gap-x-6 lg:hidden">
-        <ButtonComponent variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
+        <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
         <button onClick={() => setMenu(!menu)}>
           {menu ? (
             <ClosePinkSvg />
