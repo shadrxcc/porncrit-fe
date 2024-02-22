@@ -164,6 +164,7 @@ const Header = () => {
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
       <div className="flex items-center gap-x-6 lg:hidden">
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
+        <img src="/assets/images/user.png" width={24} alt="" />
         <button onClick={() => setMenu(!menu)}>
           {menu ? (
             <ClosePinkSvg />

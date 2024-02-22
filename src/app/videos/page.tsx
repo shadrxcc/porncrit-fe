@@ -1,9 +1,6 @@
 "use client";
 
 import ButtonComponent from "@/components/shared/button.component";
-import ListCommentsComponent from "@/components/ui/listcomments.component";
-
-
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -15,6 +12,7 @@ import VideoViewed from "@/components/ui/video-viewed.component";
 import AddListComponent from "@/components/ui/addtolist.component";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
+import ListCommentComponent from "@/components/ui/listcomment.component";
 
 
 export type Tab = {
@@ -55,7 +53,7 @@ const Video = () => {
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListCommentsComponent />;
+        return <ListCommentComponent />;
       case 1:
         return <VideoListed />;
       case 2:
@@ -68,7 +66,7 @@ const Video = () => {
   };
   return (
     <div className="flex flex-col lg:flex-col mx-auto justify-center mt-[30px] gap-11 lg:px-20">
-      <div className="space-y-3.5 flex-1">
+      <div className="space-y-8 flex-1">
         <div className="flex flex-col gap-y-3.5">
           <Image
             src={`/assets/images/4some.png`}
@@ -235,7 +233,7 @@ const Video = () => {
       </div>
       <div className="space-y-3 flex-[1.5_1_0]">
         <div className="text-sm flex flex-col gap-y-4">
-          <div className="flex flex-col sm:flex-row border-b border-pink gap-6">
+          <div className="flex flex-col sm:flex-row border-b border-pink gap-8">
             <div className="flex flex-col gap-y-2">
               <p className="text-sm">
                 Rating average <span className="text-pink font-black">4.6</span>

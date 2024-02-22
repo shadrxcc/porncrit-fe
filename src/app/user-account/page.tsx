@@ -9,7 +9,7 @@ const page = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-y-10 gap-x-16 mt-8">
       <div className="flex-[0.6_1_0]">
-        <div className="flex flex-col gap-y-[18px]">
+        <div className="flex flex-col gap-y-8">
           <div className="flex items-center gap-x-4">
             <img width={50} src="/assets/images/user.png" alt="user" />
             <div className="flex flex-col gap-y-1">
