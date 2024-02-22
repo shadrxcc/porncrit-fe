@@ -58,14 +58,14 @@ const Video = () => {
       case 2:
         return <VideoLikedComponent />;
       case 3:
-        return <VideoViewed/>
+        return <VideoViewed />
       default:
         return null;
     }
   };
   return (
-    <div className="flex flex-col lg:flex-row mx-auto justify-center mt-[30px] gap-11">
-      <div className="space-y-3.5">
+    <div className="flex flex-col lg:flex-row mx-auto justify-center mt-[30px] gap-11 lg:px-20">
+      <div className="space-y-3.5 flex-1">
         <div className="flex flex-col gap-y-3.5">
           <Image
             src={`/assets/images/4some.png`}
@@ -90,14 +90,14 @@ const Video = () => {
             <ButtonComponent variant="outline-pink" className="!gap-x-1.5">
               <img src="/assets/icons/list.svg" alt="" /> List
             </ButtonComponent>
-            <ButtonComponent onClick={() => setLiked(!liked)} variant={liked? "pink" : "outline-pink"} className="!gap-x-1.5">
+            <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5">
               {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
             </ButtonComponent>
           </div>
         </div>
-        <div>
-          <p>Rate</p>
-          <img src="/assets/rating.png" alt="" />
+        <div className="flex flex-col gap-y-3">
+          <p className="text-sm font-medium">Rate</p>
+          <img width={100} src="/assets/images/rating.png" alt="" />
         </div>
 
         <ButtonComponent onClick={() => setWrite(true)}>
@@ -164,7 +164,7 @@ const Video = () => {
           </div>
         </div>
       </div>
-      <div className="space-y-3 lg:w-5/12">
+      <div className="space-y-3 flex-[1.5_1_0]">
         <div className="text-sm flex flex-col gap-y-4">
           <div className="flex flex-col sm:flex-row border-b border-pink gap-6">
             <div className="flex flex-col gap-y-2">
@@ -189,11 +189,10 @@ const Video = () => {
               {tabs.map((tab, index) => (
                 <a className="text-sm text-nowrap text-center" key={index}>
                   <button
-                    className={`${
-                      activeTabIndex === index
+                    className={`${activeTabIndex === index
                         ? "text-pink bg-white"
                         : "border border-mauve text-white"
-                    } py-2 px-5 relative rounded-full font-medium  transition focus-visible:outline-2`}
+                      } py-2 px-5 relative rounded-full font-medium  transition focus-visible:outline-2`}
                     style={{
                       WebkitTapHighlightColor: "transparent",
                     }}

@@ -1,17 +1,19 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import ButtonComponent from './button.component';
+import ClosePinkSvg from './close-pink.component';
 
 
 type ModalProps = {
   children: React.ReactNode
-  isOpen:boolean
-  closeModal:()=>void
+  isOpen: boolean
+  closeModal: () => void
 };
 
-export default function MyModal(props:ModalProps) {
+export default function MyModal(props: ModalProps) {
 
-  const {children,isOpen,closeModal} = props;
+  const { children, isOpen, closeModal } = props;
 
   return (
     <>
@@ -30,7 +32,7 @@ export default function MyModal(props:ModalProps) {
           </Transition.Child>
 
           <div className="fixed inset-0">
-          <div className="flex min-h-full items-center justify-center text-center">
+            <div className="flex min-h-full items-center justify-center text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -40,8 +42,10 @@ export default function MyModal(props:ModalProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="max-w-sm w-full transform space-y-2 overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <ButtonComponent onClick={closeModal} variant="secondary" className="!p-0 !w-fit float-right place-self-end !justify-end"><ClosePinkSvg /></ButtonComponent>
                   {children}
+
                 </Dialog.Panel>
               </Transition.Child>
             </div>

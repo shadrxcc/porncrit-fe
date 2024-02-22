@@ -3,14 +3,14 @@ import { Metadata } from "next";
 //
 export const Seo: Metadata = {
     title: "PornCrit",
-  description: "The social platform for lovers of porn.",
+    description: "The social platform for lovers of porn.",
     icons: {
-        icon: "/logo.png",
-        shortcut: "/logo.png",
-        apple: "/logo.png",
+        icon: "/icon.png",
+        shortcut: "/icon.png",
+        apple: "/icon.png",
         other: {
             rel: "porncrit",
-            url: "/logo.png",
+            url: "/icon.png",
         },
     },
     generator: "Next.js",

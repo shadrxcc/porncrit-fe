@@ -5,7 +5,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='mx-auto mt-8 flex flex-col gap-y-8 lg:w-9/12'>
+    <div className='mx-auto mt-8 flex flex-col gap-y-8 lg:w-9/12 xl:w-3/5'>
       <div className='w-fit space-y-1'>
         <p className='text-xl font-bold'>Fans</p>
         {/* show when signed in */}
@@ -27,7 +27,7 @@ const page = () => {
       </div>
  </div>
 
-   <div className='flex gap-y-12 justify-between flex-wrap'>
+   <div className='grid lg:grid-cols-2 gap-12 justify-between'>
    {[1, 2, 3, 4, 5, 6].map((e) => (
             <PornFansComponent key={e} />
           ))}
