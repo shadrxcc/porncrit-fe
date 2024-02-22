@@ -1,7 +1,6 @@
 import ButtonComponent from '@/components/shared/button.component'
 import PopularReviewsComponent from '@/components/ui/popular-reviews.component'
 import Image from 'next/image'
-import React from 'react'
 
 const page = () => {
   return (
@@ -21,7 +20,6 @@ const page = () => {
 
           <div className='flex items-center gap-x-1'>
             <Image src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
-            <p className='text-xs'>Sort by</p>
           </div>
         </div>
 

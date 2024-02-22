@@ -23,7 +23,6 @@ const page = () => {
 
       <div className='flex items-center gap-x-1'>
         <Image src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
-        <p className='text-xs'>Sort by</p>
       </div>
  </div>
 

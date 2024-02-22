@@ -13,27 +13,26 @@ const page = () => {
         <p className='text-sm text-pink'>Join <span className='text-mauve'>PornCrit to find and follow porn fans</span></p>
       </div>
 
-<div className='flex flex-col gap-y-7'>
- <div className='flex items-center flex-wrap gap-y-4 gap-x-8'>
- <div className='flex items-center gap-x-10'>
-        <ButtonComponent className='' variant='white'>Popular</ButtonComponent>
-        <ButtonComponent variant='outline'>Recent</ButtonComponent>
-        <ButtonComponent variant='outline'>Following</ButtonComponent>
-      </div>
+      <div className='flex flex-col gap-y-7'>
+        <div className='flex items-center flex-wrap gap-y-4 gap-x-8'>
+          <div className='flex items-center gap-x-10'>
+            <ButtonComponent className='' variant='white'>Popular</ButtonComponent>
+            <ButtonComponent variant='outline'>Recent</ButtonComponent>
+            <ButtonComponent variant='outline'>Following</ButtonComponent>
+          </div>
 
-      <div className='flex items-center gap-x-1'>
-        <Image src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
-        <p className='text-xs'>Sort by</p>
-      </div>
- </div>
+          <div className='flex items-center gap-x-1'>
+            <Image src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+          </div>
+        </div>
 
-   <div className='grid lg:grid-cols-2 gap-12 justify-between'>
-   {[1, 2, 3, 4, 5, 6].map((e) => (
+        <div className='grid lg:grid-cols-2 gap-12 justify-between'>
+          {[1, 2, 3, 4, 5, 6].map((e) => (
             <PornFansComponent key={e} />
           ))}
-   </div>
-</div>
-      
+        </div>
+      </div>
+
     </div>
   )
 }

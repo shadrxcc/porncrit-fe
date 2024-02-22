@@ -114,7 +114,6 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
             width={24}
             alt="sort"
           />
-          <p className="text-xs">Sort by</p>
         </div>
       </div>
 
