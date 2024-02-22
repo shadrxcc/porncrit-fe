@@ -43,7 +43,7 @@ export default function SearchModal(props: ModalProps) {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full gap-x-5 justify-between flex items-center transform space-y-2 overflow-hidden bg-body p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full gap-x-5 justify-between flex items-center transform space-y-2 overflow-hidden bg-body border-b border-mauve-30 pt-5 pb-6 px-5 sm:px-9 text-left align-middle shadow-xl transition-all">
                                     <div className="hidden lg:block"></div>
                                     <div className="w-full lg:w-2/4"><SearchComponent /></div>
                                     <ButtonComponent onClick={closeModal} variant="secondary" className="!p-0 !w-fit !border-0 float-right place-self-end !justify-end"><ClosePinkSvg /></ButtonComponent>
