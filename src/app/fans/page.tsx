@@ -5,7 +5,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='mx-auto mt-8 flex flex-col gap-y-8 lg:w-9/12 xl:w-3/5'>
+    <div className='mx-auto mt-8 flex flex-col gap-y-8 lg:w-4/5'>
       <div className='w-fit space-y-1'>
         <p className='text-xl font-bold'>Fans</p>
         {/* show when signed in */}
