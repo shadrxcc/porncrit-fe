@@ -75,17 +75,19 @@ const Header = () => {
     label,
     path,
     active,
+    closemenu
   }: {
     label: string;
     path: string;
     active: boolean;
+    closemenu: () => void;
   }) => {
     return (
       <Link scroll={false} href={path}>
         <motion.p
           className="flex flex-col items-center cursor-pointer transition-all ease-in-out delay-700"
         >
-          <span
+          <span onClick={closemenu}
             className={`text-sm ${active
               ? "text-pink font-medium"
               : "text-white"
@@ -99,7 +101,7 @@ const Header = () => {
   };
 
   return (
-    <>  <nav className="flex bg-body top-0 fixed w-full z-10 pt-5 border-b border-mauve-30 justify-between items-center pb-6 px-5 sm:px-9">
+    <>  <nav className="flex bg-body top-0 fixed w-full mx-auto z-10 pt-5 border-b border-mauve-30 justify-between items-center pb-6 px-5 sm:px-9">
       <div className="flex gap-x-12 items-center">
         <Link href={`/`}><img src="/logo.png" width={120} className="" alt="" /></Link>
         <div
@@ -109,6 +111,7 @@ const Header = () => {
         >
           {navItems.map((e) => (
             <NavLink
+              closemenu={() => setMenu(false)}
               key={e.path}
               path={e.path}
               label={e.name}

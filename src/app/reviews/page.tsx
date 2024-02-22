@@ -12,8 +12,8 @@ const page = () => {
       </div>
 
       <div className='flex flex-col gap-y-7'>
-        <div className='flex items-center gap-x-8'>
-          <div className='flex items-center gap-x-10'>
+        <div className='flex flex-wrap items-center gap-x-8 gap-y-5'>
+          <div className='flex overflow-auto no-scroll items-center gap-x-10'>
             <ButtonComponent className='' variant='white'>Popular</ButtonComponent>
             <ButtonComponent variant='outline'>Recent</ButtonComponent>
             <ButtonComponent variant='outline'>Following</ButtonComponent>

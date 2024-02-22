@@ -78,7 +78,7 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   return (
     <div>
       <div className="flex flex-wrap gap-5 items-center">
-        <div className="flex flex-wrap gap-y-5 items-center gap-x-5 sm:gap-x-10">
+        <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">
           {tabs.map((tab, index) => (
             <a
               className="text-sm text-nowrap text-center"

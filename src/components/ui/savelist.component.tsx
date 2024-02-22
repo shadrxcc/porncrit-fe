@@ -1,12 +1,11 @@
 import React from 'react'
 import ButtonComponent from '../shared/button.component'
-import CloseSvg from '../shared/close.component'
 import AddSvg from '../shared/add.component'
 
-const SavelistComponent = ({close} : {close: () => void}) => {
+const SavelistComponent = () => {
   return (
-    <div className=' py-4'>
-        <div className="flex items-center justify-between"><p className='text-brown text-sm font-extrabold'>Save videos to...</p> <ButtonComponent onClick={close} variant='secondary' className='!w-fit !p-0'><CloseSvg/></ButtonComponent></div>
+    <div className=''>
+        <div className="flex items-center justify-between"><p className='text-brown text-sm font-extrabold'>Save videos to...</p></div>
 
        <div className='flex flex-col gap-y-5'>
        <div className='flex mt-6 flex-col gap-y-[22px]'>

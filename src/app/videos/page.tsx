@@ -75,24 +75,26 @@ const Video = () => {
             width={350}
           />
           <p>Title goes here if needed</p>
-          <div className="flex items-center gap-4 flex-wrap">
-            <ButtonComponent
-              className="!gap-x-1.5"
-              onClick={() => setWatch(!watch)}
-              variant={watch ? "pink" : "outline-pink"}
-            >
-              <img src="/assets/icons/play.svg" alt="" />{" "}
-              {watch ? "Rewatch" : "Watch now"}
-            </ButtonComponent>
-            <ButtonComponent onClick={() => setSave(true)} variant="outline-pink" className="!gap-x-1.5">
-              <img src="/assets/icons/add.svg" alt="" /> Save
-            </ButtonComponent>
-            <ButtonComponent variant="outline-pink" className="!gap-x-1.5">
-              <img src="/assets/icons/list.svg" alt="" /> List
-            </ButtonComponent>
-            <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5">
-              {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
-            </ButtonComponent>
+          <div className="flex w-full">
+            <div className="flex items-center gap-4 overflow-auto no-scroll" style={{ whiteSpace: 'nowrap' }}>
+              <ButtonComponent
+                className="!gap-x-1.5 flex-1 w-full"
+                onClick={() => setWatch(!watch)}
+                variant={watch ? "pink" : "outline-pink"}
+              >
+                <img src="/assets/icons/play.svg" alt="" />{" "}
+                {watch ? "Rewatch" : "Watch now"}
+              </ButtonComponent>
+              <ButtonComponent onClick={() => setSave(true)} variant="outline-pink" className="!gap-x-1.5 flex-1 w-full">
+                <img src="/assets/icons/add.svg" alt="" /> Save
+              </ButtonComponent>
+              <ButtonComponent variant="outline-pink" className="!gap-x-1.5 flex-1 w-full">
+                <img src="/assets/icons/list.svg" alt="" /> List
+              </ButtonComponent>
+              <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 flex-1 w-full">
+                {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
+              </ButtonComponent>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-y-3">
@@ -108,12 +110,12 @@ const Video = () => {
         </MyModal>
 
         <MyModal closeModal={() => setSave(false)} isOpen={save}>
-          <SavelistComponent close={() => setSave(false)} />
+          <SavelistComponent />
         </MyModal>
 
         <div className="flex flex-col gap-y-3">
           <p className="text-sm font-medium">Tags</p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex"><div className="flex flex-wrap items-center gap-4">
             <ButtonComponent className="rounded-[20px]" variant="tags">
               Big boobs
             </ButtonComponent>
@@ -123,7 +125,7 @@ const Video = () => {
             <ButtonComponent className="rounded-[20px]" variant="tags">
               Masturbation
             </ButtonComponent>
-          </div>
+          </div></div>
           <div></div>
         </div>
 
@@ -185,13 +187,13 @@ const Video = () => {
 
         <div>
           <div className="flex flex-wrap gap-5 items-center">
-            <div className="flex flex-wrap gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
+            <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
               {tabs.map((tab, index) => (
                 <a className="text-sm text-nowrap text-center" key={index}>
                   <button
                     className={`${activeTabIndex === index
-                        ? "text-pink bg-white"
-                        : "border border-mauve text-white"
+                      ? "text-pink bg-white"
+                      : "border border-mauve text-white"
                       } py-2 px-5 relative rounded-full font-medium  transition focus-visible:outline-2`}
                     style={{
                       WebkitTapHighlightColor: "transparent",

@@ -7,7 +7,7 @@ import { useState } from "react";
 const FollowerComponent = () => {
   const [follow, setFollow] = useState(false);
   return (
-    <div className="flex lg:w-[80%] items-center justify-between">
+    <div className="flex flex-col lg:flex-row lg:w-[80%] lg:items-center gap-y-5 justify-between">
       <div className="flex gap-x-8 items-center">
         <Image
           src={`/assets/images/user.png`}
