@@ -1,27 +1,30 @@
 import Image from "next/image";
-import React from "react";
 
 const TagLikeComponent = () => {
   return (
-    <div className="lg:w-[90%] flex flex-col gap-y-12">
-      {[1,2,3,4,5].map((e) => (
-        <div key={e} className="flex flex-col lg:flex-row lg:items-center gap-3">
-        <Image
-          className="w-full lg:w-min"
-          width={177}
-          height={100}
-          src={`/assets/images/cuties.png`}
-          priority
-          alt="hot-nasty-porn"
-        />
-        <div className="flex text-sm flex-col gap-y-3.5">
-          <p>Hot lesbian sex</p>
-          <div className="flex items-center gap-x-3">
-            <img src="/assets/images/user.png" width={20} alt="" />
-            <p className="text-pink">username</p>
+    <div className="flex flex-col gap-y-5">
+      {[1, 2, 3, 4, 5].map((e) => (
+        <div key={e} className="flex bg-box rounded-box py-6 px-2 sm:px-8 flex-col gap-y-5">
+          <div className="flex items-center gap-x-5">
+            <Image
+              className=""
+              width={88}
+              height={50}
+              src={`/assets/images/cuties.png`}
+              priority
+              alt="hot-nasty-porn"
+            />
+            <div>
+              <p className="text-sm font-extrabold">Hot lesbian sex</p>
+              <img src="/assets/images/rating.png" width={100} alt="" />
+            </div>
           </div>
+          <div className="flex justify-between text-sm">
+            <div className="flex items-center gap-x-2">
+              <img src="/assets/images/user.png" width={20} alt="" />
+              <p className="text-sm"><span className="text-pink">DanTheMan</span> liked this videos 2 mins ago</p>
+            </div>
 
-          <div className="flex items-center gap-x-2">
             <svg
               width="20"
               height="18"
@@ -34,11 +37,9 @@ const TagLikeComponent = () => {
                 fill="#F71D7F"
                 stroke="#F71D7F"
               />
-            </svg>{" "}
-            <p className="text-mauve">1 hr ago</p>
+            </svg>
           </div>
         </div>
-      </div>
       ))}
     </div>
   );
