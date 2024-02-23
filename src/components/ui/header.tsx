@@ -20,6 +20,7 @@ import { Profile } from "iconsax-react";
 import ProfileSvg from "../shared/profile";
 import SignoutSvg from "../shared/signout";
 import SignInSvg from "../shared/signin";
+import SignupSvg from "../shared/signup";
 
 
 const Header = () => {
@@ -180,14 +181,32 @@ const Header = () => {
               <ProfileSvg />
               <p>Profile</p>
             </div></Link>
-            <div className="flex items-center gap-x-2 text-xs">
-              <SignoutSvg />
-              <p>Sign out</p>
-            </div>
-            <div className="flex items-center gap-x-2 text-xs">
-              <SignInSvg />
-              <p>Sign in</p>
-            </div>
+            <ButtonComponent
+              onClick={openLogin}
+              variant="secondary"
+              className="rounded-primary !p-0 !justify-start !text-xs"
+            >
+              <SignInSvg/>
+              Log in
+            </ButtonComponent>
+
+            <ButtonComponent
+              onClick={openSignUp}
+              variant="secondary"
+              className="rounded-primary !p-0 !justify-start !text-xs"
+            >
+              <SignupSvg/>
+              Sign up
+            </ButtonComponent>
+
+            <ButtonComponent
+              onClick={openLogin}
+              variant="secondary"
+              className="rounded-primary !p-0 !justify-start !text-xs"
+            >
+             <SignoutSvg />
+              Sign out
+            </ButtonComponent>
           </div> : null}
         </div>
 
