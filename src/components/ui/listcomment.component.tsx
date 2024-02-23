@@ -22,12 +22,12 @@ const ListCommentComponent = () => {
 
   return (
     <div className="flex flex-col gap-y-5 bg-box rounded-box px-2 sm:px-8 py-5">
-       <div className="flex items-center gap-x-2">
-          <img src="/assets/images/user.png" width={35} alt="" />
-          <p className="text-base">
-            Comment by <span className="text-pink font-extrabold">John</span>
-          </p>
-        </div>
+      <div className="flex items-center gap-x-2">
+        <img src="/assets/images/user.png" width={35} alt="" />
+        <p className="text-base">
+          Comment by <span className="text-pink font-extrabold">John</span>
+        </p>
+      </div>
 
       <div>
         <p className="text-sm">
@@ -37,6 +37,14 @@ const ListCommentComponent = () => {
           aliquip ex ea commodo consequat.
         </p>
       </div>
+
+      {replies ? (
+        <div className="flex pb-10 justify-end">
+          <div className="w-[85%] space-y-5">
+            <Replies />
+          </div>
+        </div>
+      ) : null}
 
       <div className="flex items-center justify-between">
         <div onClick={openReplies} className="flex cursor-pointer items-center">
@@ -61,17 +69,7 @@ const ListCommentComponent = () => {
         </div>
       </div>
 
-      {replies ? (
-        <div className="flex justify-end">
-          <div className="w-[85%] space-y-5">
-            <Replies />
-            <div className="flex cursor-pointer items-center">
-              <p className="text-sm text-pink">View 18 replies</p>
-              <ArrowDropDown />
-            </div>
-          </div>
-        </div>
-      ) : null}
+
 
       {comment ? <div className="flex flex-col gap-y-4">
         <Input placeholder="Add your comment..." />

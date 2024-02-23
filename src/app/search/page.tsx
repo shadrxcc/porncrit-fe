@@ -55,7 +55,7 @@ const page = () => {
 
 
   return (
-    <div className="space-y-5 lg:w-3/5 mt-8 mx-auto">
+    <div className="space-y-5 md:w-standard mt-8 mx-auto">
       <h1 className="text-xl font-extrabold leading-7">“Search query goes here”</h1>
       <div className="flex sm:flex-row-reverse justify-end gap-x-5 items-center">
       <div className="flex items-center gap-x-1">
