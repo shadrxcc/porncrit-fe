@@ -15,7 +15,7 @@ const SecondaryInputComponent: React.FC<InputProps> = ({ label, widthClass, ...p
                 {" "}
                 <label className="text-sm text-white" htmlFor={label}>{label}</label>
                 <input
-                    className={`px-4 bg-white bg-opacity-10 text-rose border-opacity-10 border border-white h-12 border-accent text-sm !outline-none focus:outline-none py-3.5 rounded-lg`}
+                    className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
                     {...props}
                 />
 

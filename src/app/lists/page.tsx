@@ -17,7 +17,7 @@ const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   return (
-    <div className='mx-auto mt-8 flex flex-col gap-y-8  md:w-standard'>
+    <div className='mx-auto flex flex-col gap-y-8  md:w-standard'>
       <div className='w-fit space-y-1'>
         <p className='text-xl font-bold'>Lists</p>
         {/* show when signed in */}

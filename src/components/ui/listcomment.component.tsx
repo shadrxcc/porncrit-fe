@@ -21,16 +21,13 @@ const ListCommentComponent = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-5">
-      <div className="flex items-center gap-x-7">
-        <div className="flex items-center gap-x-2">
-          <img src="/assets/images/user.png" width={45} alt="" />
-          <p className="text-sm">
-            Review by <span className="text-pink font-bold">John</span>
+    <div className="flex flex-col gap-y-5 bg-box rounded-box px-2 sm:px-8 py-5">
+       <div className="flex items-center gap-x-2">
+          <img src="/assets/images/user.png" width={35} alt="" />
+          <p className="text-base">
+            Comment by <span className="text-pink font-extrabold">John</span>
           </p>
         </div>
-        <img src="/assets/images/rating.png" width={70} alt="" />
-      </div>
 
       <div>
         <p className="text-sm">
@@ -50,12 +47,12 @@ const ListCommentComponent = () => {
         <div className="flex items-center gap-x-7">
           <ButtonComponent onClick={openComment} variant="secondary" className="!w-fit !p-0">
             <CommentLineSvg />
-            <p className="text-xs">Comment</p>
+            {/* <p className="text-xs">Comment</p> */}
           </ButtonComponent>
 
           <ButtonComponent variant="secondary" className="!w-fit !p-0">
             <FavoriteLight />
-            <p className="text-xs">Like</p>
+            {/* <p className="text-xs">Like</p> */}
           </ButtonComponent>
 
           <div className="flex items-center gap-x-1.5">

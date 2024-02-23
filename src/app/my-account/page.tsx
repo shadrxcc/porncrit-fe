@@ -5,7 +5,7 @@ import MyProfileTabComponent from "@/components/ui/my-profile-tab.component";
 
 const page = () => {
   return (
-    <div className='mx-auto mt-8 flex flex-col gap-y-8 md:w-standard'>
+    <div className='mx-auto flex flex-col gap-y-8 md:w-standard'>
       <div className="flex flex-col sm:flex-row gap-y-5 sm:items-center justify-between">
         <div className="flex items-center gap-x-4">
           <img className="sm:w-[120px] object-cover" width={50} src="/assets/images/user.png" alt="user" />
