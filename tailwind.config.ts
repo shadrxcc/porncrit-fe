@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': {'max': '280px'},
+        ...defaultTheme.screens,
+      },
       colors: {
         pink: "#F71D7F",
         mauve: '#AC6686',

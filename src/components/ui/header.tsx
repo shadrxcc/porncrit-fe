@@ -103,7 +103,7 @@ const Header = () => {
   };
 
   return (
-    <>  <nav className="flex bg-body top-0 fixed w-full mx-auto z-10 border-b border-mauve-30 justify-between items-center pt-5 pb-6 px-5 sm:px-9">
+    <>  <nav className="flex bg-body top-0 fixed w-full mx-auto z-40 border-b border-mauve-30 justify-between items-center pt-5 pb-6 px-5 sm:px-9">
       <div className="flex gap-x-12 items-center">
         <Link href={`/`}><img src="/logo.png" width={120} className="" alt="" /></Link>
         <div
