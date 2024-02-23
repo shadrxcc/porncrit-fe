@@ -13,7 +13,7 @@ const SecondaryInputComponent: React.FC<InputProps> = ({ label, widthClass, ...p
         <>
             <div className={`flex flex-col gap-y-3 ${widthClass}`}>
                 {" "}
-                <label className="text-sm text-white" htmlFor={label}>{label}</label>
+                <label className="text-lg font-bold text-white" htmlFor={label}>{label}</label>
                 <input
                     className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
                     {...props}

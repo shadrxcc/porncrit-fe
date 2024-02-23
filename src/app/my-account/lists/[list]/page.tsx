@@ -1,62 +1,30 @@
 import ButtonComponent from "@/components/shared/button.component";
-import EditSvg from "@/components/shared/edit.component";
 import ListTabs from "@/components/ui/list-tabs.component";
-import Link from "next/link";
 
 const page = () => {
   return (
-    <div className="flex lg:px-20 flex-col lg:flex-row gap-y-10 gap-x-16 mt-8">
-      <div className="flex-[0.6_1_0]">
-        <div className="flex flex-col gap-y-[18px]">
+    <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
+      <div className="flex xs:flex-col xs:items-start gap-y-3 items-center justify-between">
+        <div className="space-y-2.5">
+          <p className="text-xl font-extrabold">Ebony watchlist</p>
           <div className="flex items-center gap-x-4">
             <img width={50} src="/assets/images/user.png" alt="user" />
             <div className="flex flex-col gap-y-1">
               <p className="text-sm">List created by</p>
               <p className="text-sm text-pink">
-                Username
-                </p>
-            </div>
-          </div>
-
-          <Link href={`/my-account/lists/edit`}><ButtonComponent className="!w-fit" variant="outline-pink"><EditSvg/> Edit list</ButtonComponent></Link>
-          <div className="flex flex-col gap-y-2">
-            <p className="text-sm font-medium">List description</p>
-            <p className="text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-y-3">
-            <p className="text-sm font-medium">List Tags</p>
-            <div className="flex flex-wrap items-center gap-4">
-              <ButtonComponent className="rounded-[20px]" variant="tags">
-                Big boobs
-              </ButtonComponent>
-              <ButtonComponent className="rounded-[20px]" variant="tags">
-                Brunette
-              </ButtonComponent>
-              <ButtonComponent className="rounded-[20px]" variant="tags">
-                Masturbation
-              </ButtonComponent>
-            </div>
-            <div></div>
-          </div>
-
-          <div className="flex flex-col gap-y-3">
-            <p className="text-sm font-medium">Performers</p>
-            <div className="flex items-center gap-x-2">
-              <img width={50} src="/assets/images/tori.png" alt="tori" />
-              <ButtonComponent className="rounded-[20px]" variant="tags">
-                Tori Black
-              </ButtonComponent>
+                PlayDirty😉
+              </p>
             </div>
           </div>
         </div>
+
+        <ButtonComponent className="xs:w-full !w-fit" variant="outline-pink"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fillRule="evenodd" clipRule="evenodd" d="M7.74596 3.14062L8.34356 2.54301C8.92531 1.96126 8.92531 1.01806 8.34356 0.436312C7.76182 -0.145437 6.81861 -0.145437 6.23686 0.436312L5.62614 1.04703C6.11446 1.93075 6.84953 2.65991 7.74596 3.14062ZM4.17084 2.50233L1.29982 5.37336C0.874758 5.79842 0.662228 6.01095 0.522493 6.27204C0.382759 6.53314 0.323813 6.82787 0.205923 7.41732L0.0638519 8.12768C-0.00267025 8.46029 -0.0359313 8.62659 0.0586767 8.7212C0.153285 8.81581 0.31959 8.78255 0.6522 8.71602L1.36256 8.57395L1.36257 8.57395C1.95201 8.45606 2.24674 8.39712 2.50783 8.25738C2.76893 8.11765 2.98146 7.90512 3.40652 7.48006L6.28681 4.59977C5.4423 4.05309 4.72226 3.33775 4.17084 2.50233Z" fill="white" />
+        </svg>
+          Edit list</ButtonComponent>
       </div>
-      <div className="flex-[1.5_1_0]">
-      <ListTabs/>
-      </div>
+
+      <ListTabs />
     </div>
   );
 };
