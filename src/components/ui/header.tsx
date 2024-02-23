@@ -176,7 +176,7 @@ const Header = () => {
         <div>
           <ButtonComponent onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
           {dropdown ? <div className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-            <Link href={`/my-account`}><div className="flex items-center gap-x-2 text-xs">
+            <Link href={`/my-account`}><div onClick={()=> setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
               <p>Profile</p>
             </div></Link>
