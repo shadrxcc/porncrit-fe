@@ -16,6 +16,10 @@ import SearchSvg from "../shared/searchsvg.component";
 import CloseSvg from "../shared/close.component";
 import ClosePinkSvg from "../shared/close-pink.component";
 import SearchModal from "../shared/search.modal";
+import { Profile } from "iconsax-react";
+import ProfileSvg from "../shared/profile";
+import SignoutSvg from "../shared/signout";
+import SignInSvg from "../shared/signin";
 
 
 const Header = () => {
@@ -24,7 +28,7 @@ const Header = () => {
   const [login, setLogin] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false)
   const [search, setSearch] = useState(false)
-
+  const [dropdown, setDropdown] = useState(false)
 
   let pathname = usePathname() || "/";
 
@@ -52,6 +56,10 @@ const Header = () => {
   function openForgotPassword() {
     setLogin(false)
     setForgotPassword(true)
+  }
+
+  function toggleDropdown() {
+    setDropdown(!dropdown)
   }
 
   const navItems = [
@@ -158,13 +166,34 @@ const Header = () => {
         </ButtonComponent>
       </div>
 
-      <SearchModal isOpen={search} closeModal={()=>setSearch(false)}/>
+      <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
       <div className="flex items-center gap-x-6 lg:hidden">
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
-        <img src="/assets/images/user.png" width={24} alt="" />
+
+        <div>
+          <ButtonComponent onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
+          {dropdown ? <div className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+            <Link href={`/my-account`}><div className="flex items-center gap-x-2 text-xs">
+              <ProfileSvg />
+              <p>Profile</p>
+            </div></Link>
+            <div className="flex items-center gap-x-2 text-xs">
+              <SignoutSvg />
+              <p>Sign out</p>
+            </div>
+            <div className="flex items-center gap-x-2 text-xs">
+              <SignInSvg />
+              <p>Sign in</p>
+            </div>
+          </div> : null}
+        </div>
+
+
+
+
         <button onClick={() => setMenu(!menu)}>
           {menu ? (
             <ClosePinkSvg />
