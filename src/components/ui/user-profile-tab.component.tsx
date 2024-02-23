@@ -11,6 +11,7 @@ import MyLists from "./mylist.component";
 import MyWatched from "./mywatched.component";
 import UserReviews from "./user-reviews.component";
 import UserAbout from "./user-bio";
+import UserLists from "./user-list";
 
 
 export type Tab = {
@@ -57,7 +58,7 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
         case 0:
             return <UserReviews/>
         case 1:
-            return <MyLists/>
+            return <UserLists/>
         case 2:
             return <MyFollowers/>
         case 3:
