@@ -40,8 +40,11 @@ const UserAbout = () => {
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Stats</p>
             <div className="text-sm flex flex-col gap-y-5">
+                <p>Reviews 18.5k</p>
+                <p>Lists 652</p>
+                <p>Likes 72.4k</p>
                 <p>654 videos films watched</p>
-                <p>3 weeks longest streak (activity!)</p>
+                <p>3 weeks longest streak</p>
                 <span className="flex flex-col gap-y-3">
                     <p>Average rating based on 1.4k reviews</p>
                     <img src="/assets/images/average.png" width={100} alt="" />

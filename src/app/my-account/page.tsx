@@ -8,30 +8,14 @@ const page = () => {
     <div className='mx-auto flex flex-col gap-y-8 md:w-standard'>
       <div className="flex flex-col sm:flex-row gap-y-5 sm:items-center justify-between">
         <div className="flex items-center gap-x-4">
-          <img className="sm:w-[120px] object-cover" width={50} src="/assets/images/user.png" alt="user" />
-          <div className="flex flex-col gap-y-1">
+          <img className="object-cover" width={110} src="/assets/images/user.png" alt="user" />
+          <div className="flex flex-col gap-y-2">
             <p className="text-pink text-xl font-extrabold">PlayDirty😉</p>
             <p className="text-sm">
               1.7k followers
             </p>
             <ButtonComponent className="w-full">Edit account</ButtonComponent>
 
-          </div>
-        </div>
-        <div className="flex items-center justify-evenly gap-x-2.5 sm:gap-x-12">
-          <div className="space-y-1">
-            <p className="text-pink">Reviews</p>
-            <p>18.5k</p>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-pink">Lists</p>
-            <p>177</p>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-pink">Likes</p>
-            <p>72.4k</p>
           </div>
         </div>
       </div>

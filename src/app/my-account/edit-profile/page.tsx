@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const EditProfile = () => {
   return (
-    <div className="flex lg:w-[40%] mt-8 mx-auto gap-y-8 flex-col">
+    <div className="flex mx-auto gap-y-8 flex-col md:w-standard">
       <div className="flex flex-wrap items-center gap-y-4 gap-x-11">
         <Image
           src={`/assets/images/user.png`}
@@ -53,9 +53,9 @@ const EditProfile = () => {
         <p className="text-sm text-center">Change password</p>
         <div className="space-y-7">
           <div className="flex flex-col gap-y-7">
-            <Input label="Current password" />
-            <Input label="New password" />
-            <Input label="Confirm new password" />
+            <Input placeholder="Current password" label="Current password" />
+            <Input placeholder="New password" label="New password" />
+            <Input placeholder="Confirm new password" label="Confirm new password" />
           </div>
           <ButtonComponent className="!w-fit m-auto">
             Save changes
