@@ -10,6 +10,7 @@ import MyActivityComponent from "./myactivity.component";
 import MyLists from "./mylist.component";
 import MyWatched from "./mywatched.component";
 import UserReviews from "./user-reviews.component";
+import UserAbout from "./user-bio";
 
 
 export type Tab = {
@@ -23,28 +24,24 @@ type TabComponentProps = {
 
 const tabs = [
   {
-    title: "Watched",
-    id: "watched",
-  },
-  {
     title: "Reviews",
     id: "reviews",
-  },
-  {
-    title: "Activity",
-    id: "activity",
   },
   {
     title: "Lists",
     id: "lists",
   },
   {
+    title: "Friends",
+    id: "friends",
+  },
+  {
     title: "Likes",
     id: "likes",
   },
   {
-    title: "Followers",
-    id: "followers",
+    title: "About",
+    id: "about",
   },
 ];
 
@@ -58,17 +55,15 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
         case 0:
-            return <MyWatched/>
-        case 1:
             return <UserReviews/>
-        case 2:
-            return <MyActivityComponent/>
-        case 3:
+        case 1:
             return <MyLists/>
-        case 4:
-            return <MyLikes/>
-        case 5:
+        case 2:
             return <MyFollowers/>
+        case 3:
+            return <MyLikes/>
+        case 4:
+            return <UserAbout/>
         default:
             return null;
     }
@@ -77,7 +72,15 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
 
   return (
     <div>
-      <div className="flex flex-wrap gap-5 items-center">
+      <div className="flex gap-5 items-center">
+      <div className="flex items-center">
+          <Image
+            src={`/assets/icons/Sort.svg`}
+            height={24}
+            width={24}
+            alt="sort"
+          />
+        </div>
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">
           {tabs.map((tab, index) => (
             <a
@@ -86,8 +89,8 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
             >
               <button
                 className={`${
-                  activeTabIndex === index ? "text-pink bg-white" : "border border-mauve text-white"
-                } py-2 px-5 relative rounded-full font-medium  transition focus-visible:outline-2`}
+                  activeTabIndex === index ? "text-pink" : "text-white"
+                } py-2 px-5 relative font-medium  transition focus-visible:outline-2`}
                 style={{
                   WebkitTapHighlightColor: "transparent",
                 }}
@@ -95,25 +98,20 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
               >
                 {activeTabIndex === index && (
                   <motion.span
-                    layoutId="bubble"
-                    className="absolute inset-0 z-10 bg-transparent"
-                    style={{ borderRadius: 9999 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
+                  layoutId="bubble"
+                  className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
+                  transition={{
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 0.6,
+                  }}
+                />
                 )}
 
                 {tab.title}
               </button>
             </a>
           ))}
-        </div>
-        <div className="flex items-center gap-x-1">
-          <Image
-            src={`/assets/icons/Sort.svg`}
-            height={24}
-            width={24}
-            alt="sort"
-          />
         </div>
       </div>
 
@@ -125,3 +123,5 @@ const UserProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
 };
 
 export default UserProfileTabComponent;
+
+
