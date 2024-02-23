@@ -20,6 +20,7 @@ import VideoInfo from "@/components/ui/video-info.component";
 export type Tab = {
   id: string;
   title: string;
+  subheading?:string
 };
 
 const tabs: Tab[] = [
