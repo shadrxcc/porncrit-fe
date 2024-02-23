@@ -1,7 +1,9 @@
 import Image from "next/image";
 import ButtonComponent from "../shared/button.component";
+import { useRouter } from "next/navigation";
 
 const MyReviewsComponent = () => {
+  const router = useRouter()
   return (
     <div className="flex flex-col px-2.5 sm:px-9 py-6 rounded-[10px] bg-box gap-y-4">
       <div className="flex flex-col gap-y-2">
@@ -29,7 +31,7 @@ const MyReviewsComponent = () => {
         </div>
 
         <div className="flex gap-5">
-          <ButtonComponent variant="outline">Edit</ButtonComponent>
+          <ButtonComponent onClick={()=> router.push('/my-account/lists/edit')} variant="outline">Edit</ButtonComponent>
           <ButtonComponent variant="outline">Delete</ButtonComponent>
         </div>
       </div>

@@ -63,7 +63,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-10 lg:gap-x-16 xl:gap-x-20 lg:flex-row mt-11">
+      <div className="flex flex-col gap-y-10 lg:gap-x-16 xl:gap-x-20 xl:flex-row mt-11">
         <div className=" flex-[2_1_0] flex flex-col gap-y-6">
           <div className="flex flex-col gap-y-3.5">
             <p className="text-xl font-bold">Porndle</p>

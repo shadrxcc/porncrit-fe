@@ -26,8 +26,11 @@ const page = () => {
       </div>
 
       <div className='flex flex-col gap-y-7'>
-        <div className='flex items-center gap-x-8'>
-          <div className="flex justify-around gap-x-10">
+      <div className="flex sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
+          <div className='flex items-center gap-x-1'>
+            <Image src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+          </div>
+          <div className="flex overflow-auto no-scroll justify-around gap-x-10">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -55,9 +58,7 @@ const page = () => {
               </button>
             ))}</div>
 
-          <div className='flex items-center gap-x-1'>
-            <Image src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
-          </div>
+
         </div>
 
         <div className="flex flex-col gap-y-10">
