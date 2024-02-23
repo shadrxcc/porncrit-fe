@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const page = () => {
   return (
-    <div className='mx-auto mt-8 flex flex-col gap-y-8 lg:w-4/5'>
+    <div className='mx-auto mt-8 flex flex-col gap-y-8 md:w-standard'>
       <div className='w-fit space-y-1'>
         <p className='text-xl font-bold'>Reviews</p>
         <p className='text-sm text-pink'>Join <span className='text-mauve'>PornCrit to review the porn you love</span></p>

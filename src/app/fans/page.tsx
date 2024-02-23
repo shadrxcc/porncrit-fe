@@ -1,11 +1,12 @@
 import ButtonComponent from '@/components/shared/button.component'
+import FollowerComponent from '@/components/ui/follower.component'
 import PornFansComponent from '@/components/ui/porn-fans.component'
 import Image from 'next/image'
 import React from 'react'
 
 const page = () => {
   return (
-    <div className='mx-auto mt-8 flex flex-col gap-y-8 lg:w-4/5'>
+    <div className='mx-auto mt-8 flex flex-col gap-y-8 md:w-standard'>
       <div className='w-fit space-y-1'>
         <p className='text-xl font-bold'>Fans</p>
         {/* show when signed in */}
@@ -26,9 +27,9 @@ const page = () => {
           </div>
         </div>
 
-        <div className='grid lg:grid-cols-2 gap-12 justify-between'>
+        <div className='flex flex-col gap-11'>
           {[1, 2, 3, 4, 5, 6].map((e) => (
-            <PornFansComponent key={e} />
+            <FollowerComponent key={e} />
           ))}
         </div>
       </div>
