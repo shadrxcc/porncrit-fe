@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const PorndleComponent = () => {
   return (
-    <div className="flex flex-col sm:flex-row gap-7">
+    <div className="flex flex-col items-center sm:flex-row gap-7">
         <Image className="object-cover w-full" src={`/assets/images/porndle.png`} alt="porndle" width={258} height={200}/>
         <div className="flex w-full flex-col gap-y-10">
         <button className="bg-whitealpha-10 px-3  border w-full border-mauve py-2.5 rounded-[3px]">Lana Rhoades</button>

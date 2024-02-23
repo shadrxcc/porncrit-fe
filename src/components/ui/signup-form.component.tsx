@@ -1,5 +1,5 @@
 import React from 'react'
-import Modal from '../shared/modal.component'
+
 import InputComponent from '../shared/input.component'
 import ButtonComponent from '../shared/button.component'
 

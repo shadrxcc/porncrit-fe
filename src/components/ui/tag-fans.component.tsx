@@ -1,8 +1,5 @@
 "use client"
 
-import React, { useState } from 'react'
-import ButtonComponent from '../shared/button.component'
-import Image from 'next/image';
 import FollowerComponent from './follower.component';
 
 const TagFansComponent = () => {

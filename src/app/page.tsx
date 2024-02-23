@@ -6,6 +6,7 @@ import PopularFanComponent from "@/components/ui/popular-fan.component";
 import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -47,19 +48,19 @@ export default function Home() {
         </div>
 
         <div className="flex-[1.2_1_0] space-y-5">
-        <div className="flex flex-col gap-y-5">
-          <p className="text-xl font-bold">Popular lists</p>
-          <div className="flex flex-col gap-y-7">
-            {[1, 2, 3].map((e) => (
-              <PopularListComponent key={e} />
-            ))}
+          <div className="flex flex-col gap-y-5">
+            <p className="text-xl font-bold">Popular lists</p>
+            <div className="flex flex-col gap-y-7">
+              {[1, 2, 3].map((e) => (
+                <PopularListComponent key={e} />
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-col gap-y-6">
-          <p className="text-xl font-bold">Most popular fan</p>
-          <PopularFanComponent />
-        </div>
+          <div className="flex flex-col gap-y-6">
+            <p className="text-xl font-bold">Most popular fan</p>
+            <PopularFanComponent />
+          </div>
         </div>
       </div>
 
@@ -74,52 +75,68 @@ export default function Home() {
         </div>
 
         <div className="flex-[1.2_1_0] space-y-6">
-        <div className="flex flex-col gap-y-5">
-          <p className="text-xl font-bold">Popular tags this week</p>
-          <div className="flex flex-wrap items-center gap-4">
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Big boobs
-            </ButtonComponent>
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Brunette
-            </ButtonComponent>
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Masturbation
-            </ButtonComponent>
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Solo
-            </ButtonComponent>
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Jilling
-            </ButtonComponent>
-          </div>
-        </div>
+          <div className="flex flex-col gap-y-5">
+            <p className="text-xl font-bold">Popular tags this week</p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link href={`/tags`}>
+                <ButtonComponent className="rounded-[20px]" variant="tags">
+                  Big boobs
+                </ButtonComponent>
+              </Link>
 
-        <div className="flex flex-col gap-y-3">
-          <p className="text-xl font-bold">Popular tags this week</p>
-          <div className="flex items-center gap-x-2">
-            <img
-              className="cursor-pointer"
-              width={50}
-              src="/assets/images/tori.png"
-              alt="tori"
-            />
-            <ButtonComponent className="rounded-[20px]" variant="tags">
-              Tori Black
-            </ButtonComponent>
+              <Link href={`/tags`}>
+                <ButtonComponent className="rounded-[20px]" variant="tags">
+                  Brunette
+                </ButtonComponent>
+              </Link>
+
+              <Link href={`/tags`}>
+                <ButtonComponent className="rounded-[20px]" variant="tags">
+                  Masturbation
+                </ButtonComponent>
+              </Link>
+
+              <Link href={`/tags`}>
+                <ButtonComponent className="rounded-[20px]" variant="tags">
+                  Solo
+                </ButtonComponent>
+              </Link>
+
+              <Link href={`/tags`}>
+                <ButtonComponent className="rounded-[20px]" variant="tags">
+                  Jilling
+                </ButtonComponent>
+              </Link>
+            </div>
           </div>
-        </div>
+
+          <div className="flex flex-col gap-y-3">
+            <p className="text-xl font-bold">Popular star</p>
+            <Link href={`/performer`}> <div className="flex items-center gap-x-2">
+              <img
+                className="cursor-pointer"
+                width={50}
+                src="/assets/images/tori.png"
+                alt="tori"
+              />
+              <ButtonComponent className="rounded-[20px]" variant="tags">
+                Tori Black
+              </ButtonComponent>
+            </div>
+            </Link>
+
+          </div>
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-x-16 xl:gap-x-20 mt-11">
-        
+
       </div>
 
       <div className="flex flex-col gap-y-9 mt-11">
         <p className="text-xl font-bold">Industry news</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-7">
-          {[1, 2, 3,4].map((e) => (
+          {[1, 2, 3, 4].map((e) => (
             <IndustryNewsComponent key={e} />
           ))}
         </div>
