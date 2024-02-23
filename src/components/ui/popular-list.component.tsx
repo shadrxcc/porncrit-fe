@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const PopularListComponent = () => {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 bg-box rounded-box py-3.5 px-4 lg:px-8">
       <Link href={`/user-account`}><div className="flex items-center gap-x-3">
         <img src="/assets/images/user.png" width={33} alt="pfp" />
         <p className="text-sm text-pink-2 font-medium">Username</p>
@@ -11,24 +11,24 @@ const PopularListComponent = () => {
 
       <div className="flex flex-col gap-y-3">
         <p className="text-sm">List title (including if watchlist)</p>
-        <div className="flex flex-col xl:flex-row gap-x-5 gap-y-2">
+        <div className="flex gap-x-4">
           <Image
-            className="w-full xl:w-min"
+            className=""
             src={`/assets/images/thumb2.png`}
             alt="hard-porn"
             width={167}
             height={60}
             priority
           />
-          <div className="flex flex-row flex-wrap xl:flex-col gap-2.5 ">
+          <div className="flex flex-col gap-y-2.5 ">
             <p className="text-xs text-mauve">125 videos</p>
             <span className="flex items-center gap-x-1.5">
               <img src="/assets/icons/comment.svg" alt="" />{" "}
-              <p className="text-xs text-mauve">35 comments</p>
+              <p className="text-xs text-mauve">35</p>
             </span>
             <span className="flex items-center gap-x-1.5">
               <img src="/assets/icons/fav.svg" alt="" />{" "}
-              <p className="text-xs text-mauve">27 likes</p>
+              <p className="text-xs text-mauve">27</p>
             </span>
           </div>
         </div>

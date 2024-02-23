@@ -7,17 +7,16 @@ import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
 
-import WatchedActivity from "@/components/ui/watched-activity.component";
-import UserFollowedComponent from "@/components/ui/userfollowed.component";
-import UserCommentedComponent from "@/components/ui/usercomment-activity.component";
-import SuggestedFanComponent from "@/components/ui/suggestedfan.component";
-
 export default function Home() {
   return (
     <main className="lg:w-4/5 mx-auto">
       <HeroComponent />
-      <div className="flex mt-11 flex-col sm:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
-        {/* show when a user has a following list */}
+      {/* <div>
+      <div className="flex flex-[2_1_0] flex-col gap-y-5"></div>
+      <div className="flex-[1.2_1_0] flex flex-col gap-y-5"></div>
+      </div> */}
+      {/* <div className="flex mt-11 flex-col sm:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
+      
         <div className="flex flex-[2_1_0] flex-col gap-y-5">
           <p className="text-xl font-bold">Recent activity</p>
           <div className="flex flex-col gap-y-7">
@@ -36,8 +35,8 @@ export default function Home() {
             <SuggestedFanComponent />
           </div>
         </div>
-      </div>
-      <div className="flex mt-11 flex-col lg:flex-row m-auto gap-y-10 lg:gap-x-16 xl:gap-x-20">
+      </div> */}
+      <div className="flex mt-11 flex-col sm:flex-row m-auto gap-y-10 sm:gap-x-6 xl:gap-x-20">
         <div className="flex flex-[2_1_0] flex-col gap-y-5">
           <p className="text-xl font-bold">Popular reviews this week</p>
           <div className="flex flex-col gap-y-10">
@@ -47,13 +46,20 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex-[1.2_1_0] flex flex-col gap-y-5">
+        <div className="flex-[1.2_1_0] space-y-5">
+        <div className="flex flex-col gap-y-5">
           <p className="text-xl font-bold">Popular lists</p>
           <div className="flex flex-col gap-y-7">
-            {[1, 2, 3, 4, 5].map((e) => (
+            {[1, 2, 3].map((e) => (
               <PopularListComponent key={e} />
             ))}
           </div>
+        </div>
+
+        <div className="flex flex-col gap-y-6">
+          <p className="text-xl font-bold">Most popular fan</p>
+          <PopularFanComponent />
+        </div>
         </div>
       </div>
 
@@ -67,14 +73,8 @@ export default function Home() {
           <PorndleComponent />
         </div>
 
-        <div className="flex-[1.2_1_0] flex flex-col gap-y-6">
-          <p className="text-xl font-bold">Most popular fan</p>
-          <PopularFanComponent />
-        </div>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-x-16 xl:gap-x-20 mt-11">
-        <div className="flex flex-[2_1_0] flex-col gap-y-5">
+        <div className="flex-[1.2_1_0] space-y-6">
+        <div className="flex flex-col gap-y-5">
           <p className="text-xl font-bold">Popular tags this week</p>
           <div className="flex flex-wrap items-center gap-4">
             <ButtonComponent className="rounded-[20px]" variant="tags">
@@ -95,7 +95,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-[1.2_1_0] flex-col gap-y-3">
+        <div className="flex flex-col gap-y-3">
           <p className="text-xl font-bold">Popular tags this week</p>
           <div className="flex items-center gap-x-2">
             <img
@@ -109,12 +109,17 @@ export default function Home() {
             </ButtonComponent>
           </div>
         </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-x-16 xl:gap-x-20 mt-11">
+        
       </div>
 
       <div className="flex flex-col gap-y-9 mt-11">
         <p className="text-xl font-bold">Industry news</p>
-        <div className="flex flex-wrap gap-7">
-          {[1, 2, 3].map((e) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-7">
+          {[1, 2, 3,4].map((e) => (
             <IndustryNewsComponent key={e} />
           ))}
         </div>
@@ -122,3 +127,4 @@ export default function Home() {
     </main>
   );
 }
+

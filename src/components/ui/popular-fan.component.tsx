@@ -3,7 +3,7 @@ import ButtonComponent from "../shared/button.component";
 
 const PopularFanComponent = () => {
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col bg-box rounded-box py-4 px-8 gap-y-2">
       <div className="flex flex-col gap-y-2">
         <div className="flex items-center gap-x-7">
           <img width={65} src="/assets/images/user.png" alt="user" />
@@ -29,13 +29,9 @@ const PopularFanComponent = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-3">
-          <p className="text-sm">Average rating based on 1.4k reviews</p>
-          <img src="/assets/images/average.png" width={100} alt="" />
-        </div>
+      
       </div>
-
-      <ButtonComponent className="rounded-[20px]">Follow</ButtonComponent>
+      {/* <ButtonComponent className="rounded-[20px]">Follow</ButtonComponent> */}
     </div>
   );
 };

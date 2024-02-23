@@ -63,7 +63,7 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
 
   return (
     <div>
-      <div className="flex gap-5 items-center">
+      <div className="flex sm:flex-row-reverse justify-end gap-x-5 items-center">
         <Image
           src={`/assets/icons/Sort.svg`}
           height={24}
