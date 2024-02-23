@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body>
       <Header/>
         <div className="xs:px-2.5 px-4 mt-32 sm:px-8">
