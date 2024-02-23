@@ -17,14 +17,14 @@ const PopularReviewsComponent = () => {
                 </div>
                 <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore...</p>
             </div>
-            <div className="flex items-center gap-x-9">
+            <div className="flex items-center gap-x-5">
                 <div className="flex items-center gap-x-1.5">
                     <img src="/assets/icons/comment.svg" alt="comment-icon" />
-                    <p className="text-xs text-mauve">35 comments</p>
+                    <p className="text-xs text-mauve">35</p>
                 </div>
                 <div className="flex items-center gap-x-1.5">
                     <img src="/assets/icons/fav.svg" alt="fav-iocn" />
-                    <p className="text-xs text-mauve">27 likes</p>
+                    <p className="text-xs text-mauve">27</p>
                 </div>
 
             </div>

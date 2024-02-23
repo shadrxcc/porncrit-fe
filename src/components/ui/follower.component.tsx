@@ -11,6 +11,7 @@ const FollowerComponent = () => {
       <div className="flex gap-x-5 items-center">
         <Image
           src={`/assets/images/user.png`}
+          className="sm:w-[120px]"
           width={50}
           height={50}
           alt="follower pfp"
@@ -19,7 +20,7 @@ const FollowerComponent = () => {
         <div className="space-y-1"><p className="text-pink">Username</p>
             <p>177 Followers</p>
           </div>
-          <div className="flex items-center gap-x-2.5">
+          <div className="flex items-center gap-x-2.5 sm:gap-x-12">
             <div className="space-y-1">
               <p className="text-pink">Reviews</p>
               <p>18.5k</p>
