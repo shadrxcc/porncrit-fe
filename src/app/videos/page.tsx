@@ -15,12 +15,13 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import ListCommentComponent from "@/components/ui/listcomment.component";
 import ListLikeComponent from "@/components/ui/listlike.component";
 import VideoInfo from "@/components/ui/video-info.component";
+import Link from "next/link";
 
 
 export type Tab = {
   id: string;
   title: string;
-  subheading?:string
+  subheading?: string
 };
 
 const tabs: Tab[] = [
@@ -114,9 +115,11 @@ const Video = () => {
       <div className="flex mt-10 items-center justify-between bg-box rounded-box px-3 py-6">
         <div className="flex items-center gap-x-3">
           <img src="/assets/images/user.png" width={35} alt="" />
-          <ButtonComponent className="!py-1 !px-7" onClick={() => setWrite(true)}>
+          <Link href={`/videos/write-review`}>
+          <ButtonComponent className="!py-1 !px-7">
             Write your review
           </ButtonComponent>
+          </Link>
         </div>
 
         <img width={100} src="/assets/images/rating.png" alt="" />

@@ -15,7 +15,7 @@ const TextArea: React.FC<InputProps> = ({ label, widthClass, ...props }) => {
                 {" "}
                 <label className="text-sm text-brown" htmlFor={label}>{label}</label>
                 <textarea
-                    className={`px-2.5 bg-lightpink bg-opacity-10 border-opacity-10 border border-lightpink border-accent text-xs text-mauve !outline-none w-full focus:outline-none py-2 rounded-[3px]`}
+                    className={`px-2.5 bg-white border-opacity-10 border border-lightpink border-accent text-xs placeholder:text-mauve text-mauve !outline-none w-full focus:outline-none py-2 rounded-[3px]`}
                     {...props}
                 ></textarea>
 

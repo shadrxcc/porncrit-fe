@@ -3,17 +3,17 @@ import ButtonComponent from "../shared/button.component";
 
 import TextArea from "../shared/text-area.component";
 
-const WriteReview = ({closeModal}: {closeModal: () => void}) => {
+const WriteReview = ({ closeModal }: { closeModal: () => void }) => {
   return (
     <div className="flex flex-col gap-y-3">
       <div className="space-y-3">
-      <Image
-        src={`/assets/images/4some.png`}
-        alt=""
-        width={350}
-        height={196}
-      />
-      <p className="text-medium text-sm text-brown">Hot Lesbian Foursome</p>
+        <Image
+          src={`/assets/images/4some.png`}
+          alt=""
+          width={350}
+          height={196}
+        />
+        <p className="text-medium text-sm text-brown">Hot Lesbian Foursome</p>
       </div>
 
       <div className="space-y-1">
@@ -34,12 +34,12 @@ const WriteReview = ({closeModal}: {closeModal: () => void}) => {
 
       <div>
         <p className="text-brown text-sm leading-5 font-[350]">Review</p>
-    
-    <TextArea rows={3}  placeholder="Let your fellow videos fans know what you think..."/>
-       
+
+        <TextArea rows={3} placeholder="Let your fellow videos fans know what you think..." />
+
       </div>
       <div>
-      <div className="flex justify-end">
+        <div className="flex justify-end">
           <ButtonComponent onClick={closeModal}
             variant="secondary"
             className="!w-fit !text-mauve place-self-end"
@@ -47,7 +47,7 @@ const WriteReview = ({closeModal}: {closeModal: () => void}) => {
             Cancel
           </ButtonComponent>
           <ButtonComponent className="!w-fit place-self-end">
-          Publish review
+            Publish review
           </ButtonComponent>
         </div>
       </div>
