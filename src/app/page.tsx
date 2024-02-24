@@ -1,4 +1,8 @@
+"use client"
+
 import ButtonComponent from "@/components/shared/button.component";
+import MyModal from "@/components/shared/modal.component";
+import ForgottenPasswordComponent from "@/components/ui/forgotten-password.component";
 
 import HeroComponent from "@/components/ui/hero.component";
 import IndustryNewsComponent from "@/components/ui/industry-news.component";
@@ -6,12 +10,46 @@ import PopularFanComponent from "@/components/ui/popular-fan.component";
 import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
+import SignInComponent from "@/components/ui/sign-in.component";
+import SignupComponent from "@/components/ui/signup-form.component";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const [signup, setSignUp] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false)
+
+
+  function closeModal() {
+    setSignUp(false)
+    setLogin(false)
+    setForgotPassword(false)
+  }
+
+  function openSignUp() {
+    setLogin(false)
+    setForgotPassword(false)
+    setSignUp(true)
+  }
+
+  function openLogin() {
+    setSignUp(false)
+    setForgotPassword(false)
+    setLogin(true);
+  };
+
+  function openForgotPassword() {
+    setLogin(false)
+    setForgotPassword(true)
+  }
+
   return (
     <main className="lg:w-4/5 mx-auto">
-      <HeroComponent />
+     <MyModal isOpen={login} closeModal={closeModal}><SignInComponent signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+      <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent login={openLogin} /></MyModal>
+      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal> 
+      <HeroComponent signup={openSignUp} />
       {/* <div>
       <div className="flex flex-[2_1_0] flex-col gap-y-5"></div>
       <div className="flex-[1.2_1_0] flex flex-col gap-y-5"></div>
