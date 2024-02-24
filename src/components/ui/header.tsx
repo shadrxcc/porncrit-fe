@@ -118,7 +118,7 @@ const Header = () => {
         <div
           id="navbar"
           className={`${menu ? "#navbar active" : "#navbar"
-            } absolute py-5 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 right-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}
+            } absolute py-10 flex flex-col top-[-100em] h-fit px-4 justfify-center lg:py-0 lg:px-0 left-0 right-0 bg-body w-full lg:relative lg:top-0 lg:flex-row items-center text-sm gap-8`}
         >
           {navItems.map((e) => (
             <NavLink
@@ -129,23 +129,6 @@ const Header = () => {
               active={e.path === pathname}
             />
           ))}
-
-          <div className="lg:hidden flex flex-col gap-y-5">
-            <ButtonComponent
-              onClick={openLogin}
-              variant="secondary"
-              className="rounded-primary"
-            >
-              Log in
-            </ButtonComponent>
-            <ButtonComponent
-              onClick={openSignUp}
-              variant="pink"
-              className="rounded-primary"
-            >
-              Sign up
-            </ButtonComponent>
-          </div>
         </div>
       </div>
 
@@ -177,7 +160,7 @@ const Header = () => {
         <div>
           <ButtonComponent onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
           {dropdown ? <div className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-            <Link href={`/my-account`}><div onClick={()=> setDropdown(false)} className="flex items-center gap-x-2 text-xs">
+            <Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
               <p>Profile</p>
             </div></Link>
@@ -186,7 +169,7 @@ const Header = () => {
               variant="secondary"
               className="rounded-primary !p-0 !justify-start !text-xs"
             >
-              <SignInSvg/>
+              <SignInSvg />
               Log in
             </ButtonComponent>
 
@@ -195,7 +178,7 @@ const Header = () => {
               variant="secondary"
               className="rounded-primary !p-0 !justify-start !text-xs"
             >
-              <SignupSvg/>
+              <SignupSvg />
               Sign up
             </ButtonComponent>
 
@@ -204,7 +187,7 @@ const Header = () => {
               variant="secondary"
               className="rounded-primary !p-0 !justify-start !text-xs"
             >
-             <SignoutSvg />
+              <SignoutSvg />
               Sign out
             </ButtonComponent>
           </div> : null}
