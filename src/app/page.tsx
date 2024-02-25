@@ -18,17 +18,21 @@ import { useState } from "react";
 export default function Home() {
   const [signup, setSignUp] = useState(false);
   const [login, setLogin] = useState(false);
+  const [verifymail, setVerifyMail] = useState(false)
+
   const [forgotPassword, setForgotPassword] = useState(false)
 
 
-  function closeModal() {
+ function closeModal() {
     setSignUp(false)
     setLogin(false)
     setForgotPassword(false)
+    setVerifyMail(false)
   }
 
   function openSignUp() {
     setLogin(false)
+    setVerifyMail(false)
     setForgotPassword(false)
     setSignUp(true)
   }
@@ -36,18 +40,26 @@ export default function Home() {
   function openLogin() {
     setSignUp(false)
     setForgotPassword(false)
+    setVerifyMail(false)
     setLogin(true);
+
   };
 
   function openForgotPassword() {
+    setSignUp(false)
     setLogin(false)
     setForgotPassword(true)
   }
 
+  function verifyMail() {
+    setSignUp(false)
+    setVerifyMail(true)
+  }
+
   return (
     <main className="lg:w-4/5 mx-auto">
-     <MyModal isOpen={login} closeModal={closeModal}><SignInComponent signup={openSignUp} forgot={openForgotPassword} /></MyModal>
-      <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent login={openLogin} /></MyModal>
+     <MyModal isOpen={login} closeModal={closeModal}><SignInComponent close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+      <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal> 
       <HeroComponent signup={openSignUp} />
       {/* <div>
