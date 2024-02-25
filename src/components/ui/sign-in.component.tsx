@@ -2,9 +2,29 @@ import React from 'react'
 import InputComponent from '../shared/input.component'
 import ButtonComponent from '../shared/button.component'
 import { Form, Formik } from "formik";
+import { selectAuthStatus } from "@/services/auth-services/selector";
+import { AppDispatchType } from "@/services/config-store";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
+import { asyncLoginUser } from '@/services/auth-services/async-actions';
 
-const SignInComponent = ({ forgot, signup }: { forgot: () => void, signup: () => void }) => {
+const SignInComponent = ({ forgot, signup, close }: { forgot: () => void, signup: () => void, close: () => void }) => {
+    const authStatus = useSelector(selectAuthStatus);
+    const loading = authStatus === "pending";
+    const dispatch: AppDispatchType = useDispatch();
+
+    function handleSubmit(values: { email: string; password: string }) {
+        dispatch(
+            asyncLoginUser({
+                email: values.email,
+                password: values.password,
+            })
+        )
+            .finally(() => {
+                close()
+            });
+    }
+
     return (
         <div className='flex flex-col items-center gap-y-4 '>
             <div className='flex flex-col items-center gap-y-2'><p className='text-center text-brown font-bold text-xl'>Welcome back to PornCrit</p>
@@ -26,8 +46,11 @@ const SignInComponent = ({ forgot, signup }: { forgot: () => void, signup: () =>
                             "Invalid email address pattern"
                         ),
                 })}
-                onSubmit={(value) => {
-                    console.log(value);
+                onSubmit={async (values: {
+                    email: string;
+                    password: string;
+                }) => {
+                    handleSubmit(values);
                 }}
             >
                 <Form className='w-full'>
@@ -37,7 +60,9 @@ const SignInComponent = ({ forgot, signup }: { forgot: () => void, signup: () =>
                             <InputComponent name="password" type='password' label='Password' />
                         </div>
                         <div className='flex flex-col items-center justify-center gap-y-2.5'>
-                            <ButtonComponent type="submit" className='rounded-[35px]'>Sign in</ButtonComponent>
+                            <ButtonComponent
+                                loading={loading}
+                                disabled={loading} type="submit" className='rounded-[35px]'>Sign in</ButtonComponent>
                             <span className='flex gap-x-1 items-center'>
                                 <p className='text-mauve text-sm'>Don’t have an account? </p><ButtonComponent type='button' onClick={signup} className='!bg-transparent !text-pink !p-0'>Sign up</ButtonComponent>
                             </span>

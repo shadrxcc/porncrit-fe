@@ -11,7 +11,7 @@ export const asyncLoginUser = createAsyncThunk(
                 email,
                 password,
             });
-            localStorage.setItem("get_crib_key", response.data.data.token);
+            localStorage.setItem("pcK", response.data.data.token.accessToken);
             const user = response.data.data;
             return user;
         } catch (error) {
@@ -35,6 +35,8 @@ export const getUserProfile = createAsyncThunk(
         try {
             const response = await axios.get(`${API_URL}/users/get-current-user`);
             const user = response.data;
+            console.log(user);
+            
             return user;
         } catch (error) {
             const customError = error as CustomError;

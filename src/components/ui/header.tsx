@@ -2,8 +2,7 @@
 
 import ButtonComponent from "../shared/button.component";
 
-import { useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { useEffect, useRef, useState } from "react";
 import SignInComponent from "./sign-in.component";
 import SignupComponent from "./signup-form.component";
 import Link from "next/link";
@@ -13,14 +12,19 @@ import MyModal from "../shared/modal.component";
 import ForgottenPassword from "./forgotten-password.component";
 import MenuSvg from "../shared/menu-svg.component";
 import SearchSvg from "../shared/searchsvg.component";
-import CloseSvg from "../shared/close.component";
+
 import ClosePinkSvg from "../shared/close-pink.component";
 import SearchModal from "../shared/search.modal";
-import { Profile } from "iconsax-react";
+
 import ProfileSvg from "../shared/profile";
 import SignoutSvg from "../shared/signout";
 import SignInSvg from "../shared/signin";
 import SignupSvg from "../shared/signup";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/services/auth-services/selector";
+import { AppDispatchType } from "@/services/config-store";
+import { logout } from "@/services/auth-services/slice";
+import VerifyEmailComponent from "./verify-email.component";
 
 
 const Header = () => {
@@ -30,6 +34,30 @@ const Header = () => {
   const [forgotPassword, setForgotPassword] = useState(false)
   const [search, setSearch] = useState(false)
   const [dropdown, setDropdown] = useState(false)
+  const [verifymail, setVerifyMail] = useState(false)
+
+  const trigger = useRef<HTMLButtonElement | null>(null);
+  const dropdwn = useRef<HTMLDivElement | null>(null);
+
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const dispatch: AppDispatchType = useDispatch();
+
+  // close on click outside
+  useEffect(() => {
+    const clickHandler = ({ target }: MouseEvent) => {
+      if (!dropdwn.current) return;
+      const targetNode = target as Node;
+      if (
+        !dropdown ||
+        dropdwn.current.contains(targetNode) ||
+        trigger.current?.contains(targetNode)
+      )
+        return;
+      setDropdown(false);
+    };
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  });
 
   let pathname = usePathname() || "/";
 
@@ -38,11 +66,14 @@ const Header = () => {
     setSignUp(false)
     setLogin(false)
     setForgotPassword(false)
+    setVerifyMail(false)
   }
 
   function openSignUp() {
     setMenu(false);
     setLogin(false)
+    setDropdown(false)
+    setVerifyMail(false)
     setForgotPassword(false)
     setSignUp(true)
   }
@@ -50,17 +81,33 @@ const Header = () => {
   function openLogin() {
     setMenu(false);
     setSignUp(false)
+    setDropdown(false)
     setForgotPassword(false)
+    setVerifyMail(false)
     setLogin(true);
+
   };
 
   function openForgotPassword() {
+    setSignUp(false)
     setLogin(false)
     setForgotPassword(true)
   }
 
+  function verifyMail() {
+    setSignUp(false)
+    setVerifyMail(true)
+  }
+
   function toggleDropdown() {
     setDropdown(!dropdown)
+  }
+
+
+
+  function logOut() {
+    dispatch(logout())
+    setDropdown(false)
   }
 
   const navItems = [
@@ -134,37 +181,64 @@ const Header = () => {
 
       <div className="hidden lg:flex items-center gap-x-[22px]">
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
-        <ButtonComponent
+        {!isAuthenticated ? <><ButtonComponent
           onClick={openLogin}
           variant="secondary"
           className="rounded-primary"
         >
           Log in
         </ButtonComponent>
-        <ButtonComponent
-          onClick={openSignUp}
-          variant="pink"
-          className="rounded-primary"
-        >
-          Sign up
-        </ButtonComponent>
-      </div>
-
-      <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
-      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent signup={openSignUp} forgot={openForgotPassword} /></MyModal>
-      <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent login={openLogin} /></MyModal>
-      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
-      <div className="flex items-center gap-x-6 lg:hidden">
-        <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
-
-        <div>
-          <ButtonComponent onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
-          {dropdown ? <div className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+          <ButtonComponent
+            onClick={openSignUp}
+            variant="pink"
+            className="rounded-primary"
+          >
+            Sign up
+          </ButtonComponent></> : null}
+        {isAuthenticated ? <div>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
+          {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             <Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
               <p>Profile</p>
             </div></Link>
-            <ButtonComponent
+
+            <ButtonComponent onClick={logOut}
+              variant="secondary"
+              className="rounded-primary !p-0 !justify-start !text-xs"
+            >
+              <SignoutSvg />
+              Sign out
+            </ButtonComponent>
+          </div> : null}
+        </div> : null}
+      </div>
+
+      <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
+      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent /></MyModal>
+      <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
+      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+
+      <div className="flex items-center gap-x-6 lg:hidden">
+        <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
+
+        <div>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
+          {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+            {isAuthenticated ? <><Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
+              <ProfileSvg />
+              <p>Profile</p>
+            </div></Link><ButtonComponent
+              onClick={openLogin}
+              variant="secondary"
+              className="rounded-primary !p-0 !justify-start !text-xs"
+            >
+                <SignoutSvg />
+                Sign out
+              </ButtonComponent></> : null}
+
+            {!isAuthenticated ? <><ButtonComponent
               onClick={openLogin}
               variant="secondary"
               className="rounded-primary !p-0 !justify-start !text-xs"
@@ -173,28 +247,16 @@ const Header = () => {
               Log in
             </ButtonComponent>
 
-            <ButtonComponent
-              onClick={openSignUp}
-              variant="secondary"
-              className="rounded-primary !p-0 !justify-start !text-xs"
-            >
-              <SignupSvg />
-              Sign up
-            </ButtonComponent>
-
-            <ButtonComponent
-              onClick={openLogin}
-              variant="secondary"
-              className="rounded-primary !p-0 !justify-start !text-xs"
-            >
-              <SignoutSvg />
-              Sign out
-            </ButtonComponent>
+              <ButtonComponent
+                onClick={openSignUp}
+                variant="secondary"
+                className="rounded-primary !p-0 !justify-start !text-xs"
+              >
+                <SignupSvg />
+                Sign up
+              </ButtonComponent></> : null}
           </div> : null}
         </div>
-
-
-
 
         <button onClick={() => setMenu(!menu)}>
           {menu ? (

@@ -11,21 +11,33 @@ import { RegisterUser } from '@/services/models/user.model';
 import axios from 'axios';
 import { API_URL } from '@/services/utils';
 
-const SignupComponent = ({ login }: { login: () => void }) => {
+type SignUpProps = {
+  login: () => void;
+  verify: () => void;
+}
+
+
+
+const SignupComponent = (props: SignUpProps) => {
+  const { login, verify } = props
   const [isLoading, setLoading] = useState(false)
 
   const handleRegister = (props: RegisterUser, resetForm: { (nextState?: Partial<FormikState<{ username: string; email: string; password: string; acceptedTerms: boolean; }>> | undefined): void; (): void; }) => {
-    delete (props as { confirmPassword?: string }).confirmPassword;
     setLoading(true)
     axios.post(`${API_URL}/auth/register`, { ...props })
-      .then(() => {
+      .then((res) => {
         resetForm();
+        const userData = JSON.stringify(res.data.data.user)
+        localStorage.setItem('currentuser', userData)
+        setLoading(false);
+        verify();
       })
       .catch((err) => {
         console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
-      })
-      .finally(() => setLoading(false));
+        setLoading(false);
+      });
   }
+
   return (
 
     <div className='flex flex-col items-center gap-y-4'>
@@ -37,12 +49,12 @@ const SignupComponent = ({ login }: { login: () => void }) => {
           email: "",
           password: "",
           username: "",
-          // acceptedTerms: false,
+          acceptedTerms: false,
         }}
         validationSchema={Yup.object({
           password: Yup.string()
             .required("Required")
-            .min(6, "Password must be 6 characters and above"),
+            .min(6, "Password must be 6 characters and above buddy"),
           username: Yup.string()
             .required("Required"),
           email: Yup.string()
@@ -52,12 +64,12 @@ const SignupComponent = ({ login }: { login: () => void }) => {
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               "Invalid email address pattern"
             ),
-          // acceptedTerms: Yup.boolean()
-          //   .required("Required")
-          //   .oneOf(
-          //     [true],
-          //     "You must accept the terms and conditions."
-          //   ),
+          acceptedTerms: Yup.boolean()
+            .required("Required")
+            .oneOf(
+              [true],
+              "You must accept the terms and conditions."
+            ),
         })}
         onSubmit={(value, { resetForm }) => {
           handleRegister({ ...value }, resetForm)
@@ -68,16 +80,15 @@ const SignupComponent = ({ login }: { login: () => void }) => {
             <InputComponent type="email" name="email" label='Email address' />
             <InputComponent type="text" name="username" label='Username' />
             <InputComponent type="password" name="password" label='Password' />
-            {/* <CheckBox name="acceptedTerms">
-                <p className='text-brown text-sm'>I’m 18 or older and accept PornCrit’s <span className='text-pink underline'>Terms and Conditions</span> and <span className='text-pink underline'>Privacy Policy</span>.</p>
-              </CheckBox> */}
+            <CheckBox name="acceptedTerms">
+              <p className='text-brown text-sm'>I’m 18 or older and accept PornCrit’s <span className='text-pink underline'>Terms and Conditions</span> and <span className='text-pink underline'>Privacy Policy</span>.</p>
+            </CheckBox>
 
 
 
           </div>
           <div className='flex flex-col items-center justify-center gap-y-2.5'>
-            <ButtonComponent disabled={isLoading}
-              loading={isLoading} type="submit" className='rounded-[35px]'>Sign up</ButtonComponent>
+            <ButtonComponent loading={isLoading} disabled={isLoading} type="submit" className='rounded-[35px]'>Sign up</ButtonComponent>
             <span className='flex gap-x-1 items-center'>
               <p className='text-mauve text-sm'>Already have an account? </p><ButtonComponent type='button' onClick={login} className='!bg-transparent !text-pink !p-0'>Sign in</ButtonComponent>
             </span>

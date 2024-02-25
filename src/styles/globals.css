@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --toastify-color-light: #fff;
+  --toastify-color-dark: #121212;
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #F71D7F;
+  --toastify-color-warning: #f1c40f;
+  --toastify-color-error: #e74c3c;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  --lightpink: #F71D7F;
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+}
+
 @font-face {
   font-family: Avenir;
   src: url('/assets/fonts/AvenirLTStd-Book.otf');
@@ -88,6 +104,17 @@ body {
   }
 }
 
+/* Override autofill background color */
+input:-webkit-autofill {
+  background-color: rgba(247, 29, 127, 0.1) !important;
+}
+
+/* Override autofill text color */
+.primary-input:-webkit-autofill {
+  -webkit-text-fill-color: #3C021C !important;
+  color: #3C021C !important;
+}
+
 #navbar {
   transition: 0.7s ease-in-out;
 }
@@ -106,4 +133,24 @@ body {
 .no-scroll {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.otp-input {
+  width: 100%;
+  justify-content: space-around;
+  /* width: 90%; */
+  margin: auto;
+}
+
+.otp {
+  display: block;
+  border: 2px solid var(--grey-color);
+  border-radius: 5px;
+  width: 50px !important;
+  font-size: 18px;
+  height: 50px;
+  color: #3C021C;
+  background-color: rgba(247, 29, 127, 0.1);
+  padding: 0;
+  text-indent: 0;
 }

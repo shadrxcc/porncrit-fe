@@ -16,7 +16,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ name, children, ...props }) => {
                     {children}
                 </label>
                 {meta.touched && meta.error && (
-                    <div className="error text-xs text-danger">
+                    <div className="error text-red-500 text-xs">
                         {meta.error}
                     </div>
                 )}

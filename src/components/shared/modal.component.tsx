@@ -31,7 +31,7 @@ export default function MyModal(props: ModalProps) {
             <div className="fixed inset-0 bg-black/30" />
           </Transition.Child>
 
-          <div className="fixed inset-0">
+          <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center text-center">
               <Transition.Child
                 as={Fragment}
@@ -42,7 +42,7 @@ export default function MyModal(props: ModalProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="max-w-sm w-full transform mx-2.5 space-y-2 overflow-auto rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="max-w-sm w-full transform mx-2.5 space-y-2 overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <ButtonComponent onClick={closeModal} variant="secondary" className="!p-0 !w-fit float-right place-self-end !justify-end"><ClosePinkSvg /></ButtonComponent>
                   {children}
 

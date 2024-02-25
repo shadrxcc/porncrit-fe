@@ -5,7 +5,7 @@ import { asyncLoginUser, getUserProfile } from "./async-actions";
 
 // Check if localStorage is available before accessing it
 const isAuthenticated =
-    typeof localStorage !== "undefined" && localStorage.getItem("get_crib_key")
+    typeof localStorage !== "undefined" && localStorage.getItem("pcK")
         ? true
         : false;
 const user =
@@ -25,7 +25,7 @@ export const authSlice = createSlice({
     reducers: {
         logout: {
             prepare() {
-                localStorage.removeItem("get_crib_key");
+                localStorage.removeItem("pcK");
                 localStorage.removeItem("token_expiry_time");
                 localStorage.removeItem("user");
                 return { payload: false };

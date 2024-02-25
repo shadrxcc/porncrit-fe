@@ -1,7 +1,13 @@
+import { useState } from "react";
 import ButtonComponent from "../shared/button.component"
 import InputComponent from "../shared/input.component"
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikState } from "formik";
 import * as Yup from "yup";
+import { API_URL } from "@/services/utils";
+import axios from "axios";
+import { ForgotPassword } from "@/services/models/user.model";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 type ForgottenPasswordProps = {
     login: () => void;
@@ -10,6 +16,22 @@ type ForgottenPasswordProps = {
 
 const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
     const { login, signup } = props;
+    const [isLoading, setLoading] = useState(false)
+
+    const handleRegister = (email: ForgotPassword, resetForm: { (nextState?: Partial<FormikState<{ email: string; }>> | undefined): void; (): void; }) => {
+        setLoading(true)
+        axios.post(`${API_URL}/auth/request-password-reset`, email)
+            .then((res) => {
+                resetForm();
+                toast.success(res?.data?.message, {
+                    position: "bottom-center"
+                })
+            })
+            .catch((err) => {
+                console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
+            })
+            .finally(() => setLoading(false));
+    }
 
     return (
         <div className='flex flex-col items-center gap-y-4 '>
@@ -29,8 +51,8 @@ const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
                             "Invalid email address pattern"
                         ),
                 })}
-                onSubmit={(value) => {
-                    console.log(value);
+                onSubmit={(value, { resetForm }) => {
+                    handleRegister({ ...value }, resetForm)
                 }}
             >
                 <Form className='flex flex-col w-full gap-y-3.5'>
@@ -38,7 +60,7 @@ const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
                         <InputComponent name='email' type="email" label='Enter email address' />
                     </div>
                     <div className='flex flex-col items-center justify-center gap-y-2.5'>
-                        <ButtonComponent type="submit" className='rounded-[35px]'>Send code</ButtonComponent>
+                        <ButtonComponent loading={isLoading} disabled={isLoading} type="submit" className='rounded-[35px]'>Send code</ButtonComponent>
                         <p className='text-mauve text-sm'>Back to <span onClick={login} className="text-pink cursor-pointer font-semibold">sign in</span> or <span onClick={signup} className="text-pink cursor-pointer font-semibold">sign up</span></p>
                     </div>
                 </Form>

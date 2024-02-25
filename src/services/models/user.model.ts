@@ -1,14 +1,16 @@
 import { FetchStatusType } from "./shared.model";
 
-// 
+
 export interface UsersModel {
-    id: string;
+    _id: string;
     username: string;
     emailVerified: boolean;
     email: string;
     password: string;
+    role: string
+    accountDisabled: boolean
     profilePic?: string;
-    deletedAt?: Date;
+    lastActive?: Date;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -25,4 +27,8 @@ export interface RegisterUser {
     // acceptedTerms: boolean;
     email: string;
     password: string;
+}
+
+export interface ForgotPassword {
+    email: string;
 }
