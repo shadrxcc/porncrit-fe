@@ -23,7 +23,7 @@ export default function Home() {
   const [forgotPassword, setForgotPassword] = useState(false)
 
 
- function closeModal() {
+  function closeModal() {
     setSignUp(false)
     setLogin(false)
     setForgotPassword(false)
@@ -58,9 +58,9 @@ export default function Home() {
 
   return (
     <main className="lg:w-4/5 mx-auto">
-     <MyModal isOpen={login} closeModal={closeModal}><SignInComponent close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
-      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal> 
+      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal>
       <HeroComponent signup={openSignUp} />
       {/* <div>
       <div className="flex flex-[2_1_0] flex-col gap-y-5"></div>

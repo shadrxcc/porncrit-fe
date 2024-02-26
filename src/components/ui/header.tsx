@@ -230,7 +230,7 @@ const Header = () => {
               <ProfileSvg />
               <p>Profile</p>
             </div></Link><ButtonComponent
-              onClick={openLogin}
+              onClick={logOut}
               variant="secondary"
               className="rounded-primary !p-0 !justify-start !text-xs"
             >
