@@ -3,9 +3,13 @@ import axios from "axios";
 import { CustomError } from "../models/shared.model";
 import { API_URL } from "../utils";
 
+interface LoginParams {
+    verify: ()=>void;
+}
+
 export const asyncLoginUser = createAsyncThunk(
     "auth/fetchAuth",
-    async ({ email, password }: { email: string; password: string }) => {
+    async ({ email, password, verify }: { email: string; password: string; verify: () => void }) => {
         try {
             const response = await axios.post(`${API_URL}/auth/login`, {
                 email,
@@ -17,13 +21,21 @@ export const asyncLoginUser = createAsyncThunk(
         } catch (error) {
             const customError = error as CustomError;
 
-            const errorMessage =
-                customError?.response?.data?.message ||
-                customError?.response?.data?.error?.message ||
-                customError.message ||
-                "There was an error";
+            if (customError.response?.status === 403) {
+                console.log(customError.response.data?.data);
+                verify()
+            } else {
 
-            throw new Error(errorMessage);
+                const errorMessage =
+                    customError?.response?.data?.message ||
+                    customError.message ||
+                    "There was an error";
+
+                throw new Error(errorMessage);
+            }
+
+
+
         }
     }
 );
@@ -36,13 +48,12 @@ export const getUserProfile = createAsyncThunk(
             const response = await axios.get(`${API_URL}/users/get-current-user`);
             const user = response.data;
             console.log(user);
-            
+
             return user;
         } catch (error) {
             const customError = error as CustomError;
             const errorMessage =
                 customError?.response?.data?.message ||
-                customError?.response?.data?.error?.message ||
                 customError.message ||
                 "There was an error";
             throw new Error(errorMessage);

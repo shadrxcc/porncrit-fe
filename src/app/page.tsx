@@ -12,6 +12,7 @@ import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
 import SignInComponent from "@/components/ui/sign-in.component";
 import SignupComponent from "@/components/ui/signup-form.component";
+import VerifyEmailComponent from "@/components/ui/verify-email.component";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -58,7 +59,8 @@ export default function Home() {
 
   return (
     <main className="lg:w-4/5 mx-auto">
-      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent /></MyModal>
+      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal>
       <HeroComponent signup={openSignUp} />

@@ -34,7 +34,6 @@ const interceptor = (store: StoreType): void => {
 
                 const errorMessage =
                     customError?.response?.data?.message ||
-                    customError?.response?.data?.error?.message ||
                     customError.message ||
                     "There was an error";
 

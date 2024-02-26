@@ -218,7 +218,7 @@ const Header = () => {
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
-      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+      <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
 
       <div className="flex items-center gap-x-6 lg:hidden">
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>

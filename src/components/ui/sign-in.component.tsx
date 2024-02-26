@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { asyncLoginUser } from '@/services/auth-services/async-actions';
 
-const SignInComponent = ({ forgot, signup, close }: { forgot: () => void, signup: () => void, close: () => void }) => {
+const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void, signup: () => void, close: () => void, verify: () => void }) => {
     const authStatus = useSelector(selectAuthStatus);
     const loading = authStatus === "pending";
     const dispatch: AppDispatchType = useDispatch();
@@ -18,6 +18,7 @@ const SignInComponent = ({ forgot, signup, close }: { forgot: () => void, signup
             asyncLoginUser({
                 email: values.email,
                 password: values.password,
+                verify
             })
         )
             .finally(() => {
