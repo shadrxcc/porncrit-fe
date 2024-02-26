@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <main className="lg:w-4/5 mx-auto">
-      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent /></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin}/></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal>

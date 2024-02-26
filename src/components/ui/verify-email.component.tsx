@@ -3,11 +3,21 @@ import * as Yup from "yup";
 import React, { useEffect, useState } from 'react'
 import OtpInput from "react-otp-input";
 import ButtonComponent from '../shared/button.component'
+import axios from 'axios';
+import { API_URL } from '@/services/utils';
+import { toast } from 'react-toastify';
 
-const VerifyEmailComponent = () => {
+type VerifyEmailProps = {
+    userId: string;
+    verificationCode: string
+}
+
+const VerifyEmailComponent = ({signin}:{signin:()=>void}) => {
     const [isLoading, setLoading] = useState(false)
     const [email, setEmail] = useState(false)
     const [otp, setOtp] = useState("");
+    const [userId, setUserId] = useState("");
+
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -15,9 +25,26 @@ const VerifyEmailComponent = () => {
             if (userData) {
                 const decryptedData = JSON.parse(userData);
                 setEmail(decryptedData?.email);
+                setUserId(decryptedData?._id)
+                
             } else console.log("/sign-up");
         }
     }, []);
+
+    const handleVerify = (props: VerifyEmailProps) => {
+        setLoading(true)
+        axios.post(`${API_URL}/auth/verify-email`, { ...props })
+            .then(() => {
+                toast.success("Email verified!")
+                signin()
+            })
+            .catch((err) => {
+                console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
+                setLoading(false);
+            });
+    }
+
+
 
     return (
         <div className='flex flex-col items-center gap-y-4 '>
@@ -25,19 +52,15 @@ const VerifyEmailComponent = () => {
                 <p className='text-mauve text-sm'>Please enter the 4 digit code we emailed to {email}. </p>
             </div>
             <Formik
-                initialValues={{
-                    email: "",
-                }}
+                initialValues={{}}
                 validationSchema={Yup.object({
-                    email: Yup.string()
-                        .email("Invalid email address")
-                        .required("Email Required")
-                        .matches(
-                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            "Invalid email address pattern"
-                        ),
                 })}
                 onSubmit={() => {
+                    const params = {
+                        verificationCode: otp, userId
+                    };
+                    handleVerify(params)
+
 
                 }}
             >
@@ -48,7 +71,7 @@ const VerifyEmailComponent = () => {
                         numInputs={4}
                         containerStyle="otp-input"
                         inputStyle="otp"
-                        renderInput={(props) => <input {...props} />}
+                        renderInput={(props) => <input name='otp' {...props} />}
                     />
                     <div className='flex flex-col items-center justify-center gap-y-2.5'>
                         <ButtonComponent loading={isLoading} disabled={isLoading} type="submit" className='rounded-[35px]'>Enter</ButtonComponent>

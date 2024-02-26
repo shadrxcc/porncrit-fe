@@ -7,11 +7,10 @@ import { useState } from "react";
 import MyModal from "@/components/shared/modal.component";
 import WriteReview from "@/components/ui/write-review.component";
 import VideoListed from "@/components/ui/video-listed.component";
-import VideoLikedComponent from "@/components/ui/video-liked.component";
+
 import VideoViewed from "@/components/ui/video-viewed.component";
 import AddListComponent from "@/components/ui/addtolist.component";
-import { Disclosure, Transition } from "@headlessui/react";
-import { ChevronUpIcon } from "@heroicons/react/20/solid";
+
 import ListCommentComponent from "@/components/ui/listcomment.component";
 import ListLikeComponent from "@/components/ui/listlike.component";
 import VideoInfo from "@/components/ui/video-info.component";
@@ -116,9 +115,9 @@ const Video = () => {
         <div className="flex items-center gap-x-3">
           <img src="/assets/images/user.png" width={35} alt="" />
           <Link href={`/videos/write-review`}>
-          <ButtonComponent className="!py-1 !px-7">
-            Write your review
-          </ButtonComponent>
+            <ButtonComponent className="!py-1 !px-7">
+              Write your review
+            </ButtonComponent>
           </Link>
         </div>
 

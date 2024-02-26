@@ -96,6 +96,7 @@ const Header = () => {
 
   function verifyMail() {
     setSignUp(false)
+    setLogin(false)
     setVerifyMail(true)
   }
 
@@ -216,7 +217,7 @@ const Header = () => {
 
       <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
-      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent /></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
 

@@ -18,11 +18,11 @@ const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void
             asyncLoginUser({
                 email: values.email,
                 password: values.password,
-                verify
+                verify, close
             })
         )
             .finally(() => {
-                close()
+
             });
     }
 

@@ -3,43 +3,39 @@ import axios from "axios";
 import { CustomError } from "../models/shared.model";
 import { API_URL } from "../utils";
 
+
 interface LoginParams {
-    verify: ()=>void;
-}
-
-export const asyncLoginUser = createAsyncThunk(
+    verify: () => void;
+    close: () => void;
+  }
+  
+  export const asyncLoginUser = createAsyncThunk(
     "auth/fetchAuth",
-    async ({ email, password, verify }: { email: string; password: string; verify: () => void }) => {
-        try {
-            const response = await axios.post(`${API_URL}/auth/login`, {
-                email,
-                password,
-            });
-            localStorage.setItem("pcK", response.data.data.token.accessToken);
-            const user = response.data.data;
-            return user;
-        } catch (error) {
-            const customError = error as CustomError;
-
-            if (customError.response?.status === 403) {
-                console.log(customError.response.data?.data);
-                verify()
-            } else {
-
-                const errorMessage =
-                    customError?.response?.data?.message ||
-                    customError.message ||
-                    "There was an error";
-
-                throw new Error(errorMessage);
-            }
-
-
-
+    async ({ email, password, verify,close }: LoginParams & { email: string; password: string }) => {
+      try {
+        const response = await axios.post(`${API_URL}/auth/login`, {
+          email,
+          password,
+        });
+        localStorage.setItem("pcK", response.data.data.token.accessToken);
+        close()
+        const user = response.data.data;
+        return user;
+      } catch (error) {
+        const customError = error as CustomError;
+  
+        if (customError.response?.status === 403) {
+          verify();
+        } else {
+          const errorMessage =
+            customError?.response?.data?.message ||
+            customError.message ||
+            "There was an error";
+          throw new Error(errorMessage);
         }
+      }
     }
-);
-
+  );
 
 export const getUserProfile = createAsyncThunk(
     "auth/profile",
