@@ -46,6 +46,7 @@ const tabs = [
 
 const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
+  const [sort, setSort] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -53,32 +54,53 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
 
   const getTabContent = () => {
     switch (activeTabIndex) {
-        case 0:
-            return <MyReviews/>
-        case 1:
-            return <MyLists/>
-        case 2:
-            return <MyFollowers/>
-        case 3:
-            return <MyLikes/>
-        case 4:
-            return <UserAbout/>
-        default:
-            return null;
+      case 0:
+        return <MyReviews />
+      case 1:
+        return <MyLists />
+      case 2:
+        return <MyFollowers />
+      case 3:
+        return <MyLikes />
+      case 4:
+        return <UserAbout />
+      default:
+        return null;
     }
-};
+  };
 
 
   return (
     <div>
-      <div className="flex gap-5 items-center">
-      <div className="flex sm:flex-row-reverse justify-end gap-x-5 items-center">
-          <Image
-            src={`/assets/icons/Sort.svg`}
-            height={24}
-            width={24}
-            alt="sort"
-          />
+      <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+        <div className='flex items-center gap-x-1'>
+          <Image onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+          {sort ? <>
+            {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Most popular</p>
+              <p>Top rated</p>
+              <p>Lowest rated</p>
+              <p>Newest</p>
+              <p>Oldest</p>
+            </div> : null}
+
+            {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Most popular</p>
+              <p>Newest</p>
+              <p>Oldest</p>
+            </div> : null}
+
+            {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto  lg:right-0 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Most popular</p>
+              <p>Newest</p>
+              <p>Oldest</p>
+
+            </div> : null}
+            {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Newest</p>
+              <p>Oldest</p>
+            </div> : null}
+          </> : null}
         </div>
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">
           {tabs.map((tab, index) => (
@@ -87,9 +109,8 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
               key={index}
             >
               <button
-                className={`${
-                  activeTabIndex === index ? "text-pink" : "text-white"
-                } py-2 px-5 relative font-medium  transition`}
+                className={`${activeTabIndex === index ? "text-pink" : "text-white"
+                  } py-2 px-5 relative font-medium  transition`}
                 style={{
                   WebkitTapHighlightColor: "transparent",
                 }}
@@ -97,14 +118,14 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
               >
                 {activeTabIndex === index && (
                   <motion.span
-                  layoutId="bubble"
-                  className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
-                  transition={{
-                    type: "spring",
-                    bounce: 0.5,
-                    duration: 0.6,
-                  }}
-                />
+                    layoutId="bubble"
+                    className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
+                    transition={{
+                      type: "spring",
+                      bounce: 0.5,
+                      duration: 0.6,
+                    }}
+                  />
                 )}
 
                 {tab.title}

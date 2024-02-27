@@ -50,9 +50,10 @@ const Video = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
+
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
-
+  const [sort, setSort] = useState(false)
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
@@ -135,14 +136,34 @@ const Video = () => {
 
 
       <div className="mt-9">
-        <div className="flex sm:flex-row-reverse justify-end gap-x-5 items-center">
-          <div className="flex items-center gap-x-1">
-            <Image
-              src={`/assets/icons/Sort.svg`}
-              height={24}
-              width={24}
-              alt="sort"
-            />
+        <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+          <div className='flex items-center gap-x-1'>
+            <Image onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+            {sort ? <>
+              {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Most popular</p>
+                <p>Top rated</p>
+                <p>Lowest rated</p>
+                <p>Newest</p>
+                <p>Oldest</p>
+              </div> : null}
+
+              {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+                <p>Most popular</p>
+                <p>Newest</p>
+                <p>Oldest</p>
+              </div> : null}
+
+              {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Newest</p>
+                <p>Oldest</p>
+
+              </div> : null}
+              {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Newest</p>
+                <p>Oldest</p>
+              </div> : null}
+            </> : null}
           </div>
           <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
             {tabs.map((tab, index) => (

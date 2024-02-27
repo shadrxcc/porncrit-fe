@@ -10,6 +10,7 @@ import PopularFanComponent from "@/components/ui/popular-fan.component";
 import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
+import ResetPasswordComponent from "@/components/ui/reset-password.component";
 import SignInComponent from "@/components/ui/sign-in.component";
 import SignupComponent from "@/components/ui/signup-form.component";
 import VerifyEmailComponent from "@/components/ui/verify-email.component";
@@ -20,7 +21,7 @@ export default function Home() {
   const [signup, setSignUp] = useState(false);
   const [login, setLogin] = useState(false);
   const [verifymail, setVerifyMail] = useState(false)
-
+  const [reset, setReset] = useState(false)
   const [forgotPassword, setForgotPassword] = useState(false)
 
 
@@ -42,6 +43,7 @@ export default function Home() {
     setSignUp(false)
     setForgotPassword(false)
     setVerifyMail(false)
+    setReset(false)
     setLogin(true);
 
   };
@@ -52,17 +54,25 @@ export default function Home() {
     setForgotPassword(true)
   }
 
+  function openResetPassword() {
+    setLogin(false)
+    setForgotPassword(false)
+    setReset(true)
+  }
+
   function verifyMail() {
     setSignUp(false)
+    setLogin(false)
     setVerifyMail(true)
   }
 
   return (
     <main className="lg:w-4/5 mx-auto">
-      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin}/></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
-      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent login={openLogin} signup={openSignUp} /></MyModal>
+      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
+      <MyModal isOpen={reset} closeModal={closeModal}><ResetPasswordComponent login={openLogin} /></MyModal>
       <HeroComponent signup={openSignUp} />
       {/* <div>
       <div className="flex flex-[2_1_0] flex-col gap-y-5"></div>

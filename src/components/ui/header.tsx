@@ -25,6 +25,7 @@ import { selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
 import { logout } from "@/services/auth-services/slice";
 import VerifyEmailComponent from "./verify-email.component";
+import ResetPasswordComponent from "./reset-password.component";
 
 
 const Header = () => {
@@ -35,6 +36,7 @@ const Header = () => {
   const [search, setSearch] = useState(false)
   const [dropdown, setDropdown] = useState(false)
   const [verifymail, setVerifyMail] = useState(false)
+  const [reset, setReset] = useState(false)
 
   const trigger = useRef<HTMLButtonElement | null>(null);
   const dropdwn = useRef<HTMLDivElement | null>(null);
@@ -84,6 +86,7 @@ const Header = () => {
     setDropdown(false)
     setForgotPassword(false)
     setVerifyMail(false)
+    setReset(false)
     setLogin(true);
 
   };
@@ -92,6 +95,12 @@ const Header = () => {
     setSignUp(false)
     setLogin(false)
     setForgotPassword(true)
+  }
+
+  function openResetPassword() {
+    setLogin(false)
+    setForgotPassword(false)
+    setReset(true)
   }
 
   function verifyMail() {
@@ -216,8 +225,9 @@ const Header = () => {
       </div>
 
       <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
-      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword login={openLogin} signup={openSignUp} /></MyModal>
+      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
+      <MyModal isOpen={reset} closeModal={closeModal}><ResetPasswordComponent login={openLogin} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
 

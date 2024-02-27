@@ -8,10 +8,12 @@ const isAuthenticated =
     typeof localStorage !== "undefined" && localStorage.getItem("pcK")
         ? true
         : false;
+        
+        
 const user =
     typeof localStorage !== "undefined" && localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user") as string)
-        : undefined;
+        : undefined;   
 
 const initialState: AuthStateType = {
     status: "idle",

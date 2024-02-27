@@ -12,13 +12,14 @@ import 'react-toastify/dist/ReactToastify.css';
 type ForgottenPasswordProps = {
     login: () => void;
     signup: () => void;
+    reset: () => void;
 }
 
 const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
-    const { login, signup } = props;
+    const { login, signup,reset } = props;
     const [isLoading, setLoading] = useState(false)
 
-    const handleRegister = (email: ForgotPassword, resetForm: { (nextState?: Partial<FormikState<{ email: string; }>> | undefined): void; (): void; }) => {
+    const handleRequest = (email: ForgotPassword, resetForm: { (nextState?: Partial<FormikState<{ email: string; }>> | undefined): void; (): void; }) => {
         setLoading(true)
         axios.post(`${API_URL}/auth/request-password-reset`, email)
             .then((res) => {
@@ -26,6 +27,7 @@ const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
                 toast.success(res?.data?.message, {
                     position: "bottom-center"
                 })
+                reset()
             })
             .catch((err) => {
                 console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
@@ -52,7 +54,7 @@ const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
                         ),
                 })}
                 onSubmit={(value, { resetForm }) => {
-                    handleRegister({ ...value }, resetForm)
+                    handleRequest({ ...value }, resetForm)
                 }}
             >
                 <Form className='flex flex-col w-full gap-y-3.5'>

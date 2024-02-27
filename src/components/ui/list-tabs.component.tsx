@@ -40,6 +40,7 @@ const tabs = [
 
 const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
+  const [sort, setSort] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -54,7 +55,7 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
       case 2:
         return <ListLikes />
       case 3:
-        return <ListAbout/>
+        return <ListAbout />
       default:
         return null;
     }
@@ -63,13 +64,29 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
 
   return (
     <div>
-      <div className="flex sm:flex-row-reverse justify-end gap-x-5 items-center">
-        <Image
-          src={`/assets/icons/Sort.svg`}
-          height={24}
-          width={24}
-          alt="sort"
-        />
+      <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+      <div className='flex items-center gap-x-1'>
+          <Image onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+          {sort ? <>
+            {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Top rated</p>
+              <p>Lowest rated</p>
+              <p>Newest</p>
+              <p>Oldest</p>
+            </div> : null}
+
+            {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Most popular</p>
+              <p>Newest</p>
+              <p>Oldest</p>
+            </div> : null}
+
+            {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              <p>Newest</p>
+              <p>Oldest</p>
+            </div> : null}
+          </> : null}
+        </div>
 
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">
           {tabs.map((tab, index) => (
