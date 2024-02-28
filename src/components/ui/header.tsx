@@ -37,7 +37,7 @@ const Header = () => {
   const [search, setSearch] = useState(false)
   const [dropdown, setDropdown] = useState(false)
   const [verifymail, setVerifyMail] = useState(false)
-  const [reset, setReset] = useState(true)
+  const [reset, setReset] = useState(false)
   const [confirmreset, setConfirmReset] = useState(false)
 
 
