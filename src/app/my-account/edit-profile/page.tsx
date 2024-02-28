@@ -55,33 +55,37 @@ const EditProfile = () => {
           </p>
         </div>
       </div>
+      <Formik initialValues={{}}
+        validationSchema={Yup.object({})}
+        onSubmit={() => {}}>
+        <Form className="space-y-7">
+          <div className="flex flex-col gap-y-7 mt-4">
+            <Input name="username" placeholder="@Current username" label="Username" />
+            <Input name="bio"
+              placeholder="Let your fellow videos fans know a bit about you..."
+              label="Bio"
+            />
+            <div className="flex flex-col gap-y-4">
+              <Input name="tags"
+                placeholder="Start typing and pick your 3 favourite tags"
+                label="Favorite Tags"
+              />
+              <SelectTagComponent />
+            </div>
+            <div className="flex flex-col gap-y-4">
+              <Input name="performers"
+                placeholder="Start typing and pick your 3 favourite performers"
+                label="Favorite Performers"
+              />
+              <SelectPerformer />
+            </div>
+          </div>
+          <ButtonComponent className="!w-fit m-auto">
+            Save changes
+          </ButtonComponent>
+        </Form>
+      </Formik>
 
-      <div className="space-y-7">
-        {/* <div className="flex flex-col gap-y-7 mt-4">
-          <Input name="username" placeholder="@Current username" label="Username" />
-          <Input name="bio"
-            placeholder="Let your fellow videos fans know a bit about you..."
-            label="Bio"
-          />
-          <div className="flex flex-col gap-y-4">
-            <Input name="tags"
-              placeholder="Start typing and pick your 3 favourite tags"
-              label="Favorite Tags"
-            />
-            <SelectTagComponent />
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <Input name="performers"
-              placeholder="Start typing and pick your 3 favourite performers"
-              label="Favorite Performers"
-            />
-            <SelectPerformer />
-          </div>
-        </div> */}
-        <ButtonComponent className="!w-fit m-auto">
-          Save changes
-        </ButtonComponent>
-      </div>
       <Formik initialValues={{
         currentPassword: "",
         newPassword: "",
