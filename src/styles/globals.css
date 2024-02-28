@@ -3,19 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --toastify-color-light: #fff;
-  --toastify-color-dark: #121212;
-  --toastify-color-info: #3498db;
   --toastify-color-success: #F71D7F;
-  --toastify-color-warning: #f1c40f;
-  --toastify-color-error: #e74c3c;
-  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
-  --lightpink: #F71D7F;
-
-  --toastify-icon-color-info: var(--toastify-color-info);
-  --toastify-icon-color-success: var(--toastify-color-success);
-  --toastify-icon-color-warning: var(--toastify-color-warning);
-  --toastify-icon-color-error: var(--toastify-color-error);
+  --toastify-color-warning: #F71D7F;
+  --toastify-color-error: #F71D7F;
 }
 
 @font-face {

@@ -4,7 +4,7 @@ import List from '@/components/ui/general-list.component'
 import { motion } from 'framer-motion'
 
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -16,6 +16,25 @@ const tabs = [
 const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [sort, setSort] = useState(false)
+  const trigger = useRef<HTMLImageElement | null>(null);
+  const dropdwn = useRef<HTMLDivElement | null>(null);
+
+  // close on click outside
+  useEffect(() => {
+    const clickHandler = ({ target }: MouseEvent) => {
+      if (!dropdwn.current) return;
+      const targetNode = target as Node;
+      if (
+        !sort ||
+        dropdwn.current.contains(targetNode) ||
+        trigger.current?.contains(targetNode)
+      )
+        return;
+      setSort(false);
+    };
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  });
 
   return (
     <div className='mx-auto flex flex-col gap-y-8  md:w-standard'>
@@ -29,22 +48,22 @@ const page = () => {
       <div className='flex flex-col gap-y-7'>
       <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
       <div className='flex items-center gap-x-1'>
-            <Image onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+            <Image ref={trigger} onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
             {sort ? <>
-              {activeTab.id === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              {activeTab.id === 1 ? <div ref={dropdwn} className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
                 <p>This week</p>
                 <p>This Month</p>
                 <p>This Month</p>
                 <p>This Month</p>
               </div> : null}
 
-              {activeTab.id === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              {activeTab.id === 2 ? <div ref={dropdwn} className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
                 <p>Most popular</p>
                 <p>Top rated</p>
                 <p>Lowest rated</p>
               </div> : null}
 
-              {activeTab.id === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
+              {activeTab.id === 3 ? <div ref={dropdwn} className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
                 <p>Most popular</p><p>Newest</p>
                 <p>Oldest</p>
                 <p>Top rated</p>

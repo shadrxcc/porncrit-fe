@@ -125,6 +125,7 @@ const Header = () => {
   }
 
   function toggleDropdown() {
+    setMenu(false);
     setDropdown(!dropdown)
   }
 

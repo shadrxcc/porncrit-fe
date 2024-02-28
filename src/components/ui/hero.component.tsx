@@ -13,8 +13,10 @@ const HeroComponent = ({ signup }: { signup: () => void }) => {
     const user = useSelector(selectAuthUser);
 
     useEffect(() => {
-        dispatch(getUserProfile());
-    }, [dispatch]);
+        if (isAuthenticated) {
+            dispatch(getUserProfile());
+        }
+    }, [dispatch, isAuthenticated]);
 
 
     return (
