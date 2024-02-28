@@ -9,6 +9,8 @@ import TagListComponent from "@/components/ui/tag-lists.component";
 import TagLikeComponent from "@/components/ui/tag-like.component";
 import TagFansComponent from "@/components/ui/tag-fans.component";
 import List from "@/components/ui/general-list.component";
+import ButtonComponent from "@/components/shared/button.component";
+import { DaySvg } from "@/components/shared/day.component";
 
 
 
@@ -62,35 +64,35 @@ const page = () => {
         <div className="space-y-5 md:w-standard mt-8 mx-auto">
             <h1 className="text-xl font-extrabold leading-7">{tabs[activeTabIndex].subheading}</h1>
             <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
-                <div className='flex items-center gap-x-1'>
-                    <img onClick={()=>setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+            <div className='flex items-center gap-x-1'>
+                    <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
 
                     {sort ? <>
-                        {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-                            <p>Most popular</p>
-                            <p>Top rated</p>
-                            <p>Lowest rated</p>
-                            <p>Newest</p>
-                            <p>Oldest</p>
+                        {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /><p>Top rated</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
                         </div> : null}
 
-                        {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-                            <p>Most popular</p>
-                            <p>Newest</p>
-                            <p>Oldest</p>
+                        {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32 flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
                         </div> : null}
 
-                        {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-
-                            <p>Newest</p>
-                            <p>Oldest</p>
-
+                        {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32 flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                            <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
                         </div> : null}
-                        {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-                            <p>Most popular
-                            </p>
-                            <p>Recently active
-                            </p>   <p>Biggest Fan</p>
+                        {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                            <div className='flex items-center gap-x-2'><DaySvg /><p>Most popular
+                            </p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Recently active
+                            </p></div>
+                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Biggest Fan
+                            </p></div>
                         </div> : null}
                     </> : null}
                 </div>

@@ -7,10 +7,11 @@ import Image from "next/image";
 import MyLikes from "./mylikes.component";
 import MyFollowers from "./myfollowers";
 import MyLists from "./mylist.component";
-import UserReviews from "./user-reviews.component";
+
 import UserAbout from "./user-bio";
 import MyReviews from "./myreviews.component";
-
+import { DaySvg } from '@/components/shared/day.component'
+import ButtonComponent from "../shared/button.component";
 
 export type Tab = {
   id: string;
@@ -74,31 +75,30 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
     <div>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
-          <Image onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+        <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
           {sort ? <>
-            {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <p>Most popular</p>
-              <p>Top rated</p>
-              <p>Lowest rated</p>
-              <p>Newest</p>
-              <p>Oldest</p>
+            {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /><p>Top rated</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
             </div> : null}
 
-            {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <p>Most popular</p>
-              <p>Newest</p>
-              <p>Oldest</p>
+            {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
             </div> : null}
 
-            {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto  lg:right-0 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <p>Most popular</p>
-              <p>Newest</p>
-              <p>Oldest</p>
-
+            {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0 flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
             </div> : null}
-            {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <p>Newest</p>
-              <p>Oldest</p>
+            {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+              <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+              <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
             </div> : null}
           </> : null}
         </div>

@@ -7,10 +7,14 @@ import SelectTagComponent from "@/components/ui/select-tag.component";
 import { Form, Formik, FormikState } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
+import { AppDispatchType } from "@/services/config-store";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuthUser } from "@/services/auth-services/selector";
+import { getUserProfile } from "@/services/auth-services/async-actions";
 
 type ChangePasswordProps = {
   currentPassword: string;
@@ -19,6 +23,15 @@ type ChangePasswordProps = {
 
 const EditProfile = () => {
   const [isChangePassword, setChangePassword] = useState(false)
+  const dispatch: AppDispatchType = useDispatch()
+  const user = useSelector(selectAuthUser);
+
+
+  
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
 
 
   function changePassword(props: ChangePasswordProps, resetForm: {
@@ -60,7 +73,7 @@ const EditProfile = () => {
         onSubmit={() => {}}>
         <Form className="space-y-7">
           <div className="flex flex-col gap-y-7 mt-4">
-            <Input name="username" placeholder="@Current username" label="Username" />
+            <Input name="username" placeholder={`@${user?.username}`} label="Username" />
             <Input name="bio"
               placeholder="Let your fellow videos fans know a bit about you..."
               label="Bio"

@@ -4,7 +4,9 @@ import List from '@/components/ui/general-list.component'
 import { motion } from 'framer-motion'
 
 import Image from 'next/image'
+import { DaySvg } from '@/components/shared/day.component'
 import React, { useEffect, useRef, useState } from 'react'
+import ButtonComponent from '@/components/shared/button.component'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -16,7 +18,7 @@ const tabs = [
 const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [sort, setSort] = useState(false)
-  const trigger = useRef<HTMLImageElement | null>(null);
+  const trigger = useRef<HTMLButtonElement | null>(null);
   const dropdwn = useRef<HTMLDivElement | null>(null);
 
   // close on click outside
@@ -46,29 +48,31 @@ const page = () => {
       </div>
 
       <div className='flex flex-col gap-y-7'>
-      <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
-      <div className='flex items-center gap-x-1'>
-            <Image ref={trigger} onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
+        <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
+          <div className='flex items-center gap-x-1'>
+          <ButtonComponent ref={trigger} onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
             {sort ? <>
-              {activeTab.id === 1 ? <div ref={dropdwn} className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-                <p>This week</p>
-                <p>This Month</p>
-                <p>This Month</p>
-                <p>This Month</p>
+              {activeTab.id === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                <div className='flex items-center gap-x-2'><DaySvg /><p>This week</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>This Month</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /><p>This Year
+                </p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /><p>All Time
+                </p></div>
               </div> : null}
 
-              {activeTab.id === 2 ? <div ref={dropdwn} className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-                <p>Most popular</p>
-                <p>Top rated</p>
-                <p>Lowest rated</p>
+              {activeTab.id === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Top rated</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
               </div> : null}
 
-              {activeTab.id === 3 ? <div ref={dropdwn} className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-                <p>Most popular</p><p>Newest</p>
-                <p>Oldest</p>
-                <p>Top rated</p>
-                <p>Lowest rated</p>
-
+              {activeTab.id === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Top rated</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
               </div> : null}
             </> : null}
           </div>
