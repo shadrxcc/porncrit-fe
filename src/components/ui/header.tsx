@@ -72,6 +72,8 @@ const Header = () => {
     setLogin(false)
     setForgotPassword(false)
     setVerifyMail(false)
+    setReset(false)
+    setConfirmReset(false)
   }
 
   function openSignUp() {

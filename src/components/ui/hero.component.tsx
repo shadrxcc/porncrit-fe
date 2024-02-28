@@ -1,10 +1,22 @@
-import { useSelector } from "react-redux";
+"use client"
+
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../shared/button.component"
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
+import { AppDispatchType } from "@/services/config-store";
+import { useEffect } from "react";
+import { getUserProfile } from "@/services/auth-services/async-actions";
 
 const HeroComponent = ({ signup }: { signup: () => void }) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const dispatch: AppDispatchType = useDispatch()
     const user = useSelector(selectAuthUser);
+
+    useEffect(() => {
+        dispatch(getUserProfile());
+    }, [dispatch]);
+
+
     return (
         <div className="flex px-4 flex-col mt-8 gap-y-8 items-center text-center justify-center w-fit m-auto">
             <div className="flex flex-col gap-y-[25px] items-center">

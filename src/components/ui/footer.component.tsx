@@ -7,7 +7,7 @@ const FooterComponent = () => {
         <Link href={`#`}>
           <p>Porncrit Ltd.</p>
         </Link>
-        <Link href={`#`}>
+        <Link href={`/terms`}>
           <p>Terms</p>
         </Link>
         <Link href={`#`}>
