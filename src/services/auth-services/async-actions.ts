@@ -18,7 +18,6 @@ export const asyncLoginUser = createAsyncThunk(
         password,
       });
       const user = response.data.data;
-      localStorage.setItem("user", JSON.stringify(user.user));
       localStorage.setItem("pcK", response.data.data.token.accessToken);
 
       close();
