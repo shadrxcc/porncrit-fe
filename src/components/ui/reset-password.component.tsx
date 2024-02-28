@@ -18,7 +18,7 @@ type NewProps = {
 }
 
 
-const ConfirmOtpComponent = ({ login, reset }: { login: () => void, reset: () => void }) => {
+const ConfirmOtpComponent = ({ reset }: { reset: () => void }) => {
     const [isLoading, setLoading] = useState(false)
     const [otp, setOtp] = useState("");
 
@@ -30,7 +30,6 @@ const ConfirmOtpComponent = ({ login, reset }: { login: () => void, reset: () =>
                     position: "bottom-center"
                 })
                 reset()
-                login()
             })
             .catch((err) => {
                 console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')

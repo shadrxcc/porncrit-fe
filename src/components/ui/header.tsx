@@ -240,7 +240,7 @@ const Header = () => {
       <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
-      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent reset={openReset} login={openLogin} /></MyModal>
+      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent reset={openReset} /></MyModal>
       <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent login={openLogin} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
