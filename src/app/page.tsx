@@ -2,6 +2,7 @@
 
 import ButtonComponent from "@/components/shared/button.component";
 import MyModal from "@/components/shared/modal.component";
+import FollowerComponent from "@/components/ui/follower.component";
 import ForgottenPasswordComponent from "@/components/ui/forgotten-password.component";
 
 import HeroComponent from "@/components/ui/hero.component";
@@ -79,7 +80,7 @@ export default function Home() {
   }
 
   return (
-    <main className="lg:w-4/5 mx-auto">
+    <main className="md:w-standard mx-auto">
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
@@ -112,9 +113,11 @@ export default function Home() {
           </div>
         </div>
       </div> */}
-      <div className="flex mt-11 flex-col sm:flex-row m-auto gap-y-10 sm:gap-x-6 xl:gap-x-20">
-        <div className="flex flex-[2_1_0] flex-col gap-y-5">
-          <p className="text-xl font-bold">Popular reviews this week</p>
+      <div className="flex mt-11 flex-col m-auto gap-y-10 sm:gap-x-6 xl:gap-x-20">
+        <div className="flex flex-col gap-y-5">
+          <div className="space-y-2.5"><p className="text-xl font-bold">Popular reviews this week</p>
+            <p className='text-sm text-mauve'>Click the video title to discover popular videos reviewed by fans</p></div>
+
           <div className="flex flex-col gap-y-10">
             {[1, 2, 3, 4].map((e) => (
               <PopularReviewsComponent key={e} />
@@ -122,9 +125,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex-[1.2_1_0] space-y-5">
+        <div className="space-y-11">
           <div className="flex flex-col gap-y-5">
-            <p className="text-xl font-bold">Popular lists</p>
+            <div className="space-y-2.5">
+              <p className="text-xl font-bold">Popular lists</p>
+              <p className='text-sm text-mauve'>
+                Click the list title to explore the fans catalogue
+              </p>
+            </div>
+            <p className="text-xl font-bold"></p>
             <div className="flex flex-col gap-y-7">
               {[1, 2, 3].map((e) => (
                 <PopularListComponent key={e} />
@@ -133,25 +142,34 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col gap-y-6">
-            <p className="text-xl font-bold">Most popular fan</p>
-            <PopularFanComponent />
+            <div className="space-y-2.5">
+              <p className="text-xl font-bold">Most popular fan this week</p>
+              <p className='text-sm text-mauve'>
+                Join PornCrit to connect with the biggest porn fans
+              </p>
+            </div>
+
+            <FollowerComponent />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-10 lg:gap-x-16 xl:gap-x-20 xl:flex-row mt-11">
-        <div className=" flex-[2_1_0] flex flex-col gap-y-6">
-          <div className="flex flex-col gap-y-3.5">
+      <div className="flex flex-col gap-y-10 lg:gap-x-16 xl:gap-x-20 mt-11">
+        <div className="flex flex-col gap-y-6">
+          <div className="flex flex-col gap-y-2.5">
             <p className="text-xl font-bold">Porndle</p>
-            <p className="text-sm">The daily guess the pornstar game</p>
+            <p className="text-sm text-mauve">The daily guess the pornstar game</p>
           </div>
 
           <PorndleComponent />
         </div>
 
-        <div className="flex-[1.2_1_0] space-y-6">
+        <div className="space-y-6 mt-11">
           <div className="flex flex-col gap-y-5">
-            <p className="text-xl font-bold">Popular tags this week</p>
+            <div className="flex flex-col gap-y-2.5">
+              <p className="text-xl font-bold">Popular tags this week</p>
+              <p className="text-sm text-mauve">Click a tag to find videos fans have reviewed, listed and liked</p>
+            </div>
             <div className="flex flex-wrap items-center gap-4">
               <Link href={`/tags`}>
                 <ButtonComponent className="rounded-[20px]" variant="tags">
@@ -185,37 +203,38 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-y-3">
-            <p className="text-xl font-bold">Popular star</p>
-            <Link href={`/performer`}> <div className="flex items-center gap-x-2">
-              <img
-                className="cursor-pointer"
-                width={50}
-                src="/assets/images/tori.png"
-                alt="tori"
-              />
-              <ButtonComponent className="rounded-[20px]" variant="tags">
-                Tori Black
-              </ButtonComponent>
+          <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-2.5">
+              <p className="text-xl font-bold">Most popular pornstar this week</p>
+              <p className="text-sm text-mauve">Click on a stars name to discover their most popular videos</p>
             </div>
+
+            <Link href={`/performer`}>
+              <div className="flex items-center gap-x-2">
+                <img
+                  className="cursor-pointer"
+                  width={40}
+                  src="/assets/images/tori.png"
+                  alt="tori"
+                />
+                <ButtonComponent className="rounded-[20px]" variant="tags">
+                  Tori Black
+                </ButtonComponent>
+              </div>
             </Link>
 
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-y-10 lg:gap-x-16 xl:gap-x-20 mt-11">
-
-      </div>
-
-      <div className="flex flex-col gap-y-9 mt-11">
+      {/* <div className="flex flex-col gap-y-9 mt-11">
         <p className="text-xl font-bold">Industry news</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-7">
           {[1, 2, 3, 4].map((e) => (
             <IndustryNewsComponent key={e} />
           ))}
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }

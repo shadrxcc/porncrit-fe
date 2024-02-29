@@ -4,7 +4,8 @@ import ButtonComponent from '@/components/shared/button.component'
 import { DaySvg } from '@/components/shared/day.component'
 import FollowerComponent from '@/components/ui/follower.component'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { useSelector } from 'react-redux'
+import { selectIsAuthenticated } from '@/services/auth-services/selector'
 import React, { useState } from 'react'
 
 const tabs = [
@@ -16,13 +17,17 @@ const tabs = [
 const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [sort, setSort] = useState(false)
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  
   return (
     <div className='mx-auto mt-8 flex flex-col gap-y-8 md:w-standard'>
       <div className='w-fit space-y-1'>
         <p className='text-xl font-bold'>Fans</p>
-        {/* show when signed in */}
-        {/* <p className='text-sm text-mauve'>Connect with fans who love the porn you love</p> */}
-        <p className='text-sm text-pink'>Join <span className='text-mauve'>PornCrit to find and follow porn fans</span></p>
+        {isAuthenticated ?
+          <p className='text-sm text-mauve'>Connect with fans who love the porn you love</p>
+          :
+          <p className='text-sm text-pink'>Join <span className='text-mauve'>PornCrit to find and follow porn fans</span></p>
+        }      
       </div>
 
       <div className='flex flex-col gap-y-7'>

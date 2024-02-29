@@ -3,18 +3,31 @@
 import ButtonComponent from "@/components/shared/button.component";
 import MyProfileTabComponent from "@/components/ui/my-profile-tab.component";
 import { getUserProfile } from "@/services/auth-services/async-actions";
-import { selectAuthUser } from "@/services/auth-services/selector";
+import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const page = () => {
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  const router = useRouter()
+  useEffect(() => {
+    if (!isAuthenticated) {
+       router.push("/");
+    }
+}, [isAuthenticated, router]);
+
+if (!isAuthenticated) {
+    // You can render a loading state or a redirect message here if needed
+    return null;
+}
 
 
-  
 
   useEffect(() => {
     dispatch(getUserProfile());

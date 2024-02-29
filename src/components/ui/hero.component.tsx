@@ -6,6 +6,7 @@ import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/
 import { AppDispatchType } from "@/services/config-store";
 import { useEffect } from "react";
 import { getUserProfile } from "@/services/auth-services/async-actions";
+import LinkVideoInput from "../shared/linkvideo-input";
 
 const HeroComponent = ({ signup }: { signup: () => void }) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -20,18 +21,17 @@ const HeroComponent = ({ signup }: { signup: () => void }) => {
 
 
     return (
-        <div className="flex px-4 flex-col mt-8 gap-y-8 items-center text-center justify-center w-fit m-auto">
-            <div className="flex flex-col gap-y-[25px] items-center">
+        <div className="flex px-4 flex-col mt-8 gap-y-8 items-center text-center justify-center m-auto">
+            <div className="flex flex-col gap-y-3 items-center">
                 {isAuthenticated ? <p className="text-xl font-bold">Hello, <span className="text-pink">{user?.username}</span></p>
-                    : <p className="text-xl font-bold">The social platform for lovers of porn.</p>}
-                <hr className="w-full border-none h-0.5 lg:w-[110%] bg-pink" />
-                {isAuthenticated ? <p className="text-sm">Start <span className="text-pink">following</span> fans to unlock a tailored homepage just for you.</p>
+                    : <p className="text-xl font-bold"><span className="text-pink">Join</span> the social hub for porn fans.</p>}
+                {/* <hr className="w-full border-none h-0.5 lg:w-[110%] bg-pink" /> */}
+                {isAuthenticated ? <p className="text-sm">Start <span className="text-pink">following</span> critics to discover fan favourites</p>
                     : <div className="flex flex-col gap-y-3">
-                        <p className="text-sm font-bold">Millions of videos to rate & review, discover & discuss, list, like & log.</p>
-                        <p className="text-mauve text-sm">Connect with fans who love what you love. </p>
+                        <p className="text-sm">Connect with fellow porn critics and discover the porn they love</p>
                     </div>}
             </div>
-
+            <LinkVideoInput placeholder="Paste a video link to save, rate, review, and list"/>
             {!isAuthenticated ? <Button onClick={signup} className="rounded-[35px]">Create new account</Button> : null}
         </div>
     )
