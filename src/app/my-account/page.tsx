@@ -13,19 +13,19 @@ import { useDispatch, useSelector } from "react-redux";
 const page = () => {
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+//   const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  const router = useRouter()
-  useEffect(() => {
-    if (!isAuthenticated) {
-       router.push("/");
-    }
-}, [isAuthenticated, router]);
+//   const router = useRouter()
+//   useEffect(() => {
+//     if (!isAuthenticated) {
+//        router.push("/");
+//     }
+// }, [isAuthenticated, router]);
 
-if (!isAuthenticated) {
-    // You can render a loading state or a redirect message here if needed
-    return null;
-}
+// if (!isAuthenticated) {
+//     // You can render a loading state or a redirect message here if needed
+//     return null;
+// }
 
 
 
