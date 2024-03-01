@@ -21,12 +21,13 @@ import SignoutSvg from "../shared/signout";
 import SignInSvg from "../shared/signin";
 import SignupSvg from "../shared/signup";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuthenticated } from "@/services/auth-services/selector";
+import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
 import { logout } from "@/services/auth-services/slice";
 import VerifyEmailComponent from "./verify-email.component";
 import ResetPasswordComponent, { PasswordResetComponent } from "./reset-password.component";
 import ConfirmOtpComponent from "./reset-password.component";
+import { getUserProfile } from "@/services/auth-services/async-actions";
 
 
 const Header = () => {
@@ -39,13 +40,36 @@ const Header = () => {
   const [verifymail, setVerifyMail] = useState(false)
   const [reset, setReset] = useState(false)
   const [confirmreset, setConfirmReset] = useState(false)
-
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [userId, setUserId] = useState("")
+  const [resetToken, setResetToken] = useState("")
 
   const trigger = useRef<HTMLButtonElement | null>(null);
   const dropdwn = useRef<HTMLDivElement | null>(null);
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch: AppDispatchType = useDispatch();
+
+  const user = useSelector(selectAuthUser);
+  //   const isAuthenticated = useSelector(selectIsAuthenticated);
+  
+  //   const router = useRouter()
+  //   useEffect(() => {
+  //     if (!isAuthenticated) {
+  //        router.push("/");
+  //     }
+  // }, [isAuthenticated, router]);
+  
+  // if (!isAuthenticated) {
+  //     // You can render a loading state or a redirect message here if needed
+  //     return null;
+  // }
+  
+  
+  
+    useEffect(() => {
+      dispatch(getUserProfile());
+    }, [dispatch]);
 
   // close on click outside
   useEffect(() => {
@@ -96,12 +120,15 @@ const Header = () => {
 
   };
 
-  function openReset() {
+  function openReset(userId: string, resettoken: string) {
+    setUserId(userId)
+    setResetToken(resettoken)
     setMenu(false);
     setSignUp(false)
     setDropdown(false)
     setForgotPassword(false)
     setVerifyMail(false)
+    setConfirmReset(false)
     setReset(true)
   };
 
@@ -112,7 +139,8 @@ const Header = () => {
     setForgotPassword(true)
   }
 
-  function openResetPassword() {
+  function openResetPassword(email: string) {
+    setEnteredEmail(email)
     setLogin(false)
     setForgotPassword(false)
     setConfirmReset(true)
@@ -222,7 +250,7 @@ const Header = () => {
             Sign up
           </ButtonComponent></> : null}
         {isAuthenticated ? <div>
-          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={user?.avatar||"/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
           {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             <Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
@@ -243,8 +271,8 @@ const Header = () => {
       <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
-      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent reset={openReset} /></MyModal>
-      <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent login={openLogin} /></MyModal>
+      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent email={enteredEmail} reset={openReset} /></MyModal>
+      <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
 
@@ -252,7 +280,7 @@ const Header = () => {
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
 
         <div>
-          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img src="/assets/images/user.png" width={24} alt="" /></ButtonComponent>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={user?.avatar||"/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
           {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             {isAuthenticated ? <><Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />

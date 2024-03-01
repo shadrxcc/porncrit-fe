@@ -9,7 +9,7 @@ export interface UsersModel {
     password: string;
     role: string
     accountDisabled: boolean
-    profilePic?: string;
+    avatar?: string;
     lastActive?: Date;
     createdAt?: Date;
     updatedAt?: Date;

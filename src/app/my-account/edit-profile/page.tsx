@@ -7,7 +7,7 @@ import SelectTagComponent from "@/components/ui/select-tag.component";
 import { Form, Formik, FormikState } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
@@ -23,15 +23,66 @@ type ChangePasswordProps = {
 
 const EditProfile = () => {
   const [isChangePassword, setChangePassword] = useState(false)
+  const [isAvatar, setAvatar] = useState(false)
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
+  const [imgUrl, setUrl] = useState('');
+  const inputFile = useRef<HTMLInputElement | null>(null);
+  const [avatar, setDisplayImgUrl] = useState<string | undefined>('');
 
+  const onImagePickerClick = () => {
+    inputFile && inputFile.current && inputFile.current.click();
+  };
 
-  
+  const handleImageUpload = () => {
+    if (inputFile.current && inputFile.current.files && inputFile.current.files[0]) {
+      const file = inputFile.current.files[0];
+
+      const maxFileSizeMB = 4;
+
+      if (file.size <= maxFileSizeMB * 1024 * 1024) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        fileReader.onloadend = (event: ProgressEvent<FileReader>) => {
+          const img = event.target?.result as string;
+          setUrl(img);
+        };
+      } else {
+      }
+    }
+  };
+
+  const avatarrr = avatar?.split("base64,")[1]
+  console.log(avatarrr);
+
+  function changeAvatar() {
+    setAvatar(true)
+    axiosInstance.patch(`${API_URL}/users/update-avatar`, { avatar: avatar?.split("base64,")[1] })
+      .then((res) => {
+        toast.success(res?.data?.message)
+        setChangePassword(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        setAvatar(false);
+      }).finally(() => {
+        setAvatar(false);
+      })
+  }
+
 
   useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (imgUrl) {
+      setDisplayImgUrl(imgUrl);
+    } else {
+      setDisplayImgUrl(user?.avatar);
+    }
+  }, [user, imgUrl]);
 
 
   function changePassword(props: ChangePasswordProps, resetForm: {
@@ -55,14 +106,26 @@ const EditProfile = () => {
   return (
     <div className="flex mx-auto gap-y-8 flex-col md:w-standard">
       <div className="flex flex-wrap items-center gap-y-4 gap-x-11">
-        <Image
-          src={`/assets/images/user.png`}
-          width={47}
-          height={47}
-          alt="user pfp"
-        />
+        <div className="relative flex items-center">
+          <Image
+            src={avatar || `/assets/images/user.png`}
+            width={60}
+            className="object-cover w-16 h-16 rounded-full"
+            height={60}
+            alt="user pfp"
+          />
+          <ButtonComponent onClick={onImagePickerClick} className="!p-1 -right-3 !w-fit absolute bottom-2">
+            <input type='file' ref={inputFile} id='file' style={{ display: 'none' }} name="avatar"
+              accept="image/*" onChange={handleImageUpload} />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+            </svg>
+          </ButtonComponent>
+        </div>
+
         <div className="flex items-center gap-x-6">
-          <ButtonComponent>Change avatar</ButtonComponent>
+          <ButtonComponent onClick={changeAvatar} loading={isAvatar} disabled={isAvatar}>Change avatar</ButtonComponent>
           <p className="text-sm font-medium text-mauve underline cursor-pointer">
             Delete avatar
           </p>
@@ -70,7 +133,7 @@ const EditProfile = () => {
       </div>
       <Formik initialValues={{}}
         validationSchema={Yup.object({})}
-        onSubmit={() => {}}>
+        onSubmit={() => { }}>
         <Form className="space-y-7">
           <div className="flex flex-col gap-y-7 mt-4">
             <Input name="username" placeholder={`@${user?.username}`} label="Username" />

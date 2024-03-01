@@ -25,13 +25,12 @@ const HeroComponent = ({ signup }: { signup: () => void }) => {
             <div className="flex flex-col gap-y-3 items-center">
                 {isAuthenticated ? <p className="text-xl font-bold">Hello, <span className="text-pink">{user?.username}</span></p>
                     : <p className="text-xl font-bold"><span className="text-pink">Join</span> the social hub for porn fans.</p>}
-                {/* <hr className="w-full border-none h-0.5 lg:w-[110%] bg-pink" /> */}
                 {isAuthenticated ? <p className="text-sm">Start <span className="text-pink">following</span> critics to discover fan favourites</p>
                     : <div className="flex flex-col gap-y-3">
                         <p className="text-sm">Connect with fellow porn critics and discover the porn they love</p>
                     </div>}
             </div>
-            <LinkVideoInput placeholder="Paste a video link to save, rate, review, and list"/>
+            <LinkVideoInput signup={signup} placeholder="Paste a video link to save, rate, review, and list" />
             {!isAuthenticated ? <Button onClick={signup} className="rounded-[35px]">Create new account</Button> : null}
         </div>
     )

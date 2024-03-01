@@ -36,7 +36,7 @@ const page = () => {
   return (
     <div className='mx-auto flex flex-col gap-y-8 md:w-standard'>
       <div className="flex items-center gap-x-4">
-        <img className="object-cover" width={110} src="/assets/images/user.png" alt="user" />
+        <img className="object-cover w-20 h-20 rounded-full" width={110} src={user?.avatar||"/assets/images/user.png"} alt="user" />
         <div className="flex xs:flex-col gap-y-3 xs:items-start justify-between items-center flex-1">
           <div className="flex flex-col gap-y-2">
             <p className="text-pink text-xl font-extrabold">{user?.username}</p>

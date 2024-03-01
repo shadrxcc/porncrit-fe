@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 type ForgottenPasswordProps = {
     login: () => void;
     signup: () => void;
-    reset: () => void;
+    reset: (email:string) => void;
 }
 
 const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
@@ -27,7 +27,7 @@ const ForgottenPasswordComponent = (props: ForgottenPasswordProps) => {
                 toast.success(res?.data?.message, {
                     position: "bottom-center"
                 })
-                reset()
+                reset(email.email)
             })
             .catch((err) => {
                 console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')

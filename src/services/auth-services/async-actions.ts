@@ -44,8 +44,7 @@ export const getUserProfile = createAsyncThunk(
     try {
       const response = await axiosInstance.get(`${API_URL}/users/get-current`);
       const user = response.data.data;
-      console.log(user);
-
+      
       return user;
     } catch (error) {
       const customError = error as CustomError;
