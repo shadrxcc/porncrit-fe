@@ -26,7 +26,9 @@ export default function Home() {
   const [reset, setReset] = useState(false)
   const [forgotPassword, setForgotPassword] = useState(false)
   const [confirmreset, setConfirmReset] = useState(false)
-
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [userId, setUserId] = useState("")
+  const [resetToken, setResetToken] = useState("")
 
 
 
@@ -53,10 +55,13 @@ export default function Home() {
 
   };
 
-  function openReset() {
+  function openReset(userId: string, resettoken: string) {
+    setUserId(userId)
+    setResetToken(resettoken)
     setSignUp(false)
     setForgotPassword(false)
     setVerifyMail(false)
+    setConfirmReset(false)
     setReset(true)
   };
 
@@ -67,7 +72,8 @@ export default function Home() {
     setForgotPassword(true)
   }
 
-  function openResetPassword() {
+  function openResetPassword(email: string) {
+    setEnteredEmail(email)
     setLogin(false)
     setForgotPassword(false)
     setConfirmReset(true)
@@ -85,8 +91,8 @@ export default function Home() {
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
-      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent reset={openReset} /></MyModal>
-      <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent login={openLogin} /></MyModal>
+      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent email={enteredEmail} reset={openReset} /></MyModal>
+      <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
       <HeroComponent signup={openSignUp} />
       {/* <div>
       <div className="flex flex-[2_1_0] flex-col gap-y-5"></div>
