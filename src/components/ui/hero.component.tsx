@@ -1,7 +1,6 @@
 "use client"
 
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../shared/button.component"
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
 import { useEffect } from "react";
@@ -31,7 +30,6 @@ const HeroComponent = ({ signup }: { signup: () => void }) => {
                     </div>}
             </div>
             <LinkVideoInput signup={signup} placeholder="Paste a video link to save, rate, review, and list" />
-            {!isAuthenticated ? <Button onClick={signup} className="rounded-[35px]">Create new account</Button> : null}
         </div>
     )
 }
