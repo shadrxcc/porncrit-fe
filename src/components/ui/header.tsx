@@ -52,24 +52,24 @@ const Header = () => {
 
   const user = useSelector(selectAuthUser);
   //   const isAuthenticated = useSelector(selectIsAuthenticated);
-  
+
   //   const router = useRouter()
   //   useEffect(() => {
   //     if (!isAuthenticated) {
   //        router.push("/");
   //     }
   // }, [isAuthenticated, router]);
-  
+
   // if (!isAuthenticated) {
   //     // You can render a loading state or a redirect message here if needed
   //     return null;
   // }
-  
-  
-  
-    useEffect(() => {
-      dispatch(getUserProfile());
-    }, [dispatch]);
+
+
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
 
   // close on click outside
   useEffect(() => {
@@ -250,7 +250,7 @@ const Header = () => {
             Sign up
           </ButtonComponent></> : null}
         {isAuthenticated ? <div>
-          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={user?.avatar||"/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={isAuthenticated ? user?.avatar || "/assets/images/user.png" : "/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
           {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             <Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
@@ -280,7 +280,7 @@ const Header = () => {
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
 
         <div>
-          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={user?.avatar||"/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={isAuthenticated ? user?.avatar || "/assets/images/user.png" : "/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
           {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             {isAuthenticated ? <><Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
