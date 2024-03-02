@@ -61,7 +61,6 @@ const EditProfile = () => {
           setPerformer('');
         }
       }
-
     }
   };
 
@@ -70,15 +69,14 @@ const EditProfile = () => {
       if (tag) {
         setTag(tag.slice(0, -1));
       } else if (performer) {
-        setPerformer(performer.slice(0, -1))
+        setPerformer(performer.slice(0, -1));
       }
     }
   };
 
-
   // handle input change
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.trim();
+    const inputValue = e.target.value;
     if (e.target.name === 'tags') {
       setTag(inputValue);
     } else if (e.target.name === 'performers') {
@@ -159,11 +157,14 @@ const EditProfile = () => {
       })
   }
 
-  function updateProfile(props: UpdateProfile) {
+  function updateProfile(props: UpdateProfile, resetForm: { (nextState?: Partial<FormikState<{ username: string; bio: string; }>> | undefined): void; (): void; }) {
     setIsUpdatingProfile(true)
     axiosInstance.patch(`${API_URL}/users/update-profile`, { ...props })
       .then((res) => {
         toast.success(res?.data?.message)
+        resetForm()
+        setTags([])
+        setPerformers([])
         setIsUpdatingProfile(false);
       })
       .catch((err) => {
@@ -206,13 +207,13 @@ const EditProfile = () => {
         bio: ""
       }}
         validationSchema={Yup.object({})}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           const params = {
             ...values,
             performers: performers.map((performer) => performer.performer),
             tags: tags.map((tag) => tag.tag)
           }
-          updateProfile(params);
+          updateProfile(params, resetForm);
         }}>
         <Form className="space-y-7">
           <div className="flex flex-col gap-y-7 mt-4">
@@ -270,7 +271,7 @@ const EditProfile = () => {
               )}
             </div>
           </div>
-          <ButtonComponent type="submit" className="!w-fit m-auto">
+          <ButtonComponent loading={isUpdatingProfile} disabled={isUpdatingProfile} type="submit" className="!w-fit m-auto">
             Save changes
           </ButtonComponent>
         </Form>
