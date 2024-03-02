@@ -1,7 +1,7 @@
 import ButtonComponent from "../shared/button.component";
 
 type SelectTagProps = {
-    tag: string;
+    tag?: string;
     remove?: () => void
 }
 
