@@ -161,14 +161,14 @@ const EditProfile = () => {
     setIsUpdatingProfile(true)
     axiosInstance.patch(`${API_URL}/users/update-profile`, { ...props })
       .then((res) => {
-        toast.success(res?.data?.message)
+        toast(res?.data?.message)
         resetForm()
         setTags([])
         setPerformers([])
         setIsUpdatingProfile(false);
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
         setIsUpdatingProfile(false);
       })
   }

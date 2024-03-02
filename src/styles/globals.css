@@ -8,6 +8,12 @@
   --toastify-color-error: #F71D7F;
 }
 
+.Toastify__progress-bar,
+.Toastify__progress-bar--success,
+.Toastify__progress-bar--warning {
+  background: #F71D7F !important;
+}
+
 @font-face {
   font-family: Avenir;
   src: url('/assets/fonts/AvenirLTStd-Book.otf');
