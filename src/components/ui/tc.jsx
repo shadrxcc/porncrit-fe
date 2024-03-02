@@ -32,6 +32,16 @@ const TermsAndConditions = () => {
 
             </div>
 
+            <div><p className="font-extrabold">Third-Party Links and User Content:</p>
+
+                <div className="flex flex-col gap-y-3">
+                    <p>Users may upload links to third-party websites or content. PornCrit does not endorse, control, or monitor the content of these third-party sites. We do not assume any responsibility for the accuracy, legality, or appropriateness of the content uploaded by users.</p>
+                    <p>PornCrit is not liable for any content uploaded by users, including but not limited to links, images, videos, or text. Users are solely responsible for the content they upload, and any consequences arising from such content.</p>
+                    <p>We reserve the right to remove any content that violates our Terms of Use or is deemed illegal, offensive, or inappropriate. Users found uploading illegal content will be promptly reported to the appropriate authorities, and their accounts may be blacklisted or suspended.</p>
+                    <p>By accessing and using our website, you agree that PornCrit is not liable for any user-generated content and that you use such content at your own risk.</p>
+                </div>
+            </div>
+
             <div><p className="font-extrabold">User Responsibility:</p>
 
                 You are solely responsible for your use of the Site and any content you post or transmit through the Site. You agree not to use the Site for any unlawful purpose or in a manner that violates the rights of others.
