@@ -49,7 +49,7 @@ const page = () => {
       </div>
 
       <div className="">
-        <MyProfileTabComponent />
+        <MyProfileTabComponent/>
       </div>
     </div>
   );

@@ -15,6 +15,8 @@ import { AppDispatchType } from "@/services/config-store";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "@/services/auth-services/selector";
 import { getUserProfile } from "@/services/auth-services/async-actions";
+import { PerformersType, TagsType } from "@/services/models/list.model";
+import { UpdateProfile } from "@/services/models/user.model";
 
 type ChangePasswordProps = {
   currentPassword: string;
@@ -29,6 +31,61 @@ const EditProfile = () => {
   const [imgUrl, setUrl] = useState('');
   const inputFile = useRef<HTMLInputElement | null>(null);
   const [avatar, setDisplayImgUrl] = useState<string | undefined>('');
+  const [tag, setTag] = useState('');
+  const [tags, setTags] = useState<Array<TagsType>>([]);
+  const [performer, setPerformer] = useState('');
+  const [performers, setPerformers] = useState<Array<PerformersType>>([]);
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false)
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (tag) {
+        const trimmedValue = tag.trim();
+        if (trimmedValue !== '' && !tags.some((tags) => tags.tag === trimmedValue)) {
+          setTags((prevValues) => [
+            ...prevValues,
+            { tag: String(trimmedValue) },
+          ]);
+          setTag('');
+        }
+      }
+
+      if (performer) {
+        const trimmedValue = performer.trim();
+        if (trimmedValue !== '' && !performers.some((p) => p.performer === trimmedValue)) {
+          setPerformers((prevPerformers) => [
+            ...prevPerformers,
+            { performer: String(trimmedValue) },
+          ]);
+          setPerformer('');
+        }
+      }
+
+    }
+  };
+
+  const deleteInputCharacter = (e: { key: string }) => {
+    if (e.key === 'Backspace') {
+      if (tag) {
+        setTag(tag.slice(0, -1));
+      } else if (performer) {
+        setPerformer(performer.slice(0, -1))
+      }
+    }
+  };
+
+
+  // handle input change
+  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.trim();
+    if (e.target.name === 'tags') {
+      setTag(inputValue);
+    } else if (e.target.name === 'performers') {
+      setPerformer(inputValue);
+    }
+  };
+
 
   const onImagePickerClick = () => {
     inputFile && inputFile.current && inputFile.current.click();
@@ -53,8 +110,6 @@ const EditProfile = () => {
     }
   };
 
-  const avatarrr = avatar?.split("base64,")[1]
-  console.log(avatarrr);
 
   function changeAvatar() {
     setAvatar(true)
@@ -103,6 +158,21 @@ const EditProfile = () => {
         setChangePassword(false);
       })
   }
+
+  function updateProfile(props: UpdateProfile) {
+    setIsUpdatingProfile(true)
+    axiosInstance.patch(`${API_URL}/users/update-profile`, { ...props })
+      .then((res) => {
+        toast.success(res?.data?.message)
+        setIsUpdatingProfile(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        setIsUpdatingProfile(false);
+      })
+  }
+
+
   return (
     <div className="flex mx-auto gap-y-8 flex-col md:w-standard">
       <div className="flex flex-wrap items-center gap-y-4 gap-x-11">
@@ -131,9 +201,19 @@ const EditProfile = () => {
           </p>
         </div>
       </div>
-      <Formik initialValues={{}}
+      <Formik initialValues={{
+        username: "",
+        bio: ""
+      }}
         validationSchema={Yup.object({})}
-        onSubmit={() => { }}>
+        onSubmit={(values) => {
+          const params = {
+            ...values,
+            performers: performers.map((performer) => performer.performer),
+            tags: tags.map((tag) => tag.tag)
+          }
+          updateProfile(params);
+        }}>
         <Form className="space-y-7">
           <div className="flex flex-col gap-y-7 mt-4">
             <Input name="username" placeholder={`@${user?.username}`} label="Username" />
@@ -142,21 +222,55 @@ const EditProfile = () => {
               label="Bio"
             />
             <div className="flex flex-col gap-y-4">
-              <Input name="tags"
-                placeholder="Start typing and pick your 3 favourite tags"
-                label="Favorite Tags"
-              />
-              <SelectTagComponent />
+              <div className={`flex flex-col gap-y-3`}>
+                <label className="text-lg font-bold text-white" htmlFor="tags">Favorite Tags</label>
+                <input name="tags"
+                  className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
+                  placeholder="Start typing and pick your 3 favourite tags"
+                  onChange={inputChange}
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    handleKeyPress(e);
+                    deleteInputCharacter(e);
+                  }}
+                  value={tag}
+                />
+              </div>
+
+              {tags?.length > 0 && (
+
+                <div className="flex items-center flex-wrap gap-3">
+                  {tags.map((item: TagsType) => (
+                    <SelectTagComponent key={item.tag} tag={item.tag} />
+                  ))}
+                </div>
+              )}
+
             </div>
             <div className="flex flex-col gap-y-4">
-              <Input name="performers"
-                placeholder="Start typing and pick your 3 favourite performers"
-                label="Favorite Performers"
-              />
-              <SelectPerformer />
+              <div className={`flex flex-col gap-y-3`}>
+                <label className="text-lg font-bold text-white" htmlFor="performers">Favorite Performers</label>
+                <input name="performers"
+                  className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
+                  placeholder="Start typing and pick your 3 favourite performers"
+                  onChange={inputChange}
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    handleKeyPress(e);
+                    deleteInputCharacter(e);
+                  }}
+                  value={performer}
+                />
+              </div>
+              {performers?.length > 0 && (
+
+                <div className="flex items-center flex-wrap gap-3">
+                  {performers.map((item: PerformersType) => (
+                    <SelectPerformer key={item.performer} performer={item.performer} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-          <ButtonComponent className="!w-fit m-auto">
+          <ButtonComponent type="submit" className="!w-fit m-auto">
             Save changes
           </ButtonComponent>
         </Form>

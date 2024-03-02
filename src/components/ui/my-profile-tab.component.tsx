@@ -15,7 +15,7 @@ import ButtonComponent from "../shared/button.component";
 
 export type Tab = {
   id: string;
-  title: string;
+  title: string | undefined;
 };
 
 type TabComponentProps = {
@@ -64,7 +64,7 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
       case 3:
         return <MyLikes />
       case 4:
-        return <UserAbout />
+        return <UserAbout/>
       default:
         return null;
     }

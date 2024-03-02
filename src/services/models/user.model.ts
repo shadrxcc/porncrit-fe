@@ -13,6 +13,9 @@ export interface UsersModel {
     lastActive?: Date;
     createdAt?: Date;
     updatedAt?: Date;
+    bio: string;
+    performers: string[]
+    tags: string[];
 }
 
 export type AuthStateType = {
@@ -32,3 +35,12 @@ export interface RegisterUser {
 export interface ForgotPassword {
     email: string;
 }
+
+
+export interface UpdateProfile {
+    username: string;
+    bio: string;
+    performers: string[]
+    tags: string[];
+}
+

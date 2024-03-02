@@ -1,39 +1,49 @@
+import { AppDispatchType } from "@/services/config-store";
 import ButtonComponent from "../shared/button.component"
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuthUser } from "@/services/auth-services/selector";
+import { useEffect } from "react";
+import { getUserProfile } from "@/services/auth-services/async-actions";
 
 const UserAbout = () => {
+    const dispatch: AppDispatchType = useDispatch()
+    const user = useSelector(selectAuthUser);
+
+    useEffect(() => {
+        dispatch(getUserProfile());
+    }, [dispatch]);
+
     return <div className="flex flex-col gap-y-8">
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Your bio</p>
             <p className="text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                {user?.bio}
             </p>
         </div>
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Favorite tags</p>
             <div className="flex flex-wrap items-center gap-4">
-                <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Big boobs
-                </ButtonComponent>
-                <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Brunette
-                </ButtonComponent>
-                <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Masturbation
-                </ButtonComponent>
+                {user?.tags.map((tag) => (
+                    <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
+                        {tag}
+                    </ButtonComponent>
+                ))}
             </div>
         </div>
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Favorite performers</p>
             <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-x-2">
-                    <img width={40} src="/assets/images/tori.png" alt="tori" />
-                    <ButtonComponent className="rounded-[20px]" variant="tags">
-                        Tori Black
-                    </ButtonComponent>
-                </div>
+                {user?.performers.map((performer) => (
+                    <div key={performer} className="flex items-center gap-x-2">
+                        <img width={40} src="/assets/images/tori.png" alt="tori" />
+                        <ButtonComponent className="rounded-[20px]" variant="tags">
+                            {performer}
+                        </ButtonComponent>
+                    </div>
+                ))}
+
             </div>
         </div>
 
