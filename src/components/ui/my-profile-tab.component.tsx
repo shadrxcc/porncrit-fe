@@ -75,7 +75,7 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
     <div>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
-        <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
+        <ButtonComponent className="!p-0 !w-fit" onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
           {sort ? <>
             {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
               <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>

@@ -13,10 +13,11 @@ import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import { AppDispatchType } from "@/services/config-store";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuthUser } from "@/services/auth-services/selector";
+import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import { PerformersType, TagsType } from "@/services/models/list.model";
 import { UpdateProfile } from "@/services/models/user.model";
+import { useRouter } from "next/navigation";
 
 type ChangePasswordProps = {
   currentPassword: string;
@@ -36,6 +37,16 @@ const EditProfile = () => {
   const [performer, setPerformer] = useState('');
   const [performers, setPerformers] = useState<Array<PerformersType>>([]);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false)
+
+  const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
+  const router = useRouter();
+
+  // Check if the user is not authenticated and redirect to the homepage
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/'); 
+    }
+  }, [isAuthenticated, router]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

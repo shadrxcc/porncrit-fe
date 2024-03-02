@@ -19,6 +19,7 @@ export const asyncLoginUser = createAsyncThunk(
       });
       const user = response.data.data;
       localStorage.setItem("pcK", response.data.data.token.accessToken);
+      localStorage.setItem("refreshToken",response.data.data.token.refreshToken)
 
       close();
       return user;
