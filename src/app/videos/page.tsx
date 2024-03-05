@@ -16,6 +16,7 @@ import ListLikeComponent from "@/components/ui/listlike.component";
 import VideoInfo from "@/components/ui/video-info.component";
 import Link from "next/link";
 import { DaySvg } from '@/components/shared/day.component'
+import PopularSvg from "@/components/shared/popular";
 
 
 export type Tab = {
@@ -139,30 +140,30 @@ const Video = () => {
       <div className="mt-9">
         <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
           <div className='flex items-center gap-x-1'>
-          <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
+            <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
             {sort ? <>
               {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>Top rated</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
+                <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
                 <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
                 <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
               </div> : null}
 
               {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
               </div> : null}
 
               {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
 
               </div> : null}
               {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
               </div> : null}
             </> : null}
           </div>

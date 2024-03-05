@@ -3,7 +3,6 @@
 import List from '@/components/ui/general-list.component'
 import { motion } from 'framer-motion'
 
-import Image from 'next/image'
 import { DaySvg } from '@/components/shared/day.component'
 import React, { useEffect, useRef, useState } from 'react'
 import ButtonComponent from '@/components/shared/button.component'
@@ -87,9 +86,9 @@ const page = () => {
               </div> : null}
 
               {activeTab.id === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 sm:left-auto sm:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
                 <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
                 <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
               </div> : null}

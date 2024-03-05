@@ -19,14 +19,16 @@ const page = () => {
   // Check if the user is not authenticated and redirect to the homepage
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push('/'); 
+      router.push('/');
     }
   }, [isAuthenticated, router]);
 
 
   useEffect(() => {
-    dispatch(getUserProfile());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(getUserProfile());
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <div className='mx-auto flex flex-col gap-y-8 md:w-standard'>

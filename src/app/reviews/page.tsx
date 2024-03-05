@@ -8,6 +8,10 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { DaySvg } from '@/components/shared/day.component'
 import LinkVideoInput from '@/components/shared/linkvideo-input'
+import WeekSvg from '@/components/shared/week'
+import YearSvg from '@/components/shared/year'
+import HistorySvg from '@/components/shared/history'
+import PopularSvg from '@/components/shared/popular'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -40,26 +44,26 @@ const page = () => {
           <div className='flex items-center gap-x-1'>
             <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
             {sort ? <>
-              {activeTab.id === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+              {activeTab.id === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 sm:left-auto sm:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
                 <div className='flex items-center gap-x-2'><DaySvg /><p>This week</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>This Month</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>This Year
+                <div className='flex items-center gap-x-2'><WeekSvg /> <p>This Month</p></div>
+                <div className='flex items-center gap-x-2'><YearSvg /><p>This Year
                 </p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>All Time
+                <div className='flex items-center gap-x-2'><HistorySvg /><p>All Time
                 </p></div>
               </div> : null}
 
-              {activeTab.id === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Top rated</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
+              {activeTab.id === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 sm:left-auto sm:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+                <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
               </div> : null}
 
-              {activeTab.id === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
+              {activeTab.id === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
                 <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Top rated</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
+                <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
 
               </div> : null}
             </> : null}

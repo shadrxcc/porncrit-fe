@@ -11,6 +11,8 @@ import TagFansComponent from "@/components/ui/tag-fans.component";
 import List from "@/components/ui/general-list.component";
 import ButtonComponent from "@/components/shared/button.component";
 import { DaySvg } from "@/components/shared/day.component";
+import PopularSvg from "@/components/shared/popular";
+import RecentSvg from "@/components/shared/recent.component";
 
 
 
@@ -65,29 +67,29 @@ const page = () => {
 
                     {sort ? <>
                         {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /><p>Top rated</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Lowest rated</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                            <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
+
                         </div> : null}
 
                         {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32 flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                            <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
                         </div> : null}
 
                         {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32 flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                            <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
                         </div> : null}
                         {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-32  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                            <div className='flex items-center gap-x-2'><DaySvg /><p>Most popular
-                            </p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Recently active
-                            </p></div>
-                            <div className='flex items-center gap-x-2'><DaySvg /> <p>Biggest Fan
+                            <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
+                            <div className='flex items-center gap-x-2'><RecentSvg/> <p>Recently active
+                </p></div>
+                            <div className='flex items-center gap-x-2'><img src="/assets/icons/mostactive.svg" alt="" /> <p>Biggest Fan
                             </p></div>
                         </div> : null}
                     </> : null}
