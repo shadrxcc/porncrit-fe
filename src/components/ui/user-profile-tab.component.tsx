@@ -2,18 +2,14 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 import MyLikes from "./mylikes.component";
 import MyFollowers from "./myfollowers";
-import MyActivityComponent from "./myactivity.component";
-import MyLists from "./mylist.component";
-import MyWatched from "./mywatched.component";
+
 import UserReviews from "./user-reviews.component";
 import UserAbout from "./user-bio";
 import UserLists from "./user-list";
-import { DaySvg } from '@/components/shared/day.component'
-import ButtonComponent from "../shared/button.component";
+
 import PopularSvg from "../shared/popular";
 import HighestSvg from "../shared/highest";
 import LowestSvg from "../shared/lowest";

@@ -1,6 +1,5 @@
 "use client"
 
-import ButtonComponent from '@/components/shared/button.component'
 import { DaySvg } from '@/components/shared/day.component'
 import FollowerComponent from '@/components/ui/follower.component'
 import { motion } from 'framer-motion'

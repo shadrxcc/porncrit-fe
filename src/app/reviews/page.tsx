@@ -1,6 +1,5 @@
 "use client"
 
-import ButtonComponent from '@/components/shared/button.component'
 import PopularReviewsComponent from '@/components/ui/popular-reviews.component'
 import { useSelector } from 'react-redux'
 import { selectIsAuthenticated } from '@/services/auth-services/selector'
