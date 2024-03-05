@@ -19,7 +19,7 @@ const FilterComponent: FC<FilterProps> = ({ data }) => {
             <Listbox>
                 <div className="flex flex-col gap-y-2">
                     <div className="relative flex">
-                        <Listbox.Button className="relative cursor-default text-left focus:outline-none text-sm">
+                        <Listbox.Button className="relative cursor-pointer text-left focus:outline-none text-sm">
                             <img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
                         </Listbox.Button>
                         <Transition
@@ -33,7 +33,7 @@ const FilterComponent: FC<FilterProps> = ({ data }) => {
                                     <Listbox.Option
                                         key={DataIdx}
                                         className={({ active }) =>
-                                            `relative cursor-default select-none py-2 ${active ? 'text-pink' : 'text-white'
+                                            `relative cursor-pointer select-none py-2 ${active ? 'text-pink' : 'text-white'
                                             }`
                                         }
                                         value={Data.name}
