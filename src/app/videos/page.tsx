@@ -17,6 +17,11 @@ import VideoInfo from "@/components/ui/video-info.component";
 import Link from "next/link";
 import { DaySvg } from '@/components/shared/day.component'
 import PopularSvg from "@/components/shared/popular";
+import HighestSvg from "@/components/shared/highest";
+import LowestSvg from "@/components/shared/lowest";
+import NewestSvg from "@/components/shared/newest";
+import Oldest from "@/components/shared/oldest";
+import FilterComponent from "@/components/shared/filter.component";
 
 
 export type Tab = {
@@ -47,6 +52,30 @@ const tabs: Tab[] = [
     id: "info",
   },
 ];
+
+const reviewOptions = [
+  { name: 'Most popular', icon: <PopularSvg /> },
+  { name: 'Top rated', icon: <HighestSvg /> },
+  { name: 'Lowest rated', icon: <LowestSvg /> },
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const listOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const viewOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const likeOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
 
 const Video = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -139,34 +168,12 @@ const Video = () => {
 
       <div className="mt-9">
         <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
-          <div className='flex items-center gap-x-1'>
-            <ButtonComponent onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
-            {sort ? <>
-              {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Oldest</p></div>
-              </div> : null}
-
-              {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><DaySvg /> <p>Most popular</p></div>
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-              </div> : null}
-
-              {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-
-              </div> : null}
-              {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-40  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-                <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-              </div> : null}
-            </> : null}
-          </div>
+        <div className='flex items-center gap-x-1'>
+                    {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
+                    {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
+                    {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
+                    {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}
+                </div>
           <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
             {tabs.map((tab, index) => (
               <a className="text-sm text-nowrap text-center" key={index}>

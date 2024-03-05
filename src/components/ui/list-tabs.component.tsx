@@ -8,6 +8,11 @@ import ListCommentsComponent from "./listcomments.component";
 import ListedVideo from "@/components/ui/listedvideo-component"
 import ListAbout from "./list-about";
 import PopularSvg from "../shared/popular";
+import NewestSvg from "../shared/newest";
+import Oldest from "../shared/oldest";
+import HighestSvg from "../shared/highest";
+import LowestSvg from "../shared/lowest";
+import FilterComponent from "../shared/filter.component";
 
 
 
@@ -39,6 +44,27 @@ const tabs = [
   }
 ];
 
+
+const videoOptions = [
+  { name: 'Top rated', icon: <HighestSvg /> },
+  { name: 'Lowest rated', icon: <LowestSvg /> },
+  { name: 'Newest', icon: <NewestSvg/> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const commentOptions = [
+  { name: 'Most popular', icon: <PopularSvg /> },
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const likesOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+
+
 const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
   const [sort, setSort] = useState(false)
@@ -66,27 +92,10 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
   return (
     <div>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
-        <div className='flex items-center gap-x-1'>
-          <Image onClick={() => setSort(!sort)} src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
-          {sort ? <>
-            {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-
-            {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-
-            {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-sm left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box px-6 py-6">
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-          </> : null}
+      <div className='flex items-center gap-x-1'>
+          {activeTabIndex === 0 && <FilterComponent data={videoOptions} />}
+          {activeTabIndex === 1 && <FilterComponent data={commentOptions} />}
+          {activeTabIndex === 2 && <FilterComponent data={likesOptions} />}
         </div>
 
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">

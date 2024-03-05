@@ -13,6 +13,11 @@ import MyReviews from "./myreviews.component";
 import { DaySvg } from '@/components/shared/day.component'
 import ButtonComponent from "../shared/button.component";
 import PopularSvg from "../shared/popular";
+import HighestSvg from "../shared/highest";
+import LowestSvg from "../shared/lowest";
+import NewestSvg from "../shared/newest";
+import Oldest from "../shared/oldest";
+import FilterComponent from "../shared/filter.component";
 
 export type Tab = {
   id: string;
@@ -46,6 +51,30 @@ const tabs = [
   },
 ];
 
+const reviewOptions = [
+  { name: 'Most popular', icon: <PopularSvg /> },
+  { name: 'Top rated', icon: <HighestSvg /> },
+  { name: 'Lowest rated', icon: <LowestSvg /> },
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const listOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const fansOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+const likeOptions = [
+  { name: 'Newest', icon: <NewestSvg /> },
+  { name: 'Oldest', icon: <Oldest /> },
+];
+
+
 const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
   const [sort, setSort] = useState(false)
@@ -76,32 +105,10 @@ const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
     <div>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
-          <ButtonComponent className="!p-0 !w-fit" onClick={() => setSort(!sort)} variant="secondary"><img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' /></ButtonComponent>
-          {sort ? <>
-            {activeTabIndex === 0 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/highest.svg" alt="" /> <p>Top rated</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/lowest.svg" alt="" />  <p>Lowest rated</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-
-            {activeTabIndex === 1 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-
-            {activeTabIndex === 2 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0 flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><PopularSvg /> <p>Most popular</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-            {activeTabIndex === 3 ? <div className="flex absolute border border-mauve w-fit top-12 text-xs left-0 lg:left-auto lg:right-0  flex-col gap-y-4 bg-box rounded-box pl-3 pr-6 py-6">
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/newest.svg" alt="" /><p>Newest</p></div>
-              <div className='flex items-center gap-x-2'><img src="/assets/icons/oldest.svg" alt="" /> <p>Oldest</p></div>
-            </div> : null}
-          </> : null}
+          {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
+          {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
+          {activeTabIndex === 3 && <FilterComponent data={likeOptions} />}
+          {activeTabIndex === 2 && <FilterComponent data={fansOptions} />}
         </div>
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">
           {tabs.map((tab, index) => (
