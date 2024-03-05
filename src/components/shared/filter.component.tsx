@@ -1,5 +1,6 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
+import { useAnimate } from 'framer-motion';
 import { FC, Fragment } from 'react';
 
 export type Data = {
@@ -13,12 +14,21 @@ export type FilterProps = {
 
 const FilterComponent: FC<FilterProps> = ({ data }) => {
 
+    const [scope, animate] = useAnimate();
+
+    const onButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        animate([
+            ["button", { scale: 0.8 }, { duration: 0.1, at: "<" }],
+            ["button", { scale: 1 }, { duration: 0.1 }],
+        ]);
+    };
+
     return (
         <div className="w-full">
             <Listbox>
                 <div className="flex flex-col gap-y-2">
-                    <div className="relative flex">
-                        <Listbox.Button className="relative cursor-pointer text-left focus:outline-none text-sm">
+                    <div ref={scope} className="relative flex">
+                        <Listbox.Button onClick={(e) => onButtonClick(e)} className="relative cursor-pointer text-left focus:outline-none text-sm">
                             <img src={`/assets/icons/Sort.svg`} height={24} width={24} alt='sort' />
                         </Listbox.Button>
                         <Transition
