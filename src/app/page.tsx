@@ -6,13 +6,10 @@ import FollowerComponent from "@/components/ui/follower.component";
 import ForgottenPasswordComponent from "@/components/ui/forgotten-password.component";
 
 import HeroComponent from "@/components/ui/hero.component";
-import IndustryNewsComponent from "@/components/ui/industry-news.component";
-import PopularFanComponent from "@/components/ui/popular-fan.component";
 import PopularListComponent from "@/components/ui/popular-list.component";
 import PopularReviewsComponent from "@/components/ui/popular-reviews.component";
 import PorndleComponent from "@/components/ui/porndle.component";
 import ConfirmOtpComponent, { PasswordResetComponent } from "@/components/ui/reset-password.component";
-import ResetPasswordComponent from "@/components/ui/reset-password.component";
 import SignInComponent from "@/components/ui/sign-in.component";
 import SignupComponent from "@/components/ui/signup-form.component";
 import VerifyEmailComponent from "@/components/ui/verify-email.component";
@@ -79,7 +76,9 @@ export default function Home() {
     setConfirmReset(true)
   }
 
-  function verifyMail() {
+  function verifyMail(email: string, userId: string) {
+    setEnteredEmail(email)
+    setUserId(userId)
     setSignUp(false)
     setLogin(false)
     setVerifyMail(true)
@@ -87,7 +86,7 @@ export default function Home() {
 
   return (
     <main className="md:w-standard mx-auto">
-      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>

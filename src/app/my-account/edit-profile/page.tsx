@@ -192,9 +192,10 @@ const EditProfile = () => {
           <Image
             src={avatar || `/assets/images/user.png`}
             width={60}
-            className="object-cover w-16 h-16 rounded-full"
+            className="object-cover w-16 h-16 border-[2px] border-pink rounded-full"
             height={60}
             alt="user pfp"
+            priority={true}
           />
           <ButtonComponent onClick={onImagePickerClick} className="!p-1 -right-3 !w-fit absolute bottom-2">
             <input type='file' ref={inputFile} id='file' style={{ display: 'none' }} name="avatar"

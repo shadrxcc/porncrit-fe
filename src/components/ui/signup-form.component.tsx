@@ -10,10 +10,11 @@ import CheckBox from '../shared/checkbox.component';
 import { RegisterUser } from '@/services/models/user.model';
 import axios from 'axios';
 import { API_URL } from '@/services/utils';
+import { toast } from 'react-toastify';
 
 type SignUpProps = {
   login: () => void;
-  verify: () => void;
+  verify: (enteredMail: string, userId: string) => void;
 }
 
 
@@ -27,13 +28,14 @@ const SignupComponent = (props: SignUpProps) => {
     axios.post(`${API_URL}/auth/register`, { ...props })
       .then((res) => {
         resetForm();
-        const userData = JSON.stringify(res.data.data.user)
-        localStorage.setItem('currentuser', userData)
+        const userId = res?.data?.data._id
+        const email = props.email
+        toast(res?.data?.message)
         setLoading(false);
-        verify();
+        verify(email, userId);
       })
       .catch((err) => {
-        console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
         setLoading(false);
       });
   }

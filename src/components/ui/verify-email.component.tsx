@@ -6,30 +6,29 @@ import ButtonComponent from '../shared/button.component'
 import axios from 'axios';
 import { API_URL } from '@/services/utils';
 import { toast } from 'react-toastify';
+import { log } from 'console';
 
 type VerifyEmailProps = {
     userId: string;
     verificationCode: string
 }
 
-const VerifyEmailComponent = ({ signin }: { signin: () => void }) => {
+const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, email: string, userId: string }) => {
     const [isLoading, setLoading] = useState(false)
-    const [email, setEmail] = useState(false)
     const [otp, setOtp] = useState("");
-    const [userId, setUserId] = useState("");
+    const [Id, setUserId] = useState("");
 
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const userData = localStorage.getItem("currentuser");
-            if (userData) {
-                const decryptedData = JSON.parse(userData);
-                setEmail(decryptedData?.email);
-                setUserId(decryptedData?._id)
-
-            } else console.log("/sign-up");
+        if (userId) {
+            setUserId(userId);
         }
-    }, []);
+    }, [userId]);
+
+    console.log(userId);
+    console.log(email);
+    
+    
 
     const handleVerify = (props: VerifyEmailProps) => {
         setLoading(true)
@@ -46,7 +45,7 @@ const VerifyEmailComponent = ({ signin }: { signin: () => void }) => {
 
     const handleResend = () => {
         setLoading(true)
-        axios.post(`${API_URL}/auth/request-email-verification`, { userId })
+        axios.post(`${API_URL}/auth/request-email-verification`, { userId:Id })
             .then((res) => {
                 toast.success(res?.data.message, {
                     position: "bottom-center"
@@ -68,14 +67,14 @@ const VerifyEmailComponent = ({ signin }: { signin: () => void }) => {
             <div className='flex flex-col items-center gap-y-2'><p className='text-center text-brown font-bold text-xl'>Email Verification</p>
                 <p className='text-mauve text-sm'>Please enter the 4 digit code we emailed to {email}. </p>
             </div>
-            <div className='flex flex-col items-center justify-center gap-y-2.5'>
+            <div className='flex flex-col items-center justify-center w-full gap-y-2.5'>
                 <Formik
                     initialValues={{}}
                     validationSchema={Yup.object({
                     })}
                     onSubmit={() => {
                         const params = {
-                            verificationCode: otp, userId
+                            verificationCode: otp, userId: Id
                         };
                         handleVerify(params)
 

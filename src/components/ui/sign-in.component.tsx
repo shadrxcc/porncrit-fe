@@ -7,23 +7,32 @@ import { AppDispatchType } from "@/services/config-store";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { asyncLoginUser } from '@/services/auth-services/async-actions';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
-const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void, signup: () => void, close: () => void, verify: () => void }) => {
+const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void, signup: () => void, close: () => void, verify: (email: string, userId: string) => void }) => {
     const authStatus = useSelector(selectAuthStatus);
     const loading = authStatus === "pending";
     const dispatch: AppDispatchType = useDispatch();
 
-    function handleSubmit(values: { email: string; password: string }) {
-        dispatch(
-            asyncLoginUser({
-                email: values.email,
-                password: values.password,
-                verify, close
-            })
-        )
-            .finally(() => {
+    async function handleSubmit(values: { email: string; password: string }) {
+        try {
+            const resultAction = await dispatch(
+                asyncLoginUser({
+                    email: values.email,
+                    password: values.password,
+                    close
+                })
+            );
 
-            });
+            const result = unwrapResult(resultAction);
+
+            if (result && result.error === '403') {
+                verify(result.email, result.userId);
+            }
+        } catch (error) {
+            toast.error("Login failed");
+        }
     }
 
     return (

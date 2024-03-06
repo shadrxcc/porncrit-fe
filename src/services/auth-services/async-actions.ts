@@ -5,13 +5,12 @@ import axiosInstance from "../httpClient";
 
 
 interface LoginParams {
-  verify: () => void;
   close: () => void;
 }
 
 export const asyncLoginUser = createAsyncThunk(
   "auth/fetchAuth",
-  async ({ email, password, verify, close }: LoginParams & { email: string; password: string }) => {
+  async ({ email, password, close }: LoginParams & { email: string; password: string }) => {
     try {
       const response = await axiosInstance.post(`${API_URL}/auth/login`, {
         email,
@@ -19,19 +18,20 @@ export const asyncLoginUser = createAsyncThunk(
       });
       const user = response.data.data;
       localStorage.setItem("pcK", response.data.data.token.accessToken);
-      localStorage.setItem("refreshToken",response.data.data.token.refreshToken)
+      localStorage.setItem("refreshToken", response.data.data.token.refreshToken)
 
       close();
       return user;
-    } catch (error) {
-      const customError = error as CustomError;
+    } catch (error: any) {
+      if (error.response?.status === 403) {
+        const userId = error?.response?.data?.data?._id;
 
-      if (customError.response?.status === 403) {
-        verify();
+        // Return the necessary data for a 403 error
+        return { error: '403', email, userId };
       } else {
         const errorMessage =
-          customError?.response?.data?.message ||
-          customError.message ||
+          error?.response?.data?.message ||
+          error.message ||
           "There was an error";
         throw new Error(errorMessage);
       }
@@ -45,7 +45,7 @@ export const getUserProfile = createAsyncThunk(
     try {
       const response = await axiosInstance.get(`${API_URL}/users/get-current`);
       const user = response.data.data;
-      
+
       return user;
     } catch (error) {
       const customError = error as CustomError;

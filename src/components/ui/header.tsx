@@ -28,6 +28,7 @@ import VerifyEmailComponent from "./verify-email.component";
 import ResetPasswordComponent, { PasswordResetComponent } from "./reset-password.component";
 import ConfirmOtpComponent from "./reset-password.component";
 import { getUserProfile } from "@/services/auth-services/async-actions";
+import Image from "next/image";
 
 
 const Header = () => {
@@ -51,25 +52,13 @@ const Header = () => {
   const dispatch: AppDispatchType = useDispatch();
 
   const user = useSelector(selectAuthUser);
-  //   const isAuthenticated = useSelector(selectIsAuthenticated);
-
-  //   const router = useRouter()
-  //   useEffect(() => {
-  //     if (!isAuthenticated) {
-  //        router.push("/");
-  //     }
-  // }, [isAuthenticated, router]);
-
-  // if (!isAuthenticated) {
-  //     // You can render a loading state or a redirect message here if needed
-  //     return null;
-  // }
-
 
 
   useEffect(() => {
-    dispatch(getUserProfile());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(getUserProfile());
+    }
+  }, [dispatch, isAuthenticated]);
 
   // close on click outside
   useEffect(() => {
@@ -146,7 +135,15 @@ const Header = () => {
     setConfirmReset(true)
   }
 
-  function verifyMail() {
+  function verifyMail(email: string, userId: string) {
+    setEnteredEmail(email)
+    setUserId(userId)
+    setSignUp(false)
+    setLogin(false)
+    setVerifyMail(true)
+  }
+
+  function verifyMailSignIn() {
     setSignUp(false)
     setLogin(false)
     setVerifyMail(true)
@@ -250,7 +247,7 @@ const Header = () => {
             Sign up
           </ButtonComponent></> : null}
         {isAuthenticated ? <div>
-          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={isAuthenticated ? user?.avatar || "/assets/images/user.png" : "/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><Image className="w-6 h-6 object-cover rounded-full" src={isAuthenticated ? user?.avatar || "/assets/images/user.png" : "/assets/images/user.png"} width={24} height={24} priority alt="" /></ButtonComponent>
           {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             <Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />
@@ -270,7 +267,7 @@ const Header = () => {
 
       <SearchModal isOpen={search} closeModal={() => setSearch(false)} />
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
-      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent signin={openLogin} /></MyModal>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
       <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent email={enteredEmail} reset={openReset} /></MyModal>
       <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
@@ -280,7 +277,7 @@ const Header = () => {
         <ButtonComponent onClick={() => setSearch(true)} variant="secondary" className="!p-0 "><SearchSvg /></ButtonComponent>
 
         <div>
-          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><img className="w-6 h-6 object-cover rounded-full" src={isAuthenticated ? user?.avatar || "/assets/images/user.png" : "/assets/images/user.png"} width={24} alt="" /></ButtonComponent>
+          <ButtonComponent ref={trigger} onClick={toggleDropdown} variant="secondary" className="!p-0 "><Image className="w-6 h-6 object-cover rounded-full" src={isAuthenticated ? user?.avatar || "/assets/images/user.png" : "/assets/images/user.png"} width={24} height={24} priority alt="" /></ButtonComponent>
           {dropdown ? <div ref={dropdwn} className="flex absolute top-16 right-2 flex-col gap-y-4 bg-box rounded-box px-6 py-6">
             {isAuthenticated ? <><Link href={`/my-account`}><div onClick={() => setDropdown(false)} className="flex items-center gap-x-2 text-xs">
               <ProfileSvg />

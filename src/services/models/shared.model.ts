@@ -5,7 +5,9 @@ export type CustomError = {
     response?: {
         data?: {
             message?: string;
-            data:{}
+            data?:{
+                _id?:string
+            }
         };
         status?:number
     };
