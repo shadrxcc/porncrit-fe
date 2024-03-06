@@ -17,7 +17,7 @@ const FollowerComponent = () => {
           alt="follower pfp"
         />
         <div className="flex flex-col gap-y-1.5 text-sm leading-6">
-        <div className="space-y-1"><p className="text-pink">Username</p>
+          <div className="space-y-1"><p className="text-pink">Username</p>
             <p>177 Followers</p>
           </div>
           <div className="flex items-center gap-x-2.5 sm:gap-x-12">
@@ -40,7 +40,7 @@ const FollowerComponent = () => {
         </div>
       </div>
 
-      <ButtonComponent
+      <ButtonComponent className="!w-24"
         onClick={() => setFollow(!follow)}
       >
         {follow ? "Following" : "Follow"}
