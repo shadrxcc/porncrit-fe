@@ -75,7 +75,6 @@ const likeOptions = [
 
 const MyProfileTabComponent = ({ defaultIndex = 0 }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
-  const [sort, setSort] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);

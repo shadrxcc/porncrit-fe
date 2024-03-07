@@ -15,6 +15,8 @@ import HighestSvg from '@/components/shared/highest'
 import LowestSvg from '@/components/shared/lowest'
 import NewestSvg from '@/components/shared/newest'
 import FilterComponent from '@/components/shared/filter.component'
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -46,7 +48,6 @@ const fansOptions = [
 
 const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [sort, setSort] = useState(false)
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (
@@ -61,7 +62,24 @@ const page = () => {
           }
 
         </div>
-        <LinkVideoInput placeholder="Paste the link for a video you want to review. " />
+        <Formik
+          initialValues={{
+            url: "",
+          }}
+          validationSchema={Yup.object({
+            url: Yup
+              .string()
+              .url('Please enter a valid URL')
+              .required('URL is required'),
+          })}
+          onSubmit={() => {
+
+          }}
+        >
+          <Form className="w-full">
+            <LinkVideoInput name="url" placeholder="Paste the link for a video you want to review. " />
+          </Form>
+        </Formik>
       </div>
 
       <div className='flex flex-col gap-y-7'>
