@@ -1,6 +1,5 @@
 "use client"
 
-import InputComponent from "@/components/shared/input.component"
 import SelectTagComponent from "@/components/ui/select-tag.component"
 import { Form, Formik } from "formik"
 import * as Yup from "yup";
@@ -9,7 +8,7 @@ import SecondaryInputComponent from "@/components/shared/secondary-input.compone
 import SelectPerformer from "@/components/ui/select-performer.component";
 import ButtonComponent from "@/components/shared/button.component";
 
-const page = () => {
+const NewVideo = () => {
     return (
         <div className="md:w-standard space-y-7 mx-auto">
             <div className="space-y-7">
@@ -68,7 +67,7 @@ const page = () => {
                 </div>
             </div>
 
-            <div className="space-y-6">
+            {/* <div className="space-y-6">
                 <div className="space-y-2.5">
                     <p className="text-lg font-extrabold">We found it</p>
                     <p className="text-sm text-mauve">Great taste! This video has been saved by a fan. Visit video’s page to review, rate or list.</p>
@@ -88,7 +87,7 @@ const page = () => {
                         
                     </div>
                 </div>
-            </div>
+            </div> */}
 
 
 
@@ -97,4 +96,4 @@ const page = () => {
     )
 }
 
-export default page
+export default NewVideo

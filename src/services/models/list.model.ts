@@ -5,3 +5,7 @@ export type TagsType = {
 export type PerformersType = {
     performer:string
 }
+
+export type LinkVideo = {
+    url:string
+}
