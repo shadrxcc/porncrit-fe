@@ -29,21 +29,22 @@ import ResetPasswordComponent, { PasswordResetComponent } from "./reset-password
 import ConfirmOtpComponent from "./reset-password.component";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import Image from "next/image";
+import { useAuthModal } from "@/context/auth-modal-context";
 
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
-  const [signup, setSignUp] = useState(false);
-  const [login, setLogin] = useState(false);
-  const [forgotPassword, setForgotPassword] = useState(false)
   const [search, setSearch] = useState(false)
   const [dropdown, setDropdown] = useState(false)
-  const [verifymail, setVerifyMail] = useState(false)
-  const [reset, setReset] = useState(false)
-  const [confirmreset, setConfirmReset] = useState(false)
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [userId, setUserId] = useState("")
-  const [resetToken, setResetToken] = useState("")
+  const { signup, setSignUp,
+    login, setLogin, forgotPassword,
+    setForgotPassword, verifymail,
+    setVerifyMail, reset, setReset,
+    confirmreset, setConfirmReset,
+    enteredEmail, userId,
+    setUserId, resetToken,
+    setResetToken, openForgotPassword,
+    openResetPassword, verifyMail } = useAuthModal();
 
   const trigger = useRef<HTMLButtonElement | null>(null);
   const dropdwn = useRef<HTMLDivElement | null>(null);
@@ -121,40 +122,10 @@ const Header = () => {
     setReset(true)
   };
 
-
-  function openForgotPassword() {
-    setSignUp(false)
-    setLogin(false)
-    setForgotPassword(true)
-  }
-
-  function openResetPassword(email: string) {
-    setEnteredEmail(email)
-    setLogin(false)
-    setForgotPassword(false)
-    setConfirmReset(true)
-  }
-
-  function verifyMail(email: string, userId: string) {
-    setEnteredEmail(email)
-    setUserId(userId)
-    setSignUp(false)
-    setLogin(false)
-    setVerifyMail(true)
-  }
-
-  function verifyMailSignIn() {
-    setSignUp(false)
-    setLogin(false)
-    setVerifyMail(true)
-  }
-
   function toggleDropdown() {
     setMenu(false);
     setDropdown(!dropdown)
   }
-
-
 
   function logOut() {
     dispatch(logout())

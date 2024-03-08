@@ -13,27 +13,27 @@ import ConfirmOtpComponent, { PasswordResetComponent } from "@/components/ui/res
 import SignInComponent from "@/components/ui/sign-in.component";
 import SignupComponent from "@/components/ui/signup-form.component";
 import VerifyEmailComponent from "@/components/ui/verify-email.component";
+import { useAuthModal } from "@/context/auth-modal-context";
 import Link from "next/link";
-import { useState } from "react";
 
 export default function Home() {
-  const [signup, setSignUp] = useState(false);
-  const [login, setLogin] = useState(false);
-  const [verifymail, setVerifyMail] = useState(false)
-  const [reset, setReset] = useState(false)
-  const [forgotPassword, setForgotPassword] = useState(false)
-  const [confirmreset, setConfirmReset] = useState(false)
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [userId, setUserId] = useState("")
-  const [resetToken, setResetToken] = useState("")
-
-
+  const { signup, setSignUp,
+    login, setLogin,
+    forgotPassword, setForgotPassword,
+    verifymail, setVerifyMail,
+    reset, setReset, confirmreset,
+    setConfirmReset, enteredEmail, userId,
+    setUserId, resetToken,
+    setResetToken, openForgotPassword,
+    openResetPassword, verifyMail } = useAuthModal();
 
   function closeModal() {
     setSignUp(false)
     setLogin(false)
     setForgotPassword(false)
     setVerifyMail(false)
+    setReset(false)
+    setConfirmReset(false)
   }
 
   function openSignUp() {
@@ -49,7 +49,6 @@ export default function Home() {
     setVerifyMail(false)
     setReset(false)
     setLogin(true);
-
   };
 
   function openReset(userId: string, resettoken: string) {
@@ -63,27 +62,6 @@ export default function Home() {
   };
 
 
-  function openForgotPassword() {
-    setSignUp(false)
-    setLogin(false)
-    setForgotPassword(true)
-  }
-
-  function openResetPassword(email: string) {
-    setEnteredEmail(email)
-    setLogin(false)
-    setForgotPassword(false)
-    setConfirmReset(true)
-  }
-
-  function verifyMail(email: string, userId: string) {
-    setEnteredEmail(email)
-    setUserId(userId)
-    setSignUp(false)
-    setLogin(false)
-    setVerifyMail(true)
-  }
-
   return (
     <main className="md:w-standard mx-auto">
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
@@ -92,7 +70,7 @@ export default function Home() {
       <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
       <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent email={enteredEmail} reset={openReset} /></MyModal>
       <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
-      <HeroComponent signup={openSignUp} />
+      <HeroComponent signin={openLogin} />
       {/* <div>
       <div className="flex flex-[2_1_0] flex-col gap-y-5"></div>
       <div className="flex-[1.2_1_0] flex flex-col gap-y-5"></div>

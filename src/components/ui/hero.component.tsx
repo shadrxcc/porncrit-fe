@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { LinkVideo } from "@/services/models/list.model";
 import { useRouter } from "next/navigation";
 
-const HeroComponent = ({ signup }: { signup: () => void }) => {
+const HeroComponent = ({ signin }: { signin: () => void }) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const dispatch: AppDispatchType = useDispatch()
     const user = useSelector(selectAuthUser);
@@ -29,7 +29,7 @@ const HeroComponent = ({ signup }: { signup: () => void }) => {
 
     function listUrl(url: LinkVideo) {
         if (!isAuthenticated) {
-            signup()
+            signin()
         } else {
             axiosInstance.post(`${API_URL}/videos/link-video`, url)
                 .then((res) => {

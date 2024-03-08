@@ -5,6 +5,7 @@ import Header from "@/components/ui/header";
 import FooterComponent from "@/components/ui/footer.component";
 import AppLayout from "@/components/shared/layout";
 import { ToastContainer } from 'react-toastify';
+import { Providers } from "@/components/shared/providers";
 
 
 export const metadata: Metadata = {
@@ -20,15 +21,17 @@ export default function RootLayout({
     <AppLayout>
       <html lang="en">
         <body suppressHydrationWarning={true}>
-          <Header />
-          <div className="xs:px-2.5 px-4 mt-32 sm:px-8">
-            {children}
-          </div>
-          <FooterComponent />
-          <ToastContainer />
+          <Providers>
+            <Header />
+            <div className="xs:px-2.5 px-4 mt-32 sm:px-8">
+              {children}
+            </div>
+            <FooterComponent />
+            <ToastContainer />
+          </Providers>
         </body>
       </html>
-      
+
     </AppLayout>
   );
 }
