@@ -17,49 +17,14 @@ import { useAuthModal } from "@/context/auth-modal-context";
 import Link from "next/link";
 
 export default function Home() {
-  const { signup, setSignUp,
-    login, setLogin,
-    forgotPassword, setForgotPassword,
-    verifymail, setVerifyMail,
-    reset, setReset, confirmreset,
-    setConfirmReset, enteredEmail, userId,
-    setUserId, resetToken,
-    setResetToken, openForgotPassword,
-    openResetPassword, verifyMail } = useAuthModal();
-
-  function closeModal() {
-    setSignUp(false)
-    setLogin(false)
-    setForgotPassword(false)
-    setVerifyMail(false)
-    setReset(false)
-    setConfirmReset(false)
-  }
-
-  function openSignUp() {
-    setLogin(false)
-    setVerifyMail(false)
-    setForgotPassword(false)
-    setSignUp(true)
-  }
-
-  function openLogin() {
-    setSignUp(false)
-    setForgotPassword(false)
-    setVerifyMail(false)
-    setReset(false)
-    setLogin(true);
-  };
-
-  function openReset(userId: string, resettoken: string) {
-    setUserId(userId)
-    setResetToken(resettoken)
-    setSignUp(false)
-    setForgotPassword(false)
-    setVerifyMail(false)
-    setConfirmReset(false)
-    setReset(true)
-  };
+  const { signup, login,
+    forgotPassword,
+    verifymail, reset,
+    confirmreset, enteredEmail,
+    userId, resetToken,
+    openForgotPassword, openResetPassword,
+    verifyMail, closeModal,
+    openLogin, openReset, openSignUp } = useAuthModal();
 
 
   return (

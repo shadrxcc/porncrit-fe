@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const PopularReviewsComponent = () => {
     return (
-        <div className="flex flex-col px-2.5 sm:px-9 py-8 rounded-[10px] bg-box gap-y-4">
+        <div className="flex flex-col px-3 sm:px-9 py-8 rounded-[10px] bg-box gap-y-4">
             <div className="flex flex-col gap-y-2">
                 <div className="flex flex-row gap-3">
                     <Image className="w-min object-contain rounded-[2px]" width={60} height={20} src={`/assets/images/videothumb.png`} priority alt="hot-nasty-porn" />

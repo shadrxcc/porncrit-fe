@@ -4,7 +4,7 @@ import Image from "next/image"
 
 
 const List = () => {
-  return <div className="space-y-3 bg-box rounded-box px-2 sm:px-8 py-10">
+  return <div className="space-y-3 bg-box rounded-box px-3 sm:px-8 py-10">
     <div className="flex flex-col gap-y-3">
     <div className="flex items-center gap-x-3 justify-between">
         <p className="text-sm font-black">My well curated watchlist</p>

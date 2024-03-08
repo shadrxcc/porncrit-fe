@@ -3,6 +3,8 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 interface AuthModalContextValue {
     signup: boolean;
     login: boolean;
+    menu: boolean;
+
     forgotPassword: boolean;
     verifymail: boolean;
     reset: boolean;
@@ -11,6 +13,8 @@ interface AuthModalContextValue {
     userId: string;
     resetToken: string;
     setSignUp: (value: boolean) => void;
+    setMenu: (value: boolean) => void;
+  
     setLogin: (value: boolean) => void;
     setForgotPassword: (value: boolean) => void;
     setVerifyMail: (value: boolean) => void;
@@ -22,6 +26,10 @@ interface AuthModalContextValue {
     openForgotPassword: () => void;
     verifyMail: (email: string, userId: string) => void;
     openResetPassword: (email: string) => void;
+    closeModal: () => void;
+    openSignUp: () => void;
+    openLogin: () => void;
+    openReset: (userId: string, resettoken: string) => void;
 }
 
 const AuthModalContext = createContext<AuthModalContextValue | undefined>(undefined);
@@ -40,6 +48,8 @@ interface AuthModalProviderProps {
 
 export const AuthModalProvider: React.FC<AuthModalProviderProps> = ({ children }) => {
     const [signup, setSignUp] = useState(false);
+    const [menu, setMenu] = useState(false);
+
     const [login, setLogin] = useState(false);
     const [forgotPassword, setForgotPassword] = useState(false);
     const [verifymail, setVerifyMail] = useState(false);
@@ -70,6 +80,47 @@ export const AuthModalProvider: React.FC<AuthModalProviderProps> = ({ children }
         setVerifyMail(true)
     }
 
+    function closeModal() {
+        setSignUp(false)
+        setLogin(false)
+        setForgotPassword(false)
+        setVerifyMail(false)
+        setReset(false)
+        setConfirmReset(false)
+    }
+
+    function openSignUp() {
+        setMenu(false);
+        setLogin(false)
+        
+        setVerifyMail(false)
+        setForgotPassword(false)
+        setSignUp(true)
+    }
+
+    function openLogin() {
+        setMenu(false);
+        setSignUp(false)
+      
+        setForgotPassword(false)
+        setVerifyMail(false)
+        setReset(false)
+        setLogin(true);
+
+    };
+
+    function openReset(userId: string, resettoken: string) {
+        setUserId(userId)
+        setResetToken(resettoken)
+        setMenu(false);
+        setSignUp(false)
+      
+        setForgotPassword(false)
+        setVerifyMail(false)
+        setConfirmReset(false)
+        setReset(true)
+    };
+
     return (
         <AuthModalContext.Provider value={{
             signup, setSignUp,
@@ -80,7 +131,8 @@ export const AuthModalProvider: React.FC<AuthModalProviderProps> = ({ children }
             confirmreset, setConfirmReset,
             enteredEmail, setEnteredEmail,
             userId, setUserId,
-            resetToken, setResetToken, openForgotPassword, openResetPassword, verifyMail
+            resetToken, setResetToken, openForgotPassword, openResetPassword, verifyMail,
+            openLogin, openReset, openSignUp, closeModal, menu, setMenu
         }}>
             {children}
         </AuthModalContext.Provider>
