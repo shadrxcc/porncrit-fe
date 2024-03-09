@@ -7,8 +7,23 @@ import Image from "next/image"
 import SecondaryInputComponent from "@/components/shared/secondary-input.component";
 import SelectPerformer from "@/components/ui/select-performer.component";
 import ButtonComponent from "@/components/shared/button.component";
+import { AppDispatchType } from "@/services/config-store";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetLinkedVideo, selectVideo } from "@/services/video-services/async-actions";
+import { useEffect } from "react";
 
-const NewVideo = () => {
+const NewVideo = ({ params }: { params: { id: string } }) => {
+    const id = params.id
+
+    const dispatch: AppDispatchType = useDispatch();
+    const video = useSelector(selectVideo);
+
+    useEffect(() => {
+        dispatch(asyncGetLinkedVideo({ id }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
+
+
     return (
         <div className="md:w-standard space-y-7 mx-auto">
             <div className="space-y-7">
@@ -18,10 +33,10 @@ const NewVideo = () => {
                 </div>
 
                 <div className="space-y-2.5">
-                    <p className="text-base">Title of video goes here double lined if need down below </p>
+                    <p className="text-base">{video?.title}</p>
                     <div>
-                        <Image src={`/assets/images/4some.png`}
-                        className="w-full md:w-min" width={282} height={158} alt="4some" />
+                        <Image src={video?.image}
+                            className="w-full md:w-min" width={282} height={158} alt={video?.title} />
                     </div>
                 </div>
 
@@ -66,32 +81,6 @@ const NewVideo = () => {
                     </Formik>
                 </div>
             </div>
-
-            {/* <div className="space-y-6">
-                <div className="space-y-2.5">
-                    <p className="text-lg font-extrabold">We found it</p>
-                    <p className="text-sm text-mauve">Great taste! This video has been saved by a fan. Visit video’s page to review, rate or list.</p>
-                </div>
-
-                <div>
-                    <div className="flex flex-col md:flex-row md:items-center gap-2.5">
-                        <Image src={`/assets/images/4some.png`} width={282} className="w-full md:w-min" height={158} alt="4some" />
-                        <div className="flex flex-col gap-y-6">
-                            <p className="text-sm font-medium">Title of video goes here double lined if need down below </p>
-                            <div className="flex gap-x-3 items-center">
-                                <img width={150} src="/assets/images/rating.png" alt="" />
-                                <p className="text-[10px] font-medium">based on 18.4k ratings</p>
-                            </div>
-                            <ButtonComponent variant="outline-pink">Go to video page</ButtonComponent>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div> */}
-
-
-
-
         </div>
     )
 }

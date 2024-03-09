@@ -34,10 +34,9 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
             axiosInstance.post(`${API_URL}/videos/link-video`, url)
                 .then((res) => {
                     toast.success(res?.data?.message)
-                    const videoId = res?.data?.data.id
-                    const encodedId = encodeURIComponent(videoId)
+                    const videoId = res?.data?.data._id
                     
-                    router.push(`/videos/new/${encodedId}`)
+                    router.push(`/videos/new/${videoId}`)
                 })
                 .catch((err) => {
                     toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')

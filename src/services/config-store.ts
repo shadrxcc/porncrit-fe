@@ -15,6 +15,7 @@ import {
 } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import authReducer from "./auth-services/slice";
+import videoReducer from "./video-services/slice"
 
 interface NoopStorage {
     getItem(key: string): Promise<string | null>;
@@ -24,6 +25,7 @@ interface NoopStorage {
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    videos: videoReducer
 });
 
 const createNoopStorage = (): NoopStorage => {
