@@ -111,3 +111,9 @@ export type LinkedVideoType = {
 //     "updatedAt": "2024-03-09T12:25:30.059Z",
 //     "__v": 0
 // },
+
+export interface UpdateVideo {
+    videoId:string;
+    tags:string[];
+    model:string[];
+}
