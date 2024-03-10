@@ -15,6 +15,7 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import LoaderComponent from "@/components/shared/loader.component";
 
 const NewVideo = ({ params }: { params: { id: string } }) => {
     const id = params.id
@@ -23,6 +24,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
     const [tags, setTags] = useState<Array<TagsType>>([]);
     const [performer, setPerformer] = useState('');
     const [performers, setPerformers] = useState<Array<PerformersType>>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch: AppDispatchType = useDispatch();
     const video = useSelector(selectVideo);
@@ -30,7 +32,11 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
     const router = useRouter()
 
     useEffect(() => {
+        setIsLoading(true)
         dispatch(asyncGetLinkedVideo({ id }))
+            .finally(() => {
+                setIsLoading(false)
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
@@ -99,7 +105,8 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
 
     return (
         <div className="md:w-standard space-y-7 mx-auto">
-            <div className="space-y-7">
+            {isLoading && <LoaderComponent />}
+            {!isLoading && <div className="space-y-7">
                 <div className="space-y-2.5">
                     <p className="text-lg font-extrabold">We found it</p>
                     <p className="text-sm text-mauve">You’re a porn pioneer! The first fan to save this video. Way to go!</p>
@@ -192,7 +199,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                         </Form>
                     </Formik>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

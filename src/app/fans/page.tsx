@@ -15,6 +15,7 @@ import NewestSvg from '@/components/shared/newest'
 import Oldest from '@/components/shared/oldest'
 import MostActiveSvg from '@/components/shared/mostactive'
 import FilterComponent from '@/components/shared/filter.component'
+import LoaderComponent from '@/components/shared/loader.component'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -46,7 +47,6 @@ const fansOptions = [
 
 const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [sort, setSort] = useState(false)
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (

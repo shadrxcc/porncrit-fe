@@ -3,7 +3,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import LinkVideoInput from "../shared/linkvideo-input";
 import { Form, Formik } from "formik";
@@ -18,6 +18,7 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const dispatch: AppDispatchType = useDispatch()
     const user = useSelector(selectAuthUser);
+    const [isLinking, setIsLinking] = useState(true);
 
     const router = useRouter()
 
@@ -31,6 +32,7 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
         if (!isAuthenticated) {
             signin()
         } else {
+            setIsLinking(true)
             axiosInstance.post(`${API_URL}/videos/link-video`, url)
                 .then((res) => {
                     toast.success(res?.data?.message)
@@ -41,6 +43,8 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
                 .catch((err) => {
                     toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
 
+                }).finally(()=>{
+                    setIsLinking(false)
                 })
 
         }
@@ -72,7 +76,7 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
                 }}
             >
                 <Form className="w-full">
-                    <LinkVideoInput name="url" placeholder="Paste a video link to save, rate, review, and list" />
+                    <LinkVideoInput name="url" loading={isLinking} disable={isLinking} placeholder="Paste a video link to save, rate, review, and list" />
                 </Form>
             </Formik>
         </div>

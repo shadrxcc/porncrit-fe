@@ -1,18 +1,18 @@
 import { FieldAttributes, useField } from "formik";
 import ButtonComponent from "./button.component";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "@/services/auth-services/selector";
 
 
 type InputProps = {
     label?: string;
     widthClass?: string;
     placeholder?: string;
-    signup:()=>void
+    signup: () => void;
+    loading?: boolean;
+    disable?: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } & FieldAttributes<any>;
 
-const LinkVideoInput: React.FC<InputProps> = ({ label, ...props }) => {
+const LinkVideoInput: React.FC<InputProps> = ({ label, loading, disable, ...props }) => {
     const [field, meta] = useField(props);
 
     return (
@@ -20,19 +20,20 @@ const LinkVideoInput: React.FC<InputProps> = ({ label, ...props }) => {
             <div className={`flex flex-col gap-y-1 w-full`}>
                 {" "}
                 <label className="text-sm text-brown" htmlFor={props.id || props.name}>{label}</label>
-               
-                    <div className="flex relative items-center">
-                        <input
-                            className={`px-6 bg-white border-opacity-10 flex-1 border placeholder:text-mauve border-lightpink border-accent text-sm text-brown !outline-none w-full focus:outline-none py-3 primary-input rounded-[35px]`}
-                            {...props}
-                            {...field}
-                        />
-                        <ButtonComponent type="submit" variant="secondary" className="!p-0 absolute !w-fit top-0 right-5 bottom-0"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M13.75 2.50838e-06C21.3439 2.69091e-07 27.5 6.15608 27.5 13.75C27.5 21.3439 21.3439 27.5 13.75 27.5C6.15609 27.5 3.54561e-06 21.3439 1.30632e-06 13.75C9.74377e-07 6.15609 6.15608 2.84032e-06 13.75 2.50838e-06ZM19.2268 14.4283C19.6015 14.0537 19.6015 13.4463 19.2268 13.0717L16.0292 9.874C15.6545 9.49937 15.0471 9.49937 14.6725 9.874C14.2979 10.2486 14.2979 10.856 14.6725 11.2307L16.2325 12.7907L8.95549 12.7907C8.42568 12.7907 7.99618 13.2202 7.99618 13.75C7.99618 14.2798 8.42568 14.7093 8.95549 14.7093L16.2325 14.7093L14.6725 16.2693C14.2979 16.644 14.2979 17.2514 14.6725 17.626C15.0471 18.0006 15.6545 18.0006 16.0292 17.626L19.2268 14.4283Z" fill="#F71D7F" />
-                        </svg>
-                        </ButtonComponent>
-                    </div>
-               
+
+                <div className="flex relative items-center">
+                    <input
+                        className={`px-6 bg-white border-opacity-10 flex-1 border placeholder:text-mauve border-lightpink border-accent text-sm text-brown !outline-none w-full focus:outline-none py-3 primary-input rounded-[35px]`}
+                        {...props}
+                        {...field}
+                    />
+                    <ButtonComponent loading={loading} disabled={disable} type="submit" variant="secondary" className="!p-0 absolute !w-fit top-0 right-5 bottom-0">
+                        {!loading && <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M12.2986 0C7.79587 0 4.1786 3.60292 3.84462 8.09068C1.61251 8.6479 0 10.7287 0 13.1389C0 15.9621 2.21249 18.3333 5.04167 18.3333H20.3194C21.0706 18.3333 21.7854 18.1633 22.4271 17.8589C25.0563 16.8171 26.8889 14.1911 26.8889 11.1528C26.8889 7.23269 23.8214 3.97222 19.9375 3.97222C19.7603 3.97222 19.5846 3.97909 19.4105 3.99261C17.9069 1.60348 15.2949 0 12.2986 0ZM12.5802 11.358C13.0575 10.8807 13.8314 10.8807 14.3087 11.358L17.9754 15.0246L16.2469 16.7531L14.6667 15.1729V22H12.2222V15.1729L10.642 16.7531L8.91355 15.0246L12.5802 11.358Z" fill="#F71D7F" />
+                        </svg>}
+                    </ButtonComponent>
+                </div>
+
 
 
                 {meta.touched && meta.error && (
