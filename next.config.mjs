@@ -5,7 +5,8 @@ const nextConfig = {
         domains: [
             "res.cloudinary.com",
             "cdn77-pic.xvideos-cdn.com",
-            "img-egc.xvideos-cdn.com"
+            "img-egc.xvideos-cdn.com",
+            "gcore-pic.xvideos-cdn.com",
         ],
         remotePatterns: [
             {
@@ -23,6 +24,12 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'img-egc.xvideos-cdn.com',
+                port: '',
+                pathname: '/videos/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'gcore-pic.xvideos-cdn.com',
                 port: '',
                 pathname: '/videos/**',
             },

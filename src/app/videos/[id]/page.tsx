@@ -3,7 +3,7 @@
 import ButtonComponent from "@/components/shared/button.component";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyModal from "@/components/shared/modal.component";
 import WriteReview from "@/components/ui/write-review.component";
 import VideoListed from "@/components/ui/video-listed.component";
@@ -22,6 +22,9 @@ import LowestSvg from "@/components/shared/lowest";
 import NewestSvg from "@/components/shared/newest";
 import Oldest from "@/components/shared/oldest";
 import FilterComponent from "@/components/shared/filter.component";
+import { asyncGetLinkedVideo, selectVideo } from "@/services/video-services/async-actions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatchType } from "@/services/config-store";
 
 
 export type Tab = {
@@ -77,14 +80,28 @@ const likeOptions = [
 ];
 
 
-const Video = () => {
+const Video = ({ params }: { params: { id: string } }) => {
+  const id = params.id
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
 
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
-  const [sort, setSort] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+
+    const dispatch: AppDispatchType = useDispatch();
+    const video = useSelector(selectVideo);
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        dispatch(asyncGetLinkedVideo({ id }))
+            .finally(() => {
+                setIsLoading(false)
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
@@ -110,7 +127,7 @@ const Video = () => {
 
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
         <Image
-          src={`/assets/images/4some.png`}
+          src={video?.image}
           alt=""
           className="object-cover w-auto sm:w-min"
           height={282}
@@ -118,7 +135,7 @@ const Video = () => {
         />
 
         <div className="flex flex-col gap-y-3.5">
-          <p className="text-sm font-medium">Title goes here if needed</p>
+          <p className="text-sm font-medium">{video?.title}</p>
           <div className="flex gap-x-3 items-center">
             <img width={150} src="/assets/images/rating.png" alt="" />
             <p className="text-[10px] font-medium">based on 18.4k ratings</p>

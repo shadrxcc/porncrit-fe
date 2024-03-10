@@ -18,7 +18,7 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const dispatch: AppDispatchType = useDispatch()
     const user = useSelector(selectAuthUser);
-    const [isLinking, setIsLinking] = useState(true);
+    const [isLinking, setIsLinking] = useState(false);
 
     const router = useRouter()
 

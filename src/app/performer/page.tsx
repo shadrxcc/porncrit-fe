@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Tab } from "../videos/page";
+import { Tab } from "../videos/[id]/page";
 import { motion } from "framer-motion";
 import ReviewsComponent from "@/components/ui/reviews.component";
 

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import React, { useState } from 'react'
 import Terms from '@/components/ui/tc'
 import Policy from '@/components/ui/policy'
-import { Tab } from '../videos/page';
+import { Tab } from '../videos/[id]/page';
 
 const tabs: Tab[] = [
     {

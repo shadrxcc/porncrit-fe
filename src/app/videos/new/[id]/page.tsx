@@ -92,7 +92,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
         axiosInstance.patch(`${API_URL}/videos/update-details`, { ...props })
             .then((res) => {
                 toast(res?.data?.message)
-                router.push(`/videos`)
+                router.push(`/videos/${id}`)
                 setTags([])
                 setPerformers([])
                 setUploading(false);
