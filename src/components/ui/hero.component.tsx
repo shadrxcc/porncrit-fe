@@ -37,6 +37,11 @@ const HeroComponent = ({ signin, username }: { signin: () => void, username: str
                         const videoId = err?.response?.data?.data._id
                         router.push(`/videos/exists/${videoId}`)
                     }
+
+                    if (err?.response?.status === 400) {
+                        router.push(`/videos/not-found`)
+                    }
+
                     toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
                 }).finally(() => {
                     setIsLinking(false)
