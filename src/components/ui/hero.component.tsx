@@ -1,10 +1,8 @@
 "use client"
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
-import { AppDispatchType } from "@/services/config-store";
-import { useEffect, useState } from "react";
-import { getUserProfile } from "@/services/auth-services/async-actions";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/services/auth-services/selector";
+import { useState } from "react";
 import LinkVideoInput from "../shared/linkvideo-input";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -14,19 +12,11 @@ import { toast } from "react-toastify";
 import { LinkVideo } from "@/services/models/list.model";
 import { useRouter } from "next/navigation";
 
-const HeroComponent = ({ signin }: { signin: () => void }) => {
+const HeroComponent = ({ signin, username }: { signin: () => void, username: string | undefined }) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
-    const dispatch: AppDispatchType = useDispatch()
-    const user = useSelector(selectAuthUser);
     const [isLinking, setIsLinking] = useState(false);
 
     const router = useRouter()
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            dispatch(getUserProfile());
-        }
-    }, [dispatch, isAuthenticated]);
 
     function listUrl(url: LinkVideo) {
         if (!isAuthenticated) {
@@ -42,7 +32,7 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    
+
                     if (err?.response?.status === 409) {
                         const videoId = err?.response?.data?.data._id
                         router.push(`/videos/exists/${videoId}`)
@@ -59,7 +49,7 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
     return (
         <div className="flex px-4 flex-col mt-8 gap-y-8 items-center text-center justify-center m-auto">
             <div className="flex flex-col gap-y-3 items-center">
-                {isAuthenticated ? <p className="text-xl font-bold">Hello, <span className="text-pink">{user?.username}</span></p>
+                {isAuthenticated ? <p className="text-xl font-bold">Hello, <span className="text-pink">{username}</span></p>
                     : <p className="text-xl font-bold"><span className="text-pink">Join</span> the social hub for porn fans.</p>}
                 {isAuthenticated ? <p className="text-sm">Start <span className="text-pink">following</span> critics to discover fan favourites</p>
                     : <div className="flex flex-col gap-y-3">
