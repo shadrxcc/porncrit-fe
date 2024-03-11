@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CustomError } from "../models/shared.model";
 import { API_URL } from "../utils";
 import axiosInstance from "../httpClient";
+import { toast } from "react-toastify";
 
 
 interface LoginParams {
@@ -33,7 +34,7 @@ export const asyncLoginUser = createAsyncThunk(
           error?.response?.data?.message ||
           error.message ||
           "There was an error";
-        throw new Error(errorMessage);
+        toast(errorMessage);
       }
     }
   }

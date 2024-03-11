@@ -37,13 +37,18 @@ const HeroComponent = ({ signin }: { signin: () => void }) => {
                 .then((res) => {
                     toast.success(res?.data?.message)
                     const videoId = res?.data?.data._id
-                    
+
                     router.push(`/videos/new/${videoId}`)
                 })
                 .catch((err) => {
+                    console.log(err);
+                    
+                    if (err?.response?.status === 409) {
+                        const videoId = err?.response?.data?.data._id
+                        router.push(`/videos/exists/${videoId}`)
+                    }
                     toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
-
-                }).finally(()=>{
+                }).finally(() => {
                     setIsLinking(false)
                 })
 

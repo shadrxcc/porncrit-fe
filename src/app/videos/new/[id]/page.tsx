@@ -16,6 +16,7 @@ import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import LoaderComponent from "@/components/shared/loader.component";
+import Preloader from "@/components/shared/preloader";
 
 const NewVideo = ({ params }: { params: { id: string } }) => {
     const id = params.id
@@ -25,20 +26,30 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
     const [performer, setPerformer] = useState('');
     const [performers, setPerformers] = useState<Array<PerformersType>>([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [progress, setProgress] = useState(0); // State to track progress
     const dispatch: AppDispatchType = useDispatch();
     const video = useSelector(selectVideo);
 
     const router = useRouter()
 
     useEffect(() => {
-        setIsLoading(true)
+        setIsLoading(true);
+        const startTime = Date.now(); // Record the start time of the request
         dispatch(asyncGetLinkedVideo({ id }))
             .finally(() => {
-                setIsLoading(false)
+                setIsLoading(false);
             });
+        // Simulate request progress
+        const interval = setInterval(() => {
+            const elapsedTime = Date.now() - startTime;
+            const progress = Math.min(elapsedTime / 1000, 1); // Calculate progress as a fraction of the elapsed time
+            setProgress(progress); // Update progress state
+            if (progress >= 1) {
+                clearInterval(interval); // Clear interval when progress reaches 100%
+            }
+        }, 100); // Update progress every 100ms
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id])
+    }, [id]);
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -105,7 +116,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
 
     return (
         <div className="md:w-standard space-y-7 mx-auto">
-            {isLoading && <LoaderComponent />}
+            {isLoading && <Preloader progress={progress} />}
             {!isLoading && <div className="space-y-7">
                 <div className="space-y-2.5">
                     <p className="text-lg font-extrabold">We found it</p>
@@ -116,7 +127,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                     <p className="text-base">{video?.title}</p>
                     <div>
                         <Image src={video?.image}
-                            className="w-full md:w-min" width={282} height={158} alt={video?.title} />
+                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.title} />
                     </div>
                 </div>
 

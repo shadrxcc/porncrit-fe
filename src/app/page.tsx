@@ -2,6 +2,7 @@
 
 import ButtonComponent from "@/components/shared/button.component";
 import MyModal from "@/components/shared/modal.component";
+import Preloader from "@/components/shared/preloader";
 import FollowerComponent from "@/components/ui/follower.component";
 import ForgottenPasswordComponent from "@/components/ui/forgotten-password.component";
 
@@ -29,6 +30,7 @@ export default function Home() {
 
   return (
     <main className="md:w-standard mx-auto">
+      {/* <Preloader/> */}
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
       <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
       <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>

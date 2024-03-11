@@ -117,7 +117,7 @@ const Video = ({ params }: { params: { id: string } }) => {
       case 3:
         return <VideoViewed />
       case 4:
-        return <VideoInfo />
+        return <VideoInfo video={video}/>
       default:
         return null;
     }
@@ -129,7 +129,7 @@ const Video = ({ params }: { params: { id: string } }) => {
         <Image
           src={video?.image}
           alt=""
-          className="object-cover w-auto sm:w-min"
+          className="object-cover w-auto sm:w-min rounded-[3px]"
           height={282}
           width={200}
         />
