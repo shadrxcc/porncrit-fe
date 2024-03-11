@@ -27,6 +27,9 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
     const [performers, setPerformers] = useState<Array<PerformersType>>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [progress, setProgress] = useState(0); // State to track progress
+    const [tagError, setTagError] = useState('');
+    const [performerError, setPerformerError] = useState('');
+
     const dispatch: AppDispatchType = useDispatch();
     const video = useSelector(selectVideo);
 
@@ -93,8 +96,10 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
         const inputValue = e.target.value;
         if (e.target.name === 'tags') {
             setTag(inputValue);
+            setTagError('');
         } else if (e.target.name === 'performers') {
             setPerformer(inputValue);
+            setPerformerError('');
         }
     };
 
@@ -141,6 +146,19 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                     <Formik initialValues={{}}
                         validationSchema={Yup.object({})}
                         onSubmit={(values) => {
+                            setTagError('');
+                            setPerformerError('');
+
+                            if (tags.length === 0) {
+                                setTagError('Please add at least one tag.');
+                                return;
+                            }
+
+                            if (performers.length === 0) {
+                                setPerformerError('Please add at least one performer.');
+                                return;
+                            }
+
                             const params = {
                                 ...values, videoId: video?._id, model: performers.map((performer) => performer.performer),
                                 tags: tags.map((tag) => tag.tag)
@@ -161,6 +179,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                                         }}
                                         value={tag}
                                     />
+                                    {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
 
                                 {tags?.length > 0 && (
@@ -186,6 +205,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                                         }}
                                         value={performer}
                                     />
+                                    {performerError && <p className="text-red-500 text-sm">{performerError}</p>}
                                 </div>
                                 {performers?.length > 0 && (
 
@@ -197,7 +217,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                                 )}
                             </div>
                             <div className="flex justify-end">
-                                <ButtonComponent type="button" onClick={() => router.back()}
+                                <ButtonComponent type="button"  onClick={() => router.push(`/videos/${video?._id}`)}
                                     variant="secondary"
                                     className="!w-fit !text-white place-self-end"
                                 >

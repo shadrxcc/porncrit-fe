@@ -184,7 +184,7 @@ const Video = ({ params }: { params: { id: string } }) => {
 
 
       <div className="mt-9">
-        <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+        <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
                     {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
                     {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
