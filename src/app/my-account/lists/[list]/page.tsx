@@ -1,12 +1,28 @@
+"use client";
+
 import ButtonComponent from "@/components/shared/button.component";
 import ListTabs from "@/components/ui/list-tabs.component";
+import { AppDispatchType } from "@/services/config-store";
+import { asyncGetList, selectList } from "@/services/list-services/async-actions";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const page = () => {
+const page = ({ params }: { params: { id: string } }) => {
+  const id = params.id
+  const dispatch: AppDispatchType = useDispatch();
+  const list = useSelector(selectList);
+
+
+  useEffect(() => {
+    dispatch(asyncGetList({ id }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
+
   return (
     <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
       <div className="flex xs:flex-col xs:items-start gap-y-3 items-center justify-between">
         <div className="space-y-2.5">
-          <p className="text-xl font-extrabold">Ebony watchlist</p>
+          <p className="text-xl font-extrabold">{list?.title}</p>
           <div className="flex items-center gap-x-4">
             <img width={50} src="/assets/images/user.png" alt="user" />
             <div className="flex flex-col gap-y-1">

@@ -6,13 +6,13 @@ export interface UsersModel {
     username: string;
     emailVerified: boolean;
     email: string;
-    password: string;
+    password?: string;
     role: string
     accountDisabled: boolean
     avatar?: string;
-    lastActive?: Date;
-    createdAt?: Date;
-    updatedAt?: Date;
+    lastActive?: string;
+    // createdAt?: Date | undefined;
+    // updatedAt?: Date;
     bio: string;
     performers: string[]
     tags: string[];

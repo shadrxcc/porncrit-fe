@@ -26,7 +26,34 @@ export const asyncGetUserList = createAsyncThunk<HttpResponse<ListData[]>>(
     }
 );
 
+interface GetListParams {
+    id: string;
+}
+
+export const asyncGetList = createAsyncThunk<HttpResponse<ListData>, GetListParams, { rejectValue: CustomError }>(
+    "lists/list",
+    async (params, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`${API_URL}/list/user-list/${params.id}`);
+
+            const list = response?.data;
+            return list;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            return rejectWithValue({ message: errorMessage });
+        }
+    }
+);
+
 export const selectLists: (state: RootStateType) => ListData[] = (
     state
 ) => state.lists.lists;
+
+export const selectList: (state: RootStateType) => ListData = (
+    state
+) => state.lists.list;
 

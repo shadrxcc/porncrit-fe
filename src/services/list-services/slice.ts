@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { asyncGetUserList } from "./async-actions";
-import { ListType } from "../models/list.model";
+import { asyncGetList, asyncGetUserList } from "./async-actions";
+import { ListData, ListType } from "../models/list.model";
 
 
 // Check if localStorage is available before accessing it
@@ -10,6 +10,7 @@ const initialState: ListType = {
     page: 0,
     totalData: 0,
     lists: [],
+    list: {} as ListData
 };
 
 export const listSlice = createSlice({
@@ -20,6 +21,10 @@ export const listSlice = createSlice({
         builder.addCase(asyncGetUserList.fulfilled, (state, action) => {
             state.status = "fulfilled";
             state.lists = action.payload.data;
+        });
+        builder.addCase(asyncGetList.fulfilled, (state, action) => {
+            state.status = "fulfilled";
+            state.list = action.payload.data;
         });
     },
 });
