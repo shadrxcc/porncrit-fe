@@ -5,13 +5,33 @@ import axiosInstance from "../httpClient";
 import { API_URL } from "../utils";
 import { RootStateType } from "../config-store";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 
 export const asyncGetUserList = createAsyncThunk<HttpResponse<ListData[]>>(
-    "videos/video",
+    "list/user-list",
     async () => {
         try {
             const response = await axiosInstance.get(`${API_URL}/list/user-list/`);
+            const lists = response?.data;
+
+            return lists;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            toast.error(errorMessage)
+        }
+    }
+);
+
+export const asyncGetAllLists = createAsyncThunk<HttpResponse<ListData[]>>(
+    "lists/all-lists",
+    async () => {
+        try {
+            const response = await axios.get(`${API_URL}/list/get-all`);
             const lists = response?.data;
 
             return lists;
@@ -56,4 +76,8 @@ export const selectLists: (state: RootStateType) => ListData[] = (
 export const selectList: (state: RootStateType) => ListData = (
     state
 ) => state.lists.list;
+
+export const selectAllList: (state: RootStateType) => ListData[] = (
+    state
+) => state.lists.allLists;
 

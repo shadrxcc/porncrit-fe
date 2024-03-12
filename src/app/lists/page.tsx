@@ -4,9 +4,9 @@ import List from '@/components/ui/general-list.component'
 import { motion } from 'framer-motion'
 
 import { DaySvg } from '@/components/shared/day.component'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ButtonComponent from '@/components/shared/button.component'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectIsAuthenticated } from '@/services/auth-services/selector'
 import HistorySvg from '@/components/shared/history'
 import WeekSvg from '@/components/shared/week'
@@ -27,6 +27,8 @@ import SignInComponent from '@/components/ui/sign-in.component'
 import SignupComponent from '@/components/ui/signup-form.component'
 import ForgottenPasswordComponent from '@/components/ui/forgotten-password.component'
 import ConfirmOtpComponent, { PasswordResetComponent } from '@/components/ui/reset-password.component'
+import { AppDispatchType } from '@/services/config-store'
+import { asyncGetAllLists, selectAllList } from '@/services/list-services/async-actions'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -48,6 +50,14 @@ const page = () => {
     openLogin, openSignUp, closeModal, openReset } = useAuthModal();
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const dispatch: AppDispatchType = useDispatch();
+  const lists = useSelector(selectAllList);
+
+  useEffect(() => {
+    dispatch(asyncGetAllLists())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const router = useRouter()
 
   const popularOptions = [
@@ -145,8 +155,8 @@ const page = () => {
           </div>
 
           <div className="flex flex-col gap-y-10">
-            {[1, 2, 3, 4].map((e) => (
-              <List key={e} />
+            {lists.map((list) => (
+              <List url={`/my-account/lists/${list?._id}`} key={list?._id} {...list} />
             ))}
           </div>
         </div>

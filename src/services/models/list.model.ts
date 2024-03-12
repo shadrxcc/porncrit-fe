@@ -83,6 +83,7 @@ export type LinkedVideoType = {
 export type ListType = {
     lists: ListData[]
     list: ListData
+    allLists: ListData[]
     status: FetchStatusType;
     page: number;
     totalData: number;
@@ -124,7 +125,7 @@ export interface ListData {
     description: string;
     title: string;
     tags: string[];
-    videos: LinkVideoModel[]; 
+    videos: LinkVideoModel[];
     user: Partial<UsersModel>;
 }
 
