@@ -79,7 +79,7 @@ const page = () => {
             case 0:
                 return <ReviewsComponent />;
             case 1:
-                return <List />;
+                return <List url=""/>;
             case 2:
                 return <TagLikeComponent />;
             case 3:

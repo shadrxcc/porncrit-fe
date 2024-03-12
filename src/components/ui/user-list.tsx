@@ -7,7 +7,7 @@ const UserLists = () => {
         <div className="mt-9">
             <div className="flex flex-col gap-y-9">
                 {[1, 2, 3, 4].map((e) => (
-                    <List key={e} />
+                    <List key={e} url=""/>
                 ))}
 
             </div>

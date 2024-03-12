@@ -33,7 +33,7 @@ const page = () => {
 
             <div className="space-y-2.5">
                 <p className="text-lg font-extrabold">Review</p>
-                <TextArea rows={3} placeholder="Let your fellow videos fans know what you think..." />
+                {/* <TextArea rows={3} placeholder="Let your fellow videos fans know what you think..." /> */}
             </div>
 
             <div className="flex justify-end">

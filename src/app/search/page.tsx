@@ -9,8 +9,6 @@ import TagListComponent from "@/components/ui/tag-lists.component";
 import TagLikeComponent from "@/components/ui/tag-like.component";
 import TagFansComponent from "@/components/ui/tag-fans.component";
 import List from "@/components/ui/general-list.component";
-import ButtonComponent from "@/components/shared/button.component";
-import { DaySvg } from "@/components/shared/day.component";
 import PopularSvg from "@/components/shared/popular";
 import RecentSvg from "@/components/shared/recent.component";
 import HighestSvg from "@/components/shared/highest";
@@ -77,7 +75,7 @@ const page = () => {
       case 0:
         return <ReviewsComponent />;
       case 1:
-        return <List />;
+        return <List url=""/>;
       case 2:
         return <TagLikeComponent />;
       case 3:
