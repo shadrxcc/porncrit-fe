@@ -85,7 +85,7 @@ const page = () => {
     if (!isAuthenticated) {
       openLogin()
     } else {
-      router.push(`/my-account/lists/new`)
+      router.push(`/lists/new`)
     }
   }
 
