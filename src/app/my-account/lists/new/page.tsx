@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { TagsType } from "@/services/models/list.model";
+import { CreateList, SearchVideo, TagsType, VideoType } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
@@ -28,22 +28,10 @@ const NewList = () => {
     const [tagError, setTagError] = useState('');
     const [tags, setTags] = useState<Array<TagsType>>([]);
     const [suggestions, setSuggestions] = useState<SuggestedTags[]>([]);
+    const [video, setVideo] = useState('');
+    const [videos, setVideos] = useState<Array<VideoType>>([]);
+    const [videoSuggestions, setVideoSuggestions] = useState<Array<Partial<SearchVideo>>>([]);
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (tag) {
-                const trimmedValue = tag.trim();
-                if (trimmedValue !== '' && !tags.some((tags) => tags.tag === trimmedValue)) {
-                    setTags((prevValues) => [
-                        ...prevValues,
-                        { tag: String(trimmedValue) },
-                    ]);
-                    setTag('');
-                }
-            }
-        }
-    };
 
     const deleteInputCharacter = (e: { key: string }) => {
         if (e.key === 'Backspace') {
@@ -57,7 +45,7 @@ const NewList = () => {
         try {
             const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
 
-            const tags = res?.data.data
+            const tags = res?.data?.data
             return tags;
         } catch (err) {
             toast.error('Error Completing request. Try again later.');
@@ -65,22 +53,37 @@ const NewList = () => {
         }
     }
 
+    async function fetchVideos(searchTerm: string) {
+        try {
+            const res = await axiosInstance.get(`${API_URL}/videos/get-videos/${searchTerm}`);
+            const videos = res?.data?.data
+            return videos;
+        } catch (err) {
+            toast.error('Error fetching videos. Try again later.');
+            throw err;
+        }
+    }
+
+    const fetchVideosAndSetSuggestions = async (searchTerm: string) => {
+        try {
+            const fetchedVideos = await fetchVideos(searchTerm);
+            setVideoSuggestions(fetchedVideos);
+        } catch (error) {
+            console.error('Error fetching videos:', error);
+            setVideoSuggestions([]);
+        }
+    };
+
 
     const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
         try {
             const fetchedTags = await fetchTags(searchTerm);
-            console.log(fetchedTags);
-
             setSuggestions(fetchedTags);
         } catch (error) {
             console.error('Error fetching tags:', error);
             setSuggestions([]);
         }
     };
-
-    console.log(suggestions);
-    console.log(tags);
-
 
 
     // handle input change
@@ -89,10 +92,23 @@ const NewList = () => {
         if (e.target.name === 'tags') {
             setTag(inputValue);
             setTagError('');
-            if (inputValue.length > 2) { // Adjust this condition as needed
+            if (inputValue.length > 2) {
                 fetchTagsAndSetSuggestions(inputValue);
             } else {
                 setSuggestions([]);
+            }
+        }
+    };
+
+    const handleVideoSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+
+        if (e.target.name === 'videos') {
+            setVideo(inputValue);
+            if (inputValue.length > 2) {
+                fetchVideosAndSetSuggestions(inputValue);
+            } else {
+                setVideoSuggestions([]);
             }
         }
     };
@@ -105,17 +121,47 @@ const NewList = () => {
         }
     };
 
+    const handleVideoSuggestionClick = (video: Partial<SearchVideo>) => {
+        if (video.title && video.image && video._id) {
+            const newVideo = {
+                title: video.title,
+                image: video.image,
+                id: video._id
+            };
+
+            setVideos((prevVideos) => [...prevVideos, newVideo]);
+            setVideo('');
+            setVideoSuggestions([]);
+        }
+    };
+
+    function createList(props: CreateList) {
+        axiosInstance.post(`${API_URL}/list/create`, { ...props })
+            .then((res) => {
+                toast(res?.data?.message)
+                console.log(res);
+
+            })
+            .catch((err) => {
+                toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+            })
+    }
+
+
     return (
         <div className="flex md:w-standard mx-auto gap-y-8 flex-col">
             <h1 className="text-xl font-extrabold">Create new list</h1>
             <Formik initialValues={{
-                // title: "",
-                // description: "",
+                title: "",
+                description: "",
             }}
                 validationSchema={Yup.object({
                 })}
                 onSubmit={(values) => {
-                    console.log(values);
+                    const params = {
+                        ...values, tags: tags.map((tag) => tag.tag), videos: videos.map((video) => video.id)
+                    };
+                    createList(params);
                 }}>
                 <Form>
                     <div className="space-y-7">
@@ -125,18 +171,18 @@ const NewList = () => {
                                 label="List title"
                             />
                             <TextArea
+                                name="description"
                                 rows={4}
                                 placeholder="Let your fellow videos fans know a bit about your list.."
                                 label="List description" />
                             <div className="flex flex-col gap-y-4">
                                 <div className={`flex flex-col gap-y-3`}>
-                                    <label className="text-lg font-bold text-white" htmlFor="tags">Favorite Tags</label>
+                                    <label className="text-lg font-bold text-white" htmlFor="tags">Tags</label>
                                     <input name="tags"
                                         className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
-                                        placeholder="Type and choose tags that fit the video. If not found, add your own!"
+                                        placeholder="Start typing and pick up to 5 tags that describe your list..."
                                         onChange={inputChange}
                                         onKeyDown={(e) => {
-                                            handleKeyPress(e);
                                             deleteInputCharacter(e);
                                         }}
                                         value={tag}
@@ -151,7 +197,6 @@ const NewList = () => {
                                 </div>
 
                                 {tags?.length > 0 && (
-
                                     <div className="flex items-center flex-wrap gap-3">
                                         {tags.map((item: TagsType) => (
                                             <SelectTagComponent key={item.tag} tag={item.tag} />
@@ -162,46 +207,63 @@ const NewList = () => {
                             </div>
 
                             <div className="flex flex-col gap-y-4">
-                                <Input name="videos"
-                                    placeholder="Start typing and pick the videos you’d like to add..."
-                                    label="Add videos"
-                                />
-                                <ButtonComponent className="!w-fit place-self-end">
-                                    Add videos
-                                </ButtonComponent>
-                            </div>
+                                <div className={`flex flex-col gap-y-3`}>
+                                    <label className="text-lg font-bold text-white" htmlFor="tags">Add videos</label>
+                                    <input name="videos"
+                                        placeholder="Start typing and pick the videos you’d like to add..."
+                                        className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
 
-                            <div className="space-y-3">
-                                <p className="text-sm font-medium">Videos</p>
-                                <div className="flex flex-col gap-y-3">
-                                    {[1, 2, 3].map((e) => (
-                                        <div key={e} className="flex flex-col py-3 gap-y-5 rounded-box bg-box px-[18px]">
-                                            <div className="flex items-center gap-x-3">
-                                                <Image
-                                                    src={`/assets/images/3some.png`}
-                                                    width={88}
-                                                    height={50}
-                                                    alt="threesome"
-                                                />
-                                                <p>Threesome</p>
-                                            </div>
+                                        onChange={handleVideoSearchChange}
+                                        onKeyDown={(e) => {
+                                            deleteInputCharacter(e);
+                                        }}
+                                        value={video}
+                                    />
 
-                                            <div className="flex items-center justify-between">
-                                                <ButtonComponent className="xs:w-full !w-fit" variant="outline-pink">
-                                                    Delete</ButtonComponent>
-                                                <ButtonComponent variant="secondary" className="!w-fit !p-0">
-                                                    <CodeSvg />
-                                                </ButtonComponent>
-                                            </div>
+                                    {videoSuggestions.map((suggestion) => (
+                                        <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-gray-200" onClick={() => handleVideoSuggestionClick(suggestion)}>
+                                            <Image src={suggestion?.image || ""} width={50} height={50} alt={suggestion?.title || "loading"} />
+                                            {suggestion.title}
                                         </div>
                                     ))}
+                                    {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
+
+                                {videos?.length > 0 && (
+
+                                    <div className="space-y-3">
+                                        <p className="text-sm font-medium">Videos</p>
+                                        <div className="flex flex-col gap-y-3">
+                                            {videos.map((video) => (
+                                                <div key={video?.id} className="flex flex-col py-3 gap-y-5 rounded-box bg-box px-[18px]">
+                                                    <div className="flex items-center gap-x-3">
+                                                        <Image
+                                                            src={video?.image}
+                                                            width={88}
+                                                            height={50}
+                                                            alt="threesome"
+                                                        />
+                                                        <p>{video?.title}</p>
+                                                    </div>
+
+                                                    <div className="flex items-center justify-between">
+                                                        <ButtonComponent className="xs:w-full !w-fit" variant="outline-pink">
+                                                            Delete</ButtonComponent>
+                                                        <ButtonComponent variant="secondary" className="!w-fit !p-0">
+                                                            <CodeSvg />
+                                                        </ButtonComponent>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                             </div>
+                            <ButtonComponent type="submit" className="!w-fit place-self-end">
+                                Save list
+                            </ButtonComponent>
                         </div>
-                        <ButtonComponent className="!w-fit place-self-end">
-                            Save list
-                        </ButtonComponent>
-                    </div>
                 </Form>
             </Formik>
 

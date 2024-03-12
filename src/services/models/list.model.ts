@@ -5,6 +5,12 @@ export type TagsType = {
     tag: string;
 };
 
+export type VideoType = {
+    title: string;
+    image: string;
+    id: string;
+};
+
 export type PerformersType = {
     performer: string
 }
@@ -53,67 +59,83 @@ export interface UsersModel {
 export type LinkedVideoType = {
     user?: UsersModel
     video: {
-        _id: string; 
-        title: string; 
+        _id: string;
+        title: string;
         rating: number;
-        models: string[]; 
-        videoId: string; 
-        image: string; 
-        duration: string; 
-        embedLink: string; 
-        views: number; 
-        createdAt: string; 
-        updatedAt: string; 
-        reviewCount: number; 
-        uploader: string; 
-        tags: string[]; 
+        models: string[];
+        videoId: string;
+        image: string;
+        duration: string;
+        embedLink: string;
+        views: number;
+        createdAt: string;
+        updatedAt: string;
+        reviewCount: number;
+        uploader: string;
+        tags: string[];
         __v?: number | undefined;
     };
     status: FetchStatusType;
     page: number;
     totalData: number;
 };
-// "data": {
-//     "title": "VIXEN Stunning beauty Olivia orgasms & squirts intensely",
-//     "rating": 5,
-//     "models": [
-//         "maximo_garcia1",
-//         "olivia-jay2"
-//     ],
-//     "tags": [
-//         "facial",
-//         "blowjob",
-//         "handjob",
-//         "brunette",
-//         "riding",
-//         "doggystyle",
-//         "squirting",
-//         "squirt",
-//         "deepthroat",
-//         "ebony",
-//         "pussy-licking",
-//         "reverse-cowgirl",
-//         "spoon",
-//         "spooning",
-//         "cum-in-mouth",
-//         "hairy-pussy",
-//         "misisonary"
-//     ],
-//     "videoId": "video77240583/vixen_stunning_beauty_olivia_orgasms_and_squirts_intensely",
-//     "image": "https://gcore-pic.xvideos-cdn.com/videos/thumbs169ll/35/63/94/35639434e9e88fd554aae6eaec2f3603/35639434e9e88fd554aae6eaec2f3603.30.jpg",
-//     "duration": "12min, 27sec",
-//     "embedLink": "https://www.xvideos.com/embedframe/77240583",
-//     "views": 1,
-//     "reviewCount": 1,
-//     "uploader": "65dc935c59578c7ffce3e3d9",
-//     "_id": "65ec553aee861dad0ea60c68",
-//     "createdAt": "2024-03-09T12:25:30.059Z",
-//     "updatedAt": "2024-03-09T12:25:30.059Z",
-//     "__v": 0
-// },
 
 export interface UpdateVideo {
-    videoId:string;
-    tags:string[];
-    model:string[];
+    videoId: string;
+    tags: string[];
+    model: string[];
 }
+
+export interface SearchVideo {
+    _id: string,
+    title: string,
+    rating: number,
+    models: string[],
+    tags: string[],
+    videoId: string,
+    image: string,
+    duration: string,
+    embedLink: string,
+    views: number,
+    reviewCount: number,
+    uploader: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: number
+}
+
+export interface CreateList {
+    title: string;
+    description: string;
+    tags: string[],
+    videos: string[]
+}
+
+
+
+
+// {
+//     "message": "Videos fetch",
+//     "data": [
+//         {
+//             "_id": "65eefa96b3ead7003a20981c",
+//             "title": "Black stepsis gets what she wants - ebony porn",
+//             "rating": 5,
+//             "models": [
+//                 "mena-carlisle1"
+//             ],
+//             "tags": [],
+//             "videoId": "video71601483/black_stepsis_gets_what_she_wants_-_ebony_porn",
+//             "image": "https://cdn77-pic.xvideos-cdn.com/videos/thumbs169ll/f7/e1/5d/f7e15db77f92a77fcf837a5d5e64bb4a/f7e15db77f92a77fcf837a5d5e64bb4a.30.jpg",
+//             "duration": "5min, 0sec",
+//             "embedLink": "https://www.xvideos.com/embedframe/uuuldube73e",
+//             "views": 1,
+//             "reviewCount": 1,
+//             "uploader": "65dc935c59578c7ffce3e3d9",
+//             "createdAt": "2024-03-11T12:35:34.007Z",
+//             "updatedAt": "2024-03-11T12:37:06.730Z",
+//             "__v": 0
+//         }
+//     ],
+//     "success": true
+// }
