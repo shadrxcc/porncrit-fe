@@ -135,6 +135,10 @@ const NewList = () => {
         }
     };
 
+    const deleteVideo = (videoId: string) => {
+        setVideos((prevVideos) => prevVideos.filter((video) => video.id !== videoId));
+    };
+
     function createList(props: CreateList) {
         axiosInstance.post(`${API_URL}/list/create`, { ...props })
             .then((res) => {
@@ -219,13 +223,15 @@ const NewList = () => {
                                         }}
                                         value={video}
                                     />
+                                    {videoSuggestions?.length > 0 ? <div className="bg-box">
+                                        {videoSuggestions.map((suggestion) => (
+                                            <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-gray-200" onClick={() => handleVideoSuggestionClick(suggestion)}>
+                                                <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} />
+                                                <p className="text-sm text-mauve">{suggestion.title}</p>
+                                            </div>
+                                        ))}
+                                    </div> : null}
 
-                                    {videoSuggestions.map((suggestion) => (
-                                        <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-gray-200" onClick={() => handleVideoSuggestionClick(suggestion)}>
-                                            <Image src={suggestion?.image || ""} width={50} height={50} alt={suggestion?.title || "loading"} />
-                                            {suggestion.title}
-                                        </div>
-                                    ))}
                                     {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
 
@@ -243,13 +249,13 @@ const NewList = () => {
                                                             height={50}
                                                             alt="threesome"
                                                         />
-                                                        <p>{video?.title}</p>
+                                                        <p className="text-sm">{video?.title}</p>
                                                     </div>
 
                                                     <div className="flex items-center justify-between">
-                                                        <ButtonComponent className="xs:w-full !w-fit" variant="outline-pink">
+                                                        <ButtonComponent type="button" onClick={() => deleteVideo(video.id)} className="xs:w-full !w-fit" variant="outline-pink">
                                                             Delete</ButtonComponent>
-                                                        <ButtonComponent variant="secondary" className="!w-fit !p-0">
+                                                        <ButtonComponent type="button" variant="secondary" className="!w-fit !p-0">
                                                             <CodeSvg />
                                                         </ButtonComponent>
                                                     </div>
