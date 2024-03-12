@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Tab } from "../videos/[id]/page";
+import { Tab } from "../../videos/[id]/page";
 import { motion } from "framer-motion";
 import ReviewsComponent from "@/components/ui/reviews.component";
 import VideoListed from "@/components/ui/video-listed.component";
@@ -68,31 +68,46 @@ const fansOptions = [
     { name: 'Biggest Fan', icon: <MostActiveSvg /> }
 ];
 
-const page = () => {
+const page = ({ params }: { params: { tag: string } }) => {
+    const tag = params.tag
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const onTabClick = (index: number) => {
         setActiveTabIndex(index);
     };
 
     const getTabContent = () => {
+        let content;
+        let subheading;
         switch (activeTabIndex) {
             case 0:
-                return <ReviewsComponent />;
+                content = <ReviewsComponent />;
+                subheading = `Reviews of “${tag}” videos`;
+                break;
             case 1:
-                return <List url=""/>;
+                content = <List url="" />;
+                subheading = `Lists featuring “${tag}”`;
+                break;
             case 2:
-                return <TagLikeComponent />;
+                content = <TagLikeComponent />;
+                subheading = `“${tag}” likes`;
+                break;
             case 3:
-                return <TagFansComponent />
+                content = <TagFansComponent />;
+                subheading = `“${tag}” fans`;
+                break;
             default:
-                return null;
+                content = null;
+                subheading = '';
         }
+        return { content, subheading };
     };
+
+    const { content, subheading } = getTabContent();
 
 
     return (
         <div className="space-y-5 md:w-standard mt-8 mx-auto">
-            <h1 className="text-xl font-extrabold leading-7">{tabs[activeTabIndex].subheading}</h1>
+            <h1 className="text-xl font-extrabold leading-7">{subheading}</h1>
             <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
                 <div className='flex items-center gap-x-1'>
                     {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
@@ -134,7 +149,7 @@ const page = () => {
 
 
 
-            <div className="mt-9">{getTabContent()}</div>
+            <div className="mt-9">{content}</div>
         </div>
     )
 }

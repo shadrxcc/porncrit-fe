@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "@/services/auth-services/selector";
 import { useEffect } from "react";
 import { getUserProfile } from "@/services/auth-services/async-actions";
+import { useRouter } from "next/navigation";
 
 const UserAbout = () => {
     const dispatch: AppDispatchType = useDispatch()
     const user = useSelector(selectAuthUser);
+    const router = useRouter()
 
     useEffect(() => {
         dispatch(getUserProfile());
@@ -25,7 +27,7 @@ const UserAbout = () => {
             <p className="text-xl font-extrabold">Favorite tags</p>
             <div className="flex flex-wrap items-center gap-4">
                 {user?.tags.map((tag) => (
-                    <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
+                    <ButtonComponent onClick={()=>router.push(`/tags/${tag}`)} key={tag} className="rounded-[20px]" variant="tags">
                         {tag}
                     </ButtonComponent>
                 ))}

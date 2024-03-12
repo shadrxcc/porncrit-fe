@@ -2,7 +2,7 @@ import ButtonComponent from "../shared/button.component";
 
 type SelectTagProps = {
     tag?: string;
-    remove?: () => void
+    remove?: (id:string) => void
 }
 
 const SelectTagComponent = (props: SelectTagProps) => {

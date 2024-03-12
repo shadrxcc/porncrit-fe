@@ -13,6 +13,7 @@ import { CreateList, SearchVideo, TagsType, VideoType } from "@/services/models/
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
+import { Listbox } from "@headlessui/react";
 
 
 type SuggestedTags = {
@@ -139,6 +140,10 @@ const NewList = () => {
         setVideos((prevVideos) => prevVideos.filter((video) => video.id !== videoId));
     };
 
+    const deleteTag = (tagtoDelete: string) => {
+        setTags((prevTags) => prevTags.filter((tag) => tag.tag !== tagtoDelete));
+    };
+
     function createList(props: CreateList) {
         axiosInstance.post(`${API_URL}/list/create`, { ...props })
             .then((res) => {
@@ -192,18 +197,23 @@ const NewList = () => {
                                         value={tag}
                                     />
 
-                                    {suggestions.map((suggestion, index) => (
-                                        <div key={index} className="cursor-pointer p-2 hover:bg-gray-200" onClick={() => handleSuggestionClick(suggestion.title)}>
-                                            {suggestion?.title}
-                                        </div>
-                                    ))}
+                                    {suggestions?.length > 0 ? <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                        {suggestions.map((suggestion, index) => (
+                                            <div key={index} className="cursor-pointer p-2 hover:bg-gray-200" onClick={() => handleSuggestionClick(suggestion.title)}>
+                                                {suggestion?.title}
+                                            </div>
+                                        ))}
+                                    </div> : null}
+
+
                                     {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
+
 
                                 {tags?.length > 0 && (
                                     <div className="flex items-center flex-wrap gap-3">
                                         {tags.map((item: TagsType) => (
-                                            <SelectTagComponent key={item.tag} tag={item.tag} />
+                                            <SelectTagComponent key={item.tag} tag={item.tag} remove={() => deleteTag(item.tag)} />
                                         ))}
                                     </div>
                                 )}
@@ -223,14 +233,15 @@ const NewList = () => {
                                         }}
                                         value={video}
                                     />
-                                    {videoSuggestions?.length > 0 ? <div className="bg-box">
-                                        {videoSuggestions.map((suggestion) => (
-                                            <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-gray-200" onClick={() => handleVideoSuggestionClick(suggestion)}>
-                                                <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} />
-                                                <p className="text-sm text-mauve">{suggestion.title}</p>
-                                            </div>
-                                        ))}
-                                    </div> : null}
+                                    {videoSuggestions?.length > 0 ?
+                                        <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                            {videoSuggestions.map((suggestion) => (
+                                                <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-gray-200" onClick={() => handleVideoSuggestionClick(suggestion)}>
+                                                    <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} />
+                                                    <p className="text-sm text-mauve">{suggestion.title}</p>
+                                                </div>
+                                            ))}
+                                        </div> : null}
 
                                     {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
