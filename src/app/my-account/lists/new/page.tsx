@@ -264,6 +264,7 @@ const NewList = () => {
                                 Save list
                             </ButtonComponent>
                         </div>
+                    </div>
                 </Form>
             </Formik>
 
