@@ -120,6 +120,14 @@ export interface CreateList {
     videos: string[]
 }
 
+export interface EditList {
+    title: string;
+    description: string;
+    tags: string[],
+    videos: string[];
+    listId: string;
+}
+
 export interface ListData {
     _id: string;
     description: string;
