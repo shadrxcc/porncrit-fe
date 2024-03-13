@@ -77,8 +77,6 @@ const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, e
                             verificationCode: otp, userId: Id
                         };
                         handleVerify(params)
-
-
                     }}
                 >
                     <Form className='flex flex-col w-full gap-y-3.5'>

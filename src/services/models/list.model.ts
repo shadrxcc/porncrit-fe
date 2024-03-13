@@ -125,6 +125,7 @@ export interface ListData {
     description: string;
     title: string;
     tags: string[];
+    uploader: string
     videos: LinkVideoModel[];
     user: Partial<UsersModel>;
 }
