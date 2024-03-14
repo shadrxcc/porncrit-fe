@@ -13,6 +13,7 @@ import { CreateList, SearchVideo, TagsType, VideoType } from "@/services/models/
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
+import LoaderSvg from "@/components/shared/loader.svg.component";
 
 
 type SuggestedTags = {
@@ -31,57 +32,73 @@ const NewList = () => {
     const [video, setVideo] = useState('');
     const [videos, setVideos] = useState<Array<VideoType>>([]);
     const [videoSuggestions, setVideoSuggestions] = useState<Array<Partial<SearchVideo>>>([]);
+    const [searchTag, setSearchTag] = useState(false)
+    const [searchVideo, setSearchVideo] = useState(false)
+    const [noTags, setNoTags] = useState("");
+    const [noVideo, setNoVideo] = useState("");
 
-
-    const deleteInputCharacter = (e: { key: string }) => {
-        if (e.key === 'Backspace') {
-            if (tag) {
-                setTag(tag.slice(0, -1));
-            }
-        }
-    };
 
     async function fetchTags(searchTerm: string) {
+        setSearchTag(true)
         try {
             const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
 
             const tags = res?.data?.data
+            if (tags.length === 0) {
+                setNoTags("Oooops! Looks like we couldn't find that tag.");
+            }
+
             return tags;
         } catch (err) {
             toast.error('Error Completing request. Try again later.');
             throw err;
+        } finally {
+            setSearchTag(false)
         }
     }
 
+
     async function fetchVideos(searchTerm: string) {
+        setSearchVideo(true)
         try {
             const res = await axiosInstance.get(`${API_URL}/videos/get-videos/${searchTerm}`);
             const videos = res?.data?.data
+            if (videos.length === 0) {
+                setNoVideo("Oooops! Looks like we couldn't find that video.");
+            }
+
             return videos;
         } catch (err) {
             toast.error('Error fetching videos. Try again later.');
             throw err;
+        } finally {
+            setSearchVideo(false)
         }
     }
 
+
     const fetchVideosAndSetSuggestions = async (searchTerm: string) => {
+        setSearchVideo(true)
         try {
             const fetchedVideos = await fetchVideos(searchTerm);
             setVideoSuggestions(fetchedVideos);
-        } catch (error) {
-            console.error('Error fetching videos:', error);
+        } catch {
             setVideoSuggestions([]);
+        } finally {
+            setSearchVideo(false)
         }
     };
 
 
     const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
+        setSearchTag(true)
         try {
             const fetchedTags = await fetchTags(searchTerm);
             setSuggestions(fetchedTags);
-        } catch (error) {
-            console.error('Error fetching tags:', error);
+        } catch {
             setSuggestions([]);
+        } finally {
+            setSearchTag(false)
         }
     };
 
@@ -92,9 +109,11 @@ const NewList = () => {
         if (e.target.name === 'tags') {
             setTag(inputValue);
             setTagError('');
-            if (inputValue.length > 2) {
+            setNoTags("")
+            if (inputValue.length > 0) {
                 fetchTagsAndSetSuggestions(inputValue);
             } else {
+                setSearchTag(false)
                 setSuggestions([]);
             }
         }
@@ -105,9 +124,11 @@ const NewList = () => {
 
         if (e.target.name === 'videos') {
             setVideo(inputValue);
-            if (inputValue.length > 2) {
+            setNoVideo("")
+            if (inputValue.length > 0) {
                 fetchVideosAndSetSuggestions(inputValue);
             } else {
+                setSearchVideo(false)
                 setVideoSuggestions([]);
             }
         }
@@ -184,17 +205,24 @@ const NewList = () => {
                             <div className="flex flex-col gap-y-4">
                                 <div className={`flex flex-col gap-y-3`}>
                                     <label className="text-lg font-bold text-white" htmlFor="tags">Tags</label>
-                                    <input name="tags"
-                                        className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
-                                        placeholder="Start typing and pick up to 5 tags that describe your list..."
-                                        onChange={inputChange}
-                                        onKeyDown={(e) => {
-                                            deleteInputCharacter(e);
-                                        }}
-                                        value={tag}
-                                    />
+                                    <div className="flex items-center relative">
+                                        <input name="tags"
+                                            className={`px-4 bg-white w-full text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
+                                            placeholder="Start typing and pick up to 5 tags that describe your list..."
+                                            onChange={inputChange}
+                                            // onKeyDown={(e) => {
+                                            //     deleteInputCharacter(e);
+                                            // }}
+                                            value={tag}
+                                        />
 
-                                    {suggestions?.length > 0 ? <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                        {searchTag ? <div className="absolute right-3 bottom-2 top-2">
+                                            <LoaderSvg />
+                                        </div> : null}
+                                    </div>
+
+
+                                    {suggestions?.length > 0 ? <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none text-sm">
                                         {suggestions.map((suggestion, index) => (
                                             <div key={index} className="cursor-pointer p-2 hover:bg-gray-200" onClick={() => handleSuggestionClick(suggestion.title)}>
                                                 {suggestion?.title}
@@ -202,6 +230,11 @@ const NewList = () => {
                                         ))}
                                     </div> : null}
 
+                                    {tag.trim() !== "" && noTags ? (
+                                        <div className="bg-box mt-1 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                            <p className="text-sm">{noTags}</p>
+                                        </div>
+                                    ) : null}
 
                                     {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
@@ -220,25 +253,40 @@ const NewList = () => {
                             <div className="flex flex-col gap-y-4">
                                 <div className={`flex flex-col gap-y-3`}>
                                     <label className="text-lg font-bold text-white" htmlFor="tags">Add videos</label>
-                                    <input name="videos"
-                                        placeholder="Start typing and pick the videos you’d like to add..."
-                                        className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
+                                    <div className="flex items-center relative">
+                                        <input name="videos"
+                                            placeholder="Start typing and pick the videos you’d like to add..."
+                                            className={`px-4 bg-white w-full text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
 
-                                        onChange={handleVideoSearchChange}
-                                        onKeyDown={(e) => {
-                                            deleteInputCharacter(e);
-                                        }}
-                                        value={video}
-                                    />
+                                            onChange={handleVideoSearchChange}
+                                            // onKeyDown={(e) => {
+                                            //     deleteInputCharacter(e);
+                                            // }}
+                                            value={video}
+                                        />
+
+                                        {searchVideo ? <div className="absolute right-3 bottom-2 top-2">
+                                            <LoaderSvg />
+                                        </div> : null}
+
+                                    </div>
+
                                     {videoSuggestions?.length > 0 ?
                                         <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm suggestion-scroll">
                                             {videoSuggestions.map((suggestion) => (
                                                 <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-body" onClick={() => handleVideoSuggestionClick(suggestion)}>
-                                                    <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} className="rounded-[3px]"/>
+                                                    <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} className="rounded-[3px]" />
                                                     <p className="text-sm text-mauve">{suggestion.title}</p>
                                                 </div>
                                             ))}
-                                        </div> : null}
+                                        </div> : null
+                                    }
+
+                                    {video.trim() !== "" && noVideo ? (
+                                        <div className="bg-box mt-1 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                            <p className="text-sm">{noVideo}</p>
+                                        </div>
+                                    ) : null}
 
                                     {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                                 </div>
