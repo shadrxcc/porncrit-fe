@@ -4,12 +4,11 @@ import { useState } from "react";
 import { Tab } from "../../videos/[id]/page";
 import { motion } from "framer-motion";
 import ReviewsComponent from "@/components/ui/reviews.component";
-import VideoListed from "@/components/ui/video-listed.component";
-import { DaySvg } from '@/components/shared/day.component'
+
 import TagLikeComponent from "@/components/ui/tag-like.component";
 import TagFansComponent from "@/components/ui/tag-fans.component";
 import List from "@/components/ui/general-list.component";
-import ButtonComponent from "@/components/shared/button.component";
+
 import PopularSvg from "@/components/shared/popular";
 import RecentSvg from "@/components/shared/recent.component";
 import FilterComponent from "@/components/shared/filter.component";

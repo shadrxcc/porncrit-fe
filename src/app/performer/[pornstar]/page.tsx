@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Tab } from "../videos/[id]/page";
+import { Tab } from "../../videos/[id]/page";
 import { motion } from "framer-motion";
 import ReviewsComponent from "@/components/ui/reviews.component";
 
@@ -67,9 +67,10 @@ const fansOptions = [
 ];
 
 
-const page = () => {
+const page = ({ params }: { params: { pornstar: string } }) => {
+    const performer = params.pornstar;
+    
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const [sort, setSort] = useState(false)
     const onTabClick = (index: number) => {
         setActiveTabIndex(index);
     };

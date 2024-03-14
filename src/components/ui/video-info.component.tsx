@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ButtonComponent from "../shared/button.component"
 import { LinkedVideoType } from "@/services/models/list.model";
+import Link from "next/link";
 
 const VideoInfo = ({ video }: { video: LinkedVideoType['video'] }) => {
     const { tags, models } = video;
@@ -21,12 +22,15 @@ const VideoInfo = ({ video }: { video: LinkedVideoType['video'] }) => {
             <p className="text-xl font-extrabold">Performers</p>
             <div className="flex flex-wrap items-center gap-4">
                 {models.map((model) => (
-                    <div key={model} className="flex items-center gap-x-2">
-                        <img width={40} src="/assets/images/tori.png" alt={model} />
-                        <ButtonComponent className="rounded-[20px]" variant="tags">
-                            {model}
-                        </ButtonComponent>
-                    </div>
+                    <Link key={model} href={`/performers/${model}`}>
+                        <div className="flex items-center gap-x-2">
+                            <img width={40} src="/assets/images/tori.png" alt={model} />
+                            <ButtonComponent className="rounded-[20px]" variant="tags">
+                                {model}
+                            </ButtonComponent>
+                        </div>
+                    </Link>
+
                 ))}
             </div>
         </div>
