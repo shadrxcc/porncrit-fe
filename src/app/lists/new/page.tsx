@@ -231,10 +231,10 @@ const NewList = () => {
                                         value={video}
                                     />
                                     {videoSuggestions?.length > 0 ?
-                                        <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                        <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm suggestion-scroll">
                                             {videoSuggestions.map((suggestion) => (
-                                                <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-gray-200" onClick={() => handleVideoSuggestionClick(suggestion)}>
-                                                    <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} />
+                                                <div key={suggestion._id} className="cursor-pointer flex items-center gap-2 p-2 hover:bg-body" onClick={() => handleVideoSuggestionClick(suggestion)}>
+                                                    <Image src={suggestion?.image || ""} width={100} height={100} alt={suggestion?.title || "loading"} className="rounded-[3px]"/>
                                                     <p className="text-sm text-mauve">{suggestion.title}</p>
                                                 </div>
                                             ))}
@@ -256,6 +256,7 @@ const NewList = () => {
                                                             width={88}
                                                             height={50}
                                                             alt="threesome"
+                                                            className="rounded-[3px]"
                                                         />
                                                         <p className="text-sm">{video?.title}</p>
                                                     </div>

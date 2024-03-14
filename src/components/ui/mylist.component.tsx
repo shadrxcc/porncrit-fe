@@ -19,7 +19,7 @@ const MyLists = () => {
 
     return <>
         <div className="flex flex-col gap-y-5 items-center mt-9">
-            <Link href={`/my-account/lists/new`}><ButtonComponent>Create new list</ButtonComponent></Link>
+            <Link href={`/lists/new`}><ButtonComponent>Create new list</ButtonComponent></Link>
             <div className="flex flex-col w-full gap-y-9">
                 {lists.map((list) => (
                     <List url={`/my-account/lists/${list?._id}`} key={list?._id} {...list} />
