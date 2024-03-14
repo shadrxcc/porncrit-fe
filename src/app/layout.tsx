@@ -18,20 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AppLayout>
-      <html lang="en">
-        <body suppressHydrationWarning={true}>
-          <Providers>
-            <Header />
-            <div className="xs:px-2.5 px-4 mt-32 sm:px-8">
-              {children}
-            </div>
-            <FooterComponent />
-            <ToastContainer />
-          </Providers>
-        </body>
-      </html>
-
+    <html suppressHydrationWarning={true} lang="en">
+      <AppLayout>
+      <body>
+        <Providers>
+          <Header />
+          <div className="xs:px-2.5 px-4 mt-32 sm:px-8">
+            {children}
+          </div>
+          <FooterComponent />
+          <ToastContainer />
+        </Providers>
+      </body>
     </AppLayout>
+    </html>
   );
 }

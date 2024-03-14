@@ -24,22 +24,18 @@ const tabs: Tab[] = [
     {
         title: "Reviews",
         id: "reviews",
-        subheading: "Reviews of “Brunette” videos"
     },
     {
         title: "Lists",
         id: "lists",
-        subheading: "Lists featuring “Brunette”"
     },
     {
         title: "Likes",
         id: "likes",
-        subheading: "“Brunette” likes"
     },
     {
         title: "Fans",
         id: "fans",
-        subheading: "“Brunette” fans"
     },
 ];
 
@@ -154,4 +150,3 @@ const page = ({ params }: { params: { tag: string } }) => {
 }
 
 export default page
-
