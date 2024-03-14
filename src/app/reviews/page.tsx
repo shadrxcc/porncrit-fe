@@ -83,14 +83,14 @@ const page = () => {
       </div>
 
       <div className='flex flex-col gap-y-7'>
-        <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
+        <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-4 items-center">
           <div className='flex items-center gap-x-1'>
             {activeTab.id === 1 && <FilterComponent data={popularOptions} />}
             {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
             {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
           </div>
 
-          <div className="flex overflow-auto no-scroll justify-around gap-x-10">
+          <div className="flex overflow-auto no-scroll gap-x-10">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
