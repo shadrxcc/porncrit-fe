@@ -147,8 +147,6 @@ const NewList = () => {
         axiosInstance.post(`${API_URL}/list/create`, { ...props })
             .then((res) => {
                 toast(res?.data?.message)
-                console.log(res);
-
             })
             .catch((err) => {
                 toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
