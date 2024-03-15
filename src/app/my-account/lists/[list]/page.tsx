@@ -7,10 +7,14 @@ import { asyncGetList, selectList } from "@/services/list-services/async-actions
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const page = ({ params }: { params: { id: string } }) => {
-  const id = params.id
+const page = ({ params }: { params: { list: string } }) => {
+  const id = params.list
+
   const dispatch: AppDispatchType = useDispatch();
   const list = useSelector(selectList);
+
+  console.log(list.user?.username);
+  
 
 
   useEffect(() => {
@@ -24,11 +28,11 @@ const page = ({ params }: { params: { id: string } }) => {
         <div className="space-y-2.5">
           <p className="text-xl font-extrabold">{list?.title}</p>
           <div className="flex items-center gap-x-4">
-            <img width={50} src="/assets/images/user.png" alt="user" />
+            <img width={50} src={list?.user?.avatar} alt="user" />
             <div className="flex flex-col gap-y-1">
               <p className="text-sm">List created by</p>
               <p className="text-sm text-pink">
-                PlayDirty😉
+                {list?.user?.username}
               </p>
             </div>
           </div>
@@ -40,7 +44,7 @@ const page = ({ params }: { params: { id: string } }) => {
           Edit list</ButtonComponent>
       </div>
 
-      <ListTabs />
+      <ListTabs data={list} />
     </div>
   );
 };

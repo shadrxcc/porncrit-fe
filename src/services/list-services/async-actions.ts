@@ -54,7 +54,7 @@ export const asyncGetList = createAsyncThunk<HttpResponse<ListData>, GetListPara
     "lists/list",
     async (params, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`${API_URL}/list/user-list/${params.id}`);
+            const response = await axiosInstance.get(`${API_URL}/list/get-details/${params.id}`);
 
             const list = response?.data;
             return list;

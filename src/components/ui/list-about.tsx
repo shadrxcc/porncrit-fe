@@ -1,27 +1,31 @@
+import { UsersModel } from "@/services/models/user.model";
 import ButtonComponent from "../shared/button.component"
 
-const ListAbout = () => {
+type ListsComponentProps = {
+    title?: string;
+    description?: string;
+    tags: string[]
+    user?: Partial<UsersModel>;
+}
+
+const ListAbout = (props: ListsComponentProps) => {
+    const { description, tags } = props;
     return <div className="flex flex-col gap-y-8">
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">List Description</p>
             <p className="text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                {description}
             </p>
         </div>
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">List tags</p>
             <div className="flex flex-wrap items-center gap-4">
-                <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Big boobs
-                </ButtonComponent>
-                <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Brunette
-                </ButtonComponent>
-                <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Masturbation
-                </ButtonComponent>
+                {tags.map((tag) => (
+                    <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
+                        {tag}
+                    </ButtonComponent>
+                ))}
             </div>
         </div>
 

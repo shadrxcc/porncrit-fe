@@ -2,6 +2,7 @@ import Image from "next/image"
 import ButtonComponent from "../shared/button.component";
 import { useRouter } from "next/navigation";
 import { UsersModel } from "@/services/models/user.model";
+import { memo } from "react";
 
 type ListsComponentProps = {
   title?: string;
@@ -60,4 +61,4 @@ const List = (props: ListProps) => {
   </div>
 }
 
-export default List;
+export default memo(List);

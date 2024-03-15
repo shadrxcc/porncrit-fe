@@ -46,6 +46,8 @@ const NewList = () => {
             const tags = res?.data?.data
             if (tags.length === 0) {
                 setNoTags("Oooops! Looks like we couldn't find that tag.");
+            }else{
+                setNoTags("");
             }
 
             return tags;
@@ -81,6 +83,9 @@ const NewList = () => {
         setSearchVideo(true)
         try {
             const fetchedVideos = await fetchVideos(searchTerm);
+            if (fetchedVideos.length > 0) {
+                setNoVideo("");
+            }
             setVideoSuggestions(fetchedVideos);
         } catch {
             setVideoSuggestions([]);
@@ -94,6 +99,9 @@ const NewList = () => {
         setSearchTag(true)
         try {
             const fetchedTags = await fetchTags(searchTerm);
+            if (fetchedTags.length > 0) {
+                setNoTags("");
+            }
             setSuggestions(fetchedTags);
         } catch {
             setSuggestions([]);
@@ -224,7 +232,7 @@ const NewList = () => {
 
                                     {suggestions?.length > 0 ? <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none text-sm">
                                         {suggestions.map((suggestion, index) => (
-                                            <div key={index} className="cursor-pointer p-2 hover:bg-gray-200" onClick={() => handleSuggestionClick(suggestion.title)}>
+                                            <div key={index} className="cursor-pointer p-2 hover:bg-body" onClick={() => handleSuggestionClick(suggestion.title)}>
                                                 {suggestion?.title}
                                             </div>
                                         ))}

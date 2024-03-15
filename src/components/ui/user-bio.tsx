@@ -2,7 +2,7 @@ import { AppDispatchType } from "@/services/config-store";
 import ButtonComponent from "../shared/button.component"
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "@/services/auth-services/selector";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import { useRouter } from "next/navigation";
 
@@ -66,4 +66,4 @@ const UserAbout = () => {
     </div>
 }
 
-export default UserAbout
+export default memo(UserAbout)

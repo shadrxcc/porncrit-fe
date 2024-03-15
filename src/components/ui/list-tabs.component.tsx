@@ -13,6 +13,7 @@ import Oldest from "../shared/oldest";
 import HighestSvg from "../shared/highest";
 import LowestSvg from "../shared/lowest";
 import FilterComponent from "../shared/filter.component";
+import { ListData } from "@/services/models/list.model";
 
 
 
@@ -23,6 +24,7 @@ export type Tab = {
 
 type TabComponentProps = {
   defaultIndex?: number;
+  data: ListData;
 };
 
 const tabs = [
@@ -48,7 +50,7 @@ const tabs = [
 const videoOptions = [
   { name: 'Top rated', icon: <HighestSvg /> },
   { name: 'Lowest rated', icon: <LowestSvg /> },
-  { name: 'Newest', icon: <NewestSvg/> },
+  { name: 'Newest', icon: <NewestSvg /> },
   { name: 'Oldest', icon: <Oldest /> },
 ];
 
@@ -65,9 +67,8 @@ const likesOptions = [
 
 
 
-const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
+const ListTabs = ({ defaultIndex = 0, data }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
-  const [sort, setSort] = useState(false)
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -82,7 +83,7 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
       case 2:
         return <ListLikes />
       case 3:
-        return <ListAbout />
+        return <ListAbout {...data} />
       default:
         return null;
     }
@@ -92,7 +93,7 @@ const ListTabs = ({ defaultIndex = 0 }: TabComponentProps) => {
   return (
     <div>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
-      <div className='flex items-center gap-x-1'>
+        <div className='flex items-center gap-x-1'>
           {activeTabIndex === 0 && <FilterComponent data={videoOptions} />}
           {activeTabIndex === 1 && <FilterComponent data={commentOptions} />}
           {activeTabIndex === 2 && <FilterComponent data={likesOptions} />}
