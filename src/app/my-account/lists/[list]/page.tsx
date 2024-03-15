@@ -3,7 +3,7 @@
 import ButtonComponent from "@/components/shared/button.component";
 import ListTabs from "@/components/ui/list-tabs.component";
 import { AppDispatchType } from "@/services/config-store";
-import { asyncGetList, selectList } from "@/services/list-services/async-actions";
+import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,15 +12,17 @@ const page = ({ params }: { params: { list: string } }) => {
 
   const dispatch: AppDispatchType = useDispatch();
   const list = useSelector(selectList);
-
-  console.log(list.user?.username);
-  
-
+  const videos = useSelector(selectListVideos);
 
   useEffect(() => {
     dispatch(asyncGetList({ id }))
+    dispatch(asyncGetListVideos({ id }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+
+
+
 
   return (
     <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
@@ -44,7 +46,7 @@ const page = ({ params }: { params: { list: string } }) => {
           Edit list</ButtonComponent>
       </div>
 
-      <ListTabs data={list} />
+      <ListTabs data={list} videos={videos} />
     </div>
   );
 };

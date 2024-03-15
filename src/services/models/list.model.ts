@@ -84,6 +84,7 @@ export type ListType = {
     lists: ListData[]
     list: ListData
     allLists: ListData[]
+    listvideos: LinkVideoModel[]
     status: FetchStatusType;
     page: number;
     totalData: number;
@@ -134,7 +135,7 @@ export interface ListData {
     title: string;
     tags: string[];
     uploader: string
-    videos: LinkVideoModel[];
+    videos: Partial<LinkVideoModel[]>;
     user: Partial<UsersModel>;
 }
 

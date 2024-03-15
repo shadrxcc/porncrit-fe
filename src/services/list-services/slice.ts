@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { asyncGetAllLists, asyncGetList, asyncGetUserList } from "./async-actions";
+import { asyncGetAllLists, asyncGetList, asyncGetListVideos, asyncGetUserList } from "./async-actions";
 import { ListData, ListType } from "../models/list.model";
 
 
@@ -10,6 +10,7 @@ const initialState: ListType = {
     page: 0,
     totalData: 0,
     lists: [],
+    listvideos:[],
     list: {} as ListData,
     allLists: []
 };
@@ -30,6 +31,10 @@ export const listSlice = createSlice({
         builder.addCase(asyncGetList.fulfilled, (state, action) => {
             state.status = "fulfilled";
             state.list = action.payload.data;
+        });
+        builder.addCase(asyncGetListVideos.fulfilled, (state, action) => {
+            state.status = "fulfilled";
+            state.listvideos = action.payload.data;
         });
     },
 });

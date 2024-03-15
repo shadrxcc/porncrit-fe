@@ -13,7 +13,7 @@ import Oldest from "../shared/oldest";
 import HighestSvg from "../shared/highest";
 import LowestSvg from "../shared/lowest";
 import FilterComponent from "../shared/filter.component";
-import { ListData } from "@/services/models/list.model";
+import { LinkVideoModel, ListData } from "@/services/models/list.model";
 
 
 
@@ -25,6 +25,7 @@ export type Tab = {
 type TabComponentProps = {
   defaultIndex?: number;
   data: ListData;
+  videos: Partial<LinkVideoModel[]>
 };
 
 const tabs = [
@@ -67,7 +68,7 @@ const likesOptions = [
 
 
 
-const ListTabs = ({ defaultIndex = 0, data }: TabComponentProps) => {
+const ListTabs = ({ defaultIndex = 0, data, videos }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
 
   const onTabClick = (index: number) => {
@@ -77,7 +78,7 @@ const ListTabs = ({ defaultIndex = 0, data }: TabComponentProps) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListedVideo />
+        return <ListedVideo data={videos}/>
       case 1:
         return <ListCommentsComponent />
       case 2:

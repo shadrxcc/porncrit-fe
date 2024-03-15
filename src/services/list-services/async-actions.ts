@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CustomError, HttpResponse } from "../models/shared.model";
-import { ListData } from "../models/list.model";
+import { LinkVideoModel, ListData } from "../models/list.model";
 import axiosInstance from "../httpClient";
 import { API_URL } from "../utils";
 import { RootStateType } from "../config-store";
@@ -69,6 +69,25 @@ export const asyncGetList = createAsyncThunk<HttpResponse<ListData>, GetListPara
     }
 );
 
+export const asyncGetListVideos = createAsyncThunk<HttpResponse<LinkVideoModel[]>, GetListParams, { rejectValue: CustomError }>(
+    "lists/list-videos",
+    async (params, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`${API_URL}/list/get-videos/${params.id}`);
+
+            const videos = response?.data;
+            return videos;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            return rejectWithValue({ message: errorMessage });
+        }
+    }
+);
+
 export const selectLists: (state: RootStateType) => ListData[] = (
     state
 ) => state.lists.lists;
@@ -81,3 +100,6 @@ export const selectAllList: (state: RootStateType) => ListData[] = (
     state
 ) => state.lists.allLists;
 
+export const selectListVideos: (state: RootStateType) => LinkVideoModel[] = (
+    state
+) => state.lists.listvideos;
