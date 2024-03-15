@@ -7,12 +7,15 @@ import SelectTagComponent from "@/components/ui/select-tag.component";
 import Image from "next/image";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateList, EditList, SearchVideo, TagsType, VideoType } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import TextArea from "@/components/shared/text-area.component";
+import { AppDispatchType } from "@/services/config-store";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
 
 
 type SuggestedTags = {
@@ -23,7 +26,7 @@ type SuggestedTags = {
   _id?: string
 }
 
-const EditList = () => {
+const EditList = ({ params }: { params: { id: string } }) => {
   const [tag, setTag] = useState('');
   const [tagError, setTagError] = useState('');
   const [tags, setTags] = useState<Array<TagsType>>([]);
@@ -32,6 +35,17 @@ const EditList = () => {
   const [videos, setVideos] = useState<Array<VideoType>>([]);
   const [videoSuggestions, setVideoSuggestions] = useState<Array<Partial<SearchVideo>>>([]);
 
+  const id = params.id
+
+  const dispatch: AppDispatchType = useDispatch();
+  const list = useSelector(selectList);
+  const listvideos = useSelector(selectListVideos);
+
+  useEffect(() => {
+    dispatch(asyncGetList({ id }))
+    dispatch(asyncGetListVideos({ id }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   const deleteInputCharacter = (e: { key: string }) => {
     if (e.key === 'Backspace') {
@@ -69,7 +83,6 @@ const EditList = () => {
       const fetchedVideos = await fetchVideos(searchTerm);
       setVideoSuggestions(fetchedVideos);
     } catch (error) {
-      console.error('Error fetching videos:', error);
       setVideoSuggestions([]);
     }
   };
@@ -175,13 +188,13 @@ const EditList = () => {
           <div className="space-y-7">
             <div className="flex flex-col gap-y-7 mt-4">
               <Input name="title"
-                placeholder="Enter a title for your list..."
+                placeholder={list.title}
                 label="List title"
               />
               <TextArea
                 name="description"
                 rows={4}
-                placeholder="Let your fellow videos fans know a bit about your list.."
+                placeholder={list.description}
                 label="List description" />
               <div className="flex flex-col gap-y-4">
                 <div className={`flex flex-col gap-y-3`}>
@@ -216,7 +229,6 @@ const EditList = () => {
                     ))}
                   </div>
                 )}
-
               </div>
 
               <div className="flex flex-col gap-y-4">

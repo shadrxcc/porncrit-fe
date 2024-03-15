@@ -150,13 +150,11 @@ const page = () => {
                   {tab.label}
                 </button>
               ))}</div>
-
-
           </div>
 
           <div className="flex flex-col gap-y-10">
             {lists.map((list) => (
-              <List url={`/lists/${list?.uploader}`} key={list?._id} {...list} />
+              <List url={`/lists/${list?._id}`} key={list?._id} {...list} />
             ))}
           </div>
         </div>
