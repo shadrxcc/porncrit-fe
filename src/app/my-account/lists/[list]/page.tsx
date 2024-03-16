@@ -4,6 +4,7 @@ import ButtonComponent from "@/components/shared/button.component";
 import ListTabs from "@/components/ui/list-tabs.component";
 import { AppDispatchType } from "@/services/config-store";
 import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,16 +25,20 @@ const page = ({ params }: { params: { list: string } }) => {
   }, [id])
 
 
-
-
-
   return (
     <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
       <div className="flex xs:flex-col xs:items-start gap-y-3 items-center justify-between">
         <div className="space-y-2.5">
           <p className="text-xl font-extrabold">{list?.title}</p>
           <div className="flex items-center gap-x-4">
-            <img width={50} src={list?.user?.avatar} alt="user" />
+            <Image
+              src={list?.user?.avatar || `/assets/images/user.png`}
+              width={60}
+              className="object-cover w-16 h-16 border-[2px] border-pink rounded-full"
+              height={60}
+              alt="user pfp"
+              priority={true}
+            />
             <div className="flex flex-col gap-y-1">
               <p className="text-sm">List created by</p>
               <p className="text-sm text-pink">

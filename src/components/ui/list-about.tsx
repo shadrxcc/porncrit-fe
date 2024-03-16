@@ -21,7 +21,7 @@ const ListAbout = (props: ListsComponentProps) => {
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">List tags</p>
             <div className="flex flex-wrap items-center gap-4">
-                {tags.map((tag) => (
+                {tags?.map((tag) => (
                     <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
                         {tag}
                     </ButtonComponent>

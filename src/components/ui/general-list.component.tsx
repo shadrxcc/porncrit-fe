@@ -3,11 +3,13 @@ import ButtonComponent from "../shared/button.component";
 import { useRouter } from "next/navigation";
 import { UsersModel } from "@/services/models/user.model";
 import { memo } from "react";
+import { LinkVideoModel, LinkedVideoType } from "@/services/models/list.model";
 
 type ListsComponentProps = {
   title?: string;
   description?: string;
   user?: Partial<UsersModel>;
+  videos?: LinkVideoModel[];
 }
 
 type ListProps = ListsComponentProps & {
@@ -15,7 +17,7 @@ type ListProps = ListsComponentProps & {
 };
 
 const List = (props: ListProps) => {
-  const { title, description, url, user } = props;
+  const { title, description, url, user, videos } = props;
   const router = useRouter()
 
   return <div className="w-full md:w-standard space-y-3 bg-box rounded-box px-3 sm:px-8 py-10">
@@ -28,15 +30,19 @@ const List = (props: ListProps) => {
           </svg>
         </ButtonComponent>
       </div>
-      <Image
-        className="w-min"
-        src={`/assets/images/list.png`}
-        alt="hard-porn"
-        width={220}
-        height={40}
-        priority
-      />
 
+      <div className="flex rounded-[3px] items-center">
+        {videos?.map((clip) => (
+          <Image
+            className="w-[180px] rounded-[3px]"
+            src={clip.image}
+            alt="hard-porn"
+            width={220}
+            height={40}
+            priority
+          />
+        ))}
+      </div>
     </div>
 
     <p className="text-sm">{description} </p>

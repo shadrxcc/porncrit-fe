@@ -25,6 +25,7 @@ import FilterComponent from "@/components/shared/filter.component";
 import { asyncGetLinkedVideo, selectVideo } from "@/services/video-services/async-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatchType } from "@/services/config-store";
+import { useRouter } from "next/navigation";
 
 
 export type Tab = {
@@ -86,22 +87,24 @@ const Video = ({ params }: { params: { id: string } }) => {
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
 
+  const router = useRouter()
+
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
 
-    const dispatch: AppDispatchType = useDispatch();
-    const video = useSelector(selectVideo);
+  const dispatch: AppDispatchType = useDispatch();
+  const video = useSelector(selectVideo);
 
 
-    useEffect(() => {
-        setIsLoading(true)
-        dispatch(asyncGetLinkedVideo({ id }))
-            .finally(() => {
-                setIsLoading(false)
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id])
+  useEffect(() => {
+    setIsLoading(true)
+    dispatch(asyncGetLinkedVideo({ id }))
+      .finally(() => {
+        setIsLoading(false)
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
@@ -117,7 +120,7 @@ const Video = ({ params }: { params: { id: string } }) => {
       case 3:
         return <VideoViewed />
       case 4:
-        return <VideoInfo video={video}/>
+        return <VideoInfo video={video} />
       default:
         return null;
     }
@@ -129,7 +132,7 @@ const Video = ({ params }: { params: { id: string } }) => {
         <Image
           src={video?.image}
           alt=""
-          className="object-cover w-auto sm:w-min rounded-[3px]"
+          className="object-cover w-auto sm:w-[200px] rounded-[3px]"
           height={282}
           width={200}
         />
@@ -163,11 +166,9 @@ const Video = ({ params }: { params: { id: string } }) => {
       <div className="flex mt-10 items-center justify-between bg-box rounded-box px-3 py-6">
         <div className="flex items-center gap-x-3">
           <img src="/assets/images/user.png" width={35} alt="" />
-          <Link href={`/videos/write-review`}>
-            <ButtonComponent className="!py-1 !px-7">
-              Write your review
-            </ButtonComponent>
-          </Link>
+          <ButtonComponent onClick={() => router.push(`/videos/write-review/${id}`)} className="!py-1 !px-7">
+            Write your review
+          </ButtonComponent>
         </div>
 
         <img width={100} src="/assets/images/rating.png" alt="" />
@@ -185,12 +186,12 @@ const Video = ({ params }: { params: { id: string } }) => {
 
       <div className="mt-9">
         <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
-        <div className='flex items-center gap-x-1'>
-                    {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
-                    {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
-                    {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
-                    {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}
-                </div>
+          <div className='flex items-center gap-x-1'>
+            {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
+            {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
+            {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
+            {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}
+          </div>
           <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
             {tabs.map((tab, index) => (
               <a className="text-sm text-nowrap text-center" key={index}>

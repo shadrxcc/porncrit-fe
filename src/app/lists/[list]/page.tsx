@@ -25,13 +25,13 @@ const page = ({ params }: { params: { list: string } }) => {
     <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
       <div className="flex xs:flex-col xs:items-start gap-y-3 items-center justify-between">
         <div className="space-y-2.5">
-          <p className="text-xl font-extrabold">Ebony watchlist</p>
+          <p className="text-xl font-extrabold">{list?.title}</p>
           <div className="flex items-center gap-x-4">
-            <img width={50} src="/assets/images/user.png" alt="user" />
+            <img width={50} src={list?.user?.avatar} alt="user" />
             <div className="flex flex-col gap-y-1">
               <p className="text-sm">List created by</p>
               <p className="text-sm text-pink">
-                Username
+              {list?.user?.username}
               </p>
             </div>
           </div>

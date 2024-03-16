@@ -2,14 +2,10 @@
 
 import Image from "next/image";
 import ButtonComponent from "../shared/button.component";
-import { AppDispatchType } from "@/services/config-store";
-import { useDispatch, useSelector } from "react-redux";
-import { asyncGetListVideos, selectListVideos } from "@/services/list-services/async-actions";
-import { useEffect } from "react";
 import { LinkVideoModel } from "@/services/models/list.model";
+import Link from "next/link";
 
 const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
-  console.log(data);
 
   return (
     <>
@@ -18,15 +14,17 @@ const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
           <div key={video?._id} className="flex flex-col gap-y-6 px-2.5 sm:px-9 py-6 rounded-[10px] bg-box">
             <div className="flex gap-5">
               {" "}
-              <Image
-                src={video?.image||`/assets/images/4some.png`}
+              <Link href={`/videos/${video?._id}`}><Image
+                src={video?.image || `/assets/images/4some.png`}
                 width={88}
                 height={50}
                 className="rounded-sm"
                 alt="foursome"
               />
+              </Link>
+
               <div className="text-sm flex flex-col gap-y-4">
-                <p>{video?.title}</p>
+                <Link href={`/videos/${video?._id}`}><p>{video?.title}</p></Link>
                 <img src="/assets/images/rating.png" width={100} alt="" />
               </div>
             </div>
@@ -45,7 +43,7 @@ const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
           </div>
         ))}
 
-      </div>
+      </div >
     </>
   );
 };
