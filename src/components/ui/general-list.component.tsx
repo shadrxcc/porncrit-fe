@@ -34,10 +34,10 @@ const List = (props: ListProps) => {
       <div className="flex rounded-[3px] items-center">
         {videos?.map((clip) => (
           <Image
-            className="w-[180px] rounded-[3px]"
+            className="rounded-[3px]"
             src={clip.image}
             alt="hard-porn"
-            width={220}
+            width={120}
             height={40}
             priority
           />
