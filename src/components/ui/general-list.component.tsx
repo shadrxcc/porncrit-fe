@@ -3,13 +3,13 @@ import ButtonComponent from "../shared/button.component";
 import { useRouter } from "next/navigation";
 import { UsersModel } from "@/services/models/user.model";
 import { memo } from "react";
-import { LinkVideoModel, LinkedVideoType } from "@/services/models/list.model";
+import { LinkVideoModel } from "@/services/models/list.model";
 
 type ListsComponentProps = {
   title?: string;
   description?: string;
   user?: Partial<UsersModel>;
-  videos?: LinkVideoModel[];
+  videos?: Partial<LinkVideoModel[]>;
 }
 
 type ListProps = ListsComponentProps & {
@@ -35,7 +35,7 @@ const List = (props: ListProps) => {
         {videos?.map((clip) => (
           <Image
             className="rounded-[3px]"
-            src={clip.image}
+            src={clip?.image || '/assets/images/list.png'}
             alt="hard-porn"
             width={120}
             height={40}

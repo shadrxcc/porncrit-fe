@@ -25,7 +25,7 @@ import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/
 import { AppDispatchType } from "@/services/config-store";
 import { logout } from "@/services/auth-services/slice";
 import VerifyEmailComponent from "./verify-email.component";
-import ResetPasswordComponent, { PasswordResetComponent } from "./reset-password.component";
+import { PasswordResetComponent } from "./reset-password.component";
 import ConfirmOtpComponent from "./reset-password.component";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import Image from "next/image";
