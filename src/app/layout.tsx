@@ -22,13 +22,11 @@ export default function RootLayout({
       <AppLayout>
         <body>
           <Providers>
-
               <Header />
               <div className="xs:px-2.5 px-4 mt-32 sm:px-8 flex-1">
                 {children}
               </div>
               <FooterComponent />
-    
             <ToastContainer />
           </Providers>
         </body>
