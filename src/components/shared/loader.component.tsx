@@ -19,13 +19,13 @@ const LoaderComponent = () => {
     }, [controls]);
 
     return (
-        <div className='h-screen w-full'>
+        <div className='h-full w-full'>
             <motion.img src='/icon.png'
-            width={10}
-            className='loader w-2.5 h-2.5 mt-[40px] mx-auto rounded-[50%] bg-pink'
-            initial={{ scale: 1, opacity: 0 }}
-            animate={controls}
-        />
+                width={10}
+                className='loader w-2.5 h-2.5 mt-[40px] mx-auto rounded-[50%] bg-pink'
+                initial={{ scale: 1, opacity: 0 }}
+                animate={controls}
+            />
         </div>
     );
 };

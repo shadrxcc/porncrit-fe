@@ -9,18 +9,19 @@ const VideoInfo = ({ video }: { video: LinkedVideoType['video'] }) => {
     return <div className="flex flex-col gap-y-8">
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Tags</p>
-            <div className="flex flex-wrap items-center gap-4">
-                {tags.map((tag) => (
-                    <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
-                        {tag}
-                    </ButtonComponent>
-                ))}
-            </div>
+            {tags.length === 0 ? <p className="text-sm">No tags available for this video at the moment.</p> :
+                <div className="flex flex-wrap items-center gap-4">
+                    {tags.map((tag) => (
+                        <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
+                            {tag}
+                        </ButtonComponent>
+                    ))}
+                </div>}
         </div>
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Performers</p>
-            <div className="flex flex-wrap items-center gap-4">
+            {models.length === 0 ? <p className="text-sm">No performers available at the moment.</p> : <div className="flex flex-wrap items-center gap-4">
                 {models.map((model) => (
                     <Link key={model} href={`/performers/${model}`}>
                         <div className="flex items-center gap-x-2">
@@ -30,9 +31,8 @@ const VideoInfo = ({ video }: { video: LinkedVideoType['video'] }) => {
                             </ButtonComponent>
                         </div>
                     </Link>
-
                 ))}
-            </div>
+            </div>}
         </div>
 
         <div className="flex flex-col gap-y-2">

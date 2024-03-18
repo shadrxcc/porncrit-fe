@@ -163,15 +163,18 @@ const Video = ({ params }: { params: { id: string } }) => {
               <p className="text-[10px] font-medium">based on 18.4k ratings</p>
             </div>
             <div className="flex items-center gap-4 overflow-auto no-scroll" style={{ whiteSpace: 'nowrap' }}>
-              <ButtonComponent
-                className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24"
-                onClick={() => setWatch(!watch)}
-                variant={watch ? "pink" : "outline-pink"}
-              >
-                <img src="/assets/icons/play.svg" alt="" />{" "}
-                {watch ? "Rewatch" : "Watch now"}
-              </ButtonComponent>
-              <ButtonComponent variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
+
+              <a href={video.embedLink} target="_blank" rel="noopener noreferrer">
+                <ButtonComponent
+                  className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24"
+                  onClick={() => setWatch(!watch)}
+                  variant={watch ? "pink" : "outline-pink"}
+                >
+                  <img src="/assets/icons/play.svg" alt="" />{" "}
+                  {watch ? "Rewatch" : "Watch now"}
+                </ButtonComponent>
+              </a>
+              <ButtonComponent onClick={()=>setList(true)} variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
                 <img src="/assets/icons/add.svg" alt="" /> Save
               </ButtonComponent>
               <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
