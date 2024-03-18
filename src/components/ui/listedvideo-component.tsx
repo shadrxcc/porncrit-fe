@@ -4,11 +4,19 @@ import Image from "next/image";
 import ButtonComponent from "../shared/button.component";
 import { LinkVideoModel } from "@/services/models/list.model";
 import Link from "next/link";
+import { useState } from "react";
+import MyModal from "../shared/modal.component";
+import AddtolistComponent from "./addtolist.component";
 
 const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
+  const [liked, setLiked] = useState(false)
+  const [list, setList] = useState(false)
 
   return (
     <>
+      <MyModal closeModal={() => setList(false)} isOpen={list}>
+        <AddtolistComponent />
+      </MyModal>
       <div className="flex flex-col gap-y-8">
         {data.map((video) => (
           <div key={video?._id} className="flex flex-col gap-y-6 px-2.5 sm:px-9 py-6 rounded-[10px] bg-box">
@@ -30,13 +38,15 @@ const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
             </div>
 
             <div className="flex items-center gap-5 sm:gap-x-8 flex-wrap">
-              <ButtonComponent variant="outline-pink" className="!px-2.5 !py-1.5">
-                <img src="/assets/icons/play.svg" alt="" /> Watch now
-              </ButtonComponent>
-              <ButtonComponent variant="outline-pink" className="!px-2.5 !py-1.5">
+              <a href={video?.embedLink} target="_blank" rel="noopener noreferrer">
+                <ButtonComponent variant="outline-pink" className="!px-2.5 !py-1.5 !w-28">
+                  <img src="/assets/icons/play.svg" alt="" /> Watch now
+                </ButtonComponent>
+              </a>
+              <ButtonComponent onClick={()=>setList(true)} variant="outline-pink" className="!px-2.5 !py-1.5 !w-28">
                 <img src="/assets/icons/add.svg" alt="" /> Save
               </ButtonComponent>
-              <ButtonComponent variant="outline-pink" className="!px-2.5 !py-1.5">
+              <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!px-2.5 !py-1.5 !w-28">
                 <img src="/assets/icons/white-like.svg" alt="" /> Like
               </ButtonComponent>
             </div>

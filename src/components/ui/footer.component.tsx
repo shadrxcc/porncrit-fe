@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const FooterComponent = () => {
   return (
-    <div className="bg-black flex flex-col lg:flex-row lg:items-center px-4 gap-y-7 sm:px-8 lg:px-20 py-5 mt-20 justify-between">
+    <footer className="bg-black flex flex-col lg:flex-row lg:items-center px-4 gap-y-7 sm:px-8 lg:px-20 py-5 mt-20 justify-between">
       <div className="flex flex-col lg:flex-row text-sm gap-y-5 gap-x-10">
         <Link href={`#`}>
           <p>Porncrit Ltd.</p>
@@ -30,7 +30,7 @@ const FooterComponent = () => {
           <img width={20} src="/assets/icons/x.png" alt="x" />
         </Link>
       </div>
-    </div>
+    </footer>
   );
 };
 

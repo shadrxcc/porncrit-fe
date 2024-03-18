@@ -114,6 +114,8 @@ const Video = ({ params }: { params: { id: string } }) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isAuthenticated, dispatch])
+
+  
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };

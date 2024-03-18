@@ -4,8 +4,8 @@ import AddSvg from '../shared/add.component'
 import { AppDispatchType } from '@/services/config-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGetUserList, selectLists } from '@/services/list-services/async-actions';
-import LoaderComponent from '../shared/loader.component';
 import { useRouter } from 'next/navigation';
+import CircleBop from '../shared/circlebop.component';
 
 const AddToListComponent = () => {
   const dispatch: AppDispatchType = useDispatch();
@@ -25,7 +25,7 @@ const AddToListComponent = () => {
     <div className=''>
       <div className="flex items-center justify-between">
         <p className='text-brown text-sm font-extrabold'>Save video to...</p></div>
-      {isLoading ? <LoaderComponent /> :
+      {isLoading ? <CircleBop /> :
         <>
           <div className='flex flex-col gap-y-5'>
             <div className='flex mt-6 flex-col gap-y-[22px]'>

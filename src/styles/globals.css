@@ -35,36 +35,41 @@ body {
 
 html body {
   margin: 0 auto;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   width: 100vw;
   background: #230110;
   scroll-behavior: smooth;
   color: white;
   font-family: Avenir, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
- 
+
   /* Hide scrollbar for mobile devices */
   @media (max-width: 1023px) {
-     &::-webkit-scrollbar {
-       display: none;
-     }
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
- 
+
   &::-webkit-scrollbar {
-     width: 5px;
+    width: 5px;
   }
- 
+
+
   &::-webkit-scrollbar-thumb {
-     background-color: #F71D7F;
-     border-radius: 10px;
-     height: 2px;
+    background-color: #F71D7F;
+    border-radius: 10px;
+    height: 2px;
   }
- 
+
   &::-webkit-scrollbar-track {
-     background-color: #41373c;
+    background-color: #41373c;
   }
- }
+}
 
-
+/* .main {
+  flex: 1;
+} */
 body {
   &::-webkit-scrollbar {
     width: 13px;
@@ -138,7 +143,7 @@ input:-webkit-autofill {
   text-indent: 0;
 }
 
-#preloader{
+#preloader {
   position: absolute;
   display: flex;
   align-items: center;
@@ -154,14 +159,15 @@ input:-webkit-autofill {
 
 
 
-.bar-wrapper{
+.bar-wrapper {
   width: 50%;
   height: 12px;
   background: #AC6686;
   border-radius: 100px;
   margin-top: 20px;
 }
-#barconfrm{
+
+#barconfrm {
   width: 100%;
   height: 12px;
   background-color: #F71D7F;
@@ -175,15 +181,15 @@ input:-webkit-autofill {
 .suggestion-scroll {
   &::-webkit-scrollbar {
     width: 2px;
- }
+  }
 
- &::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background-color: #F71D7F;
     border-radius: 10px;
     height: 2px;
- }
+  }
 
- &::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background-color: #41373c;
- }
+  }
 }

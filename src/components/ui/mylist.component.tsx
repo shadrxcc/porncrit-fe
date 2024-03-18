@@ -3,25 +3,26 @@
 import Link from "next/link";
 import ButtonComponent from "../shared/button.component";
 import List from "./general-list.component";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppDispatchType } from "@/services/config-store";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetUserList, selectLists } from "@/services/list-services/async-actions";
+import CircleBop from "../shared/circlebop.component";
+import { ListData } from "@/services/models/list.model";
 
-const MyLists = () => {
-    const dispatch: AppDispatchType = useDispatch();
-    const lists = useSelector(selectLists);
+type listDataProp = {
+    data: ListData[]
+}
 
-    useEffect(() => {
-        dispatch(asyncGetUserList())
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+const MyLists = (props: listDataProp) => {
+    const { data } = props;
+
 
     return <>
         <div className="flex flex-col gap-y-5 items-center mt-9">
             <Link href={`/lists/new`}><ButtonComponent>Create new list</ButtonComponent></Link>
             <div className="flex flex-col w-full gap-y-9">
-                {lists.map((list) => (
+                {data.map((list) => (
                     <List url={`/my-account/lists/${list._id}`} key={list._id} {...list} />
                 ))}
             </div>

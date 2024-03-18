@@ -6,6 +6,7 @@ import MyProfileTabComponent from "@/components/ui/my-profile-tab.component";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
+import { asyncGetUserList, selectLists } from "@/services/list-services/async-actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const page = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
+  const lists = useSelector(selectLists);
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
   const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
@@ -31,8 +35,11 @@ const page = () => {
   useEffect(() => {
     if (isAuthenticated) {
       setIsLoadingProfile(true);
+      dispatch(asyncGetUserList())
       dispatch(getUserProfile()).finally(() => setIsLoadingProfile(false));
     }
+
+
   }, [dispatch, isAuthenticated]);
 
   return (
@@ -53,7 +60,7 @@ const page = () => {
         </div>
 
         <div className="">
-          <MyProfileTabComponent />
+          <MyProfileTabComponent list={lists} />
         </div>
       </div>}
     </div>
