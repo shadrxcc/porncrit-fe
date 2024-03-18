@@ -14,6 +14,7 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import LoaderSvg from "@/components/shared/loader.svg.component";
+import { useRouter } from "next/navigation";
 
 
 type SuggestedTags = {
@@ -36,7 +37,9 @@ const NewList = () => {
     const [searchVideo, setSearchVideo] = useState(false)
     const [noTags, setNoTags] = useState("");
     const [noVideo, setNoVideo] = useState("");
+    const [isCreating, setCreating] = useState(false)
 
+    const router = useRouter()
 
     async function fetchTags(searchTerm: string) {
         setSearchTag(true)
@@ -46,7 +49,7 @@ const NewList = () => {
             const tags = res?.data?.data
             if (tags.length === 0) {
                 setNoTags("Oooops! Looks like we couldn't find that tag.");
-            }else{
+            } else {
                 setNoTags("");
             }
 
@@ -173,15 +176,19 @@ const NewList = () => {
     };
 
     function createList(props: CreateList) {
+        setCreating(true)
         axiosInstance.post(`${API_URL}/list/create`, { ...props })
             .then((res) => {
                 toast(res?.data?.message)
+                const listId = res?.data?.data?._id
+                router.push(`/lists/${listId}`)
             })
             .catch((err) => {
                 toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+            }).finally(() => {
+                setCreating(false)
             })
     }
-
 
     return (
         <div className="flex md:w-standard mx-auto gap-y-8 flex-col">
@@ -331,7 +338,7 @@ const NewList = () => {
                                 )}
 
                             </div>
-                            <ButtonComponent type="submit" className="!w-fit place-self-end">
+                            <ButtonComponent type="submit" className="!w-fit place-self-end" loading={isCreating} disabled={isCreating}>
                                 Save list
                             </ButtonComponent>
                         </div>
