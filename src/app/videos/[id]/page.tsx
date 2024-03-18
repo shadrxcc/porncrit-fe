@@ -26,6 +26,10 @@ import { asyncGetLinkedVideo, selectVideo } from "@/services/video-services/asyn
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatchType } from "@/services/config-store";
 import { useRouter } from "next/navigation";
+import LoaderComponent from "@/components/shared/loader.component";
+import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
+import { getUserProfile } from "@/services/auth-services/async-actions";
+import { toast } from "react-toastify";
 
 
 export type Tab = {
@@ -95,19 +99,34 @@ const Video = ({ params }: { params: { id: string } }) => {
 
   const dispatch: AppDispatchType = useDispatch();
   const video = useSelector(selectVideo);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectAuthUser);
 
 
   useEffect(() => {
     setIsLoading(true)
+    if (isAuthenticated) {
+      dispatch(getUserProfile())
+    }
     dispatch(asyncGetLinkedVideo({ id }))
       .finally(() => {
         setIsLoading(false)
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [id, isAuthenticated, dispatch])
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
+
+
+  function writeReview() {
+    if (!isAuthenticated) {
+      toast('Ooops! you have to be logged in to review!')
+    } else {
+      router.push(`/videos/write-review/${id}`)
+    }
+
+  }
 
   const getTabContent = () => {
     switch (activeTabIndex) {
@@ -127,105 +146,106 @@ const Video = ({ params }: { params: { id: string } }) => {
   };
   return (
     <div className="mx-auto md:w-standard">
+      {isLoading ? <LoaderComponent /> : <>
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+          <Image
+            src={video?.image}
+            alt=""
+            className="object-cover w-auto sm:w-[200px] rounded-[3px]"
+            height={282}
+            width={200}
+          />
 
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-        <Image
-          src={video?.image}
-          alt=""
-          className="object-cover w-auto sm:w-[200px] rounded-[3px]"
-          height={282}
-          width={200}
-        />
-
-        <div className="flex flex-col gap-y-3.5">
-          <p className="text-sm font-medium">{video?.title}</p>
-          <div className="flex gap-x-3 items-center">
-            <img width={150} src="/assets/images/rating.png" alt="" />
-            <p className="text-[10px] font-medium">based on 18.4k ratings</p>
-          </div>
-          <div className="flex items-center gap-4 overflow-auto no-scroll" style={{ whiteSpace: 'nowrap' }}>
-            <ButtonComponent
-              className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24"
-              onClick={() => setWatch(!watch)}
-              variant={watch ? "pink" : "outline-pink"}
-            >
-              <img src="/assets/icons/play.svg" alt="" />{" "}
-              {watch ? "Rewatch" : "Watch now"}
-            </ButtonComponent>
-            <ButtonComponent variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
-              <img src="/assets/icons/add.svg" alt="" /> Save
-            </ButtonComponent>
-            <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
-              {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
-            </ButtonComponent>
-          </div>
-        </div>
-      </div>
-
-
-      <div className="flex mt-10 items-center justify-between bg-box rounded-box px-3 py-6">
-        <div className="flex items-center gap-x-3">
-          <img src="/assets/images/user.png" width={35} alt="" />
-          <ButtonComponent onClick={() => router.push(`/videos/write-review/${id}`)} className="!py-1 !px-7">
-            Write your review
-          </ButtonComponent>
-        </div>
-
-        <img width={100} src="/assets/images/rating.png" alt="" />
-      </div>
-
-
-      <MyModal closeModal={() => setWrite(false)} isOpen={write}>
-        <WriteReview closeModal={() => setWrite(false)} />
-      </MyModal>
-
-      <MyModal closeModal={() => setList(false)} isOpen={list}>
-        <AddListComponent />
-      </MyModal>
-
-
-      <div className="mt-9">
-        <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
-          <div className='flex items-center gap-x-1'>
-            {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
-            {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
-            {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
-            {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}
-          </div>
-          <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
-            {tabs.map((tab, index) => (
-              <a className="text-sm text-nowrap text-center" key={index}>
-                <button
-                  className={`${activeTabIndex === index
-                    ? "text-pink"
-                    : "text-white"
-                    } py-2 px-5 relative font-medium transition focus-visible:outline-2`}
-                  style={{
-                    WebkitTapHighlightColor: "transparent",
-                  }}
-                  onClick={() => onTabClick(index)}
-                >
-                  {activeTabIndex === index && (
-                    <motion.span
-                      layoutId="bubble"
-                      className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
-                      transition={{
-                        type: "spring",
-                        bounce: 0.5,
-                        duration: 0.6,
-                      }}
-                    />
-                  )}
-
-                  {tab.title}
-                </button>
-              </a>
-            ))}
+          <div className="flex flex-col gap-y-3.5">
+            <p className="text-sm font-medium">{video?.title}</p>
+            <div className="flex gap-x-3 items-center">
+              <img width={150} src="/assets/images/rating.png" alt="" />
+              <p className="text-[10px] font-medium">based on 18.4k ratings</p>
+            </div>
+            <div className="flex items-center gap-4 overflow-auto no-scroll" style={{ whiteSpace: 'nowrap' }}>
+              <ButtonComponent
+                className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24"
+                onClick={() => setWatch(!watch)}
+                variant={watch ? "pink" : "outline-pink"}
+              >
+                <img src="/assets/icons/play.svg" alt="" />{" "}
+                {watch ? "Rewatch" : "Watch now"}
+              </ButtonComponent>
+              <ButtonComponent variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
+                <img src="/assets/icons/add.svg" alt="" /> Save
+              </ButtonComponent>
+              <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
+                {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
+              </ButtonComponent>
+            </div>
           </div>
         </div>
 
-      </div>
-      <div className="mt-9">{getTabContent()}</div>
+
+        <div className="flex mt-10 items-center justify-between bg-box rounded-box px-3 py-6">
+          <div className="flex items-center gap-x-3">
+            <img className="object-cover w-10 h-10 rounded-full" src={user?.avatar || "/assets/images/user.png"} width={35} alt="" />
+            <ButtonComponent onClick={writeReview} className="!py-1 !px-7">
+              Write your review
+            </ButtonComponent>
+          </div>
+
+          <img width={100} src="/assets/images/rating.png" alt="" />
+        </div>
+
+
+        <MyModal closeModal={() => setWrite(false)} isOpen={write}>
+          <WriteReview closeModal={() => setWrite(false)} />
+        </MyModal>
+
+        <MyModal closeModal={() => setList(false)} isOpen={list}>
+          <AddListComponent />
+        </MyModal>
+
+
+        <div className="mt-9">
+          <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
+            <div className='flex items-center gap-x-1'>
+              {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
+              {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
+              {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
+              {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}
+            </div>
+            <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">
+              {tabs.map((tab, index) => (
+                <a className="text-sm text-nowrap text-center" key={index}>
+                  <button
+                    className={`${activeTabIndex === index
+                      ? "text-pink"
+                      : "text-white"
+                      } py-2 px-5 relative font-medium transition focus-visible:outline-2`}
+                    style={{
+                      WebkitTapHighlightColor: "transparent",
+                    }}
+                    onClick={() => onTabClick(index)}
+                  >
+                    {activeTabIndex === index && (
+                      <motion.span
+                        layoutId="bubble"
+                        className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.5,
+                          duration: 0.6,
+                        }}
+                      />
+                    )}
+
+                    {tab.title}
+                  </button>
+                </a>
+              ))}
+            </div>
+          </div>
+
+        </div>
+        <div className="mt-9">{getTabContent()}</div>
+      </>}
     </div>
   );
 };

@@ -29,6 +29,7 @@ import ForgottenPasswordComponent from '@/components/ui/forgotten-password.compo
 import ConfirmOtpComponent, { PasswordResetComponent } from '@/components/ui/reset-password.component'
 import { AppDispatchType } from '@/services/config-store'
 import { asyncGetAllLists, selectAllList } from '@/services/list-services/async-actions'
+import LoaderComponent from '@/components/shared/loader.component'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -52,9 +53,11 @@ const page = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch: AppDispatchType = useDispatch();
   const lists = useSelector(selectAllList);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    dispatch(asyncGetAllLists())
+    setIsLoading(true)
+    dispatch(asyncGetAllLists()).finally(() => setIsLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -152,11 +155,11 @@ const page = () => {
               ))}</div>
           </div>
 
-          <div className="flex flex-col gap-y-10">
+          {isLoading ? <LoaderComponent /> : <div className="flex flex-col gap-y-10">
             {lists.map((list) => (
               <List url={`/lists/${list?._id}`} key={list?._id} {...list} />
             ))}
-          </div>
+          </div>}
         </div>
 
       </div>

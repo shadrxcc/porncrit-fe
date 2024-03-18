@@ -35,7 +35,7 @@ const List = (props: ListProps) => {
         {videos?.map((clip) => (
           <Image
             className="rounded-[3px]"
-            src={clip?.image || '/assets/images/list.png'}
+            src={clip?.image || ''}
             alt="hard-porn"
             width={120}
             height={40}
