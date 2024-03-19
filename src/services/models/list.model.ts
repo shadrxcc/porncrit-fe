@@ -76,6 +76,8 @@ export type LinkedVideoType = {
         uploader: string;
         tags: string[];
         __v?: number | undefined;
+        likes: string[];
+        likesCount: number
     };
     status: FetchStatusType;
     page: number;
