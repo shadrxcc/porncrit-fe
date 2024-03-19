@@ -100,6 +100,12 @@ export interface UpdateVideo {
     model: string[];
 }
 
+export interface ReviewVideo {
+    videoId: string;
+    note: string;
+    rating: number;
+}
+
 export interface SearchVideo {
     _id: string,
     title: string,

@@ -193,3 +193,5 @@ input:-webkit-autofill {
     background-color: #41373c;
   }
 }
+
+.icon-red { --icon-color: #F71D7F; }
