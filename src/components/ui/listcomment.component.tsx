@@ -78,7 +78,7 @@ const ListCommentComponent = (props: ListsComponentProps) => {
 
 
 
-            {comment ? <div className="flex flex-col gap-y-4">
+            {/* {comment ? <div className="flex flex-col gap-y-4">
               <Input placeholder="Add your comment..." />
               <div className="flex justify-end">
                 <ButtonComponent onClick={() => setComment(false)}
@@ -91,7 +91,7 @@ const ListCommentComponent = (props: ListsComponentProps) => {
                   Comment
                 </ButtonComponent>
               </div>
-            </div> : null}
+            </div> : null} */}
           </div>
         ))}
       </div>

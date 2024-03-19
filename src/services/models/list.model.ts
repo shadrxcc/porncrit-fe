@@ -172,7 +172,12 @@ export interface ListData {
     videos: Partial<LinkVideoModel[]>;
     user: Partial<UsersModel>;
     likes: LikesModel[];
-    likesCount:number;
+    likesCount: number;
+}
+
+export interface ListComment {
+    listId: string;
+    comment: string
 }
 
 
