@@ -58,7 +58,6 @@ const AlreadyExists = ({ params }: { params: { id: string } }) => {
                                 </div>
                                 <ButtonComponent onClick={() => router.push(`/videos/${video?.video._id}`)} variant="outline-pink">Go to video page</ButtonComponent>
                             </div>
-
                         </div>
                     </div>
                 </>
