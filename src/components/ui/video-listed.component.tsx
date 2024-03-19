@@ -7,6 +7,8 @@ type listDataProp = {
 
 const VideoListed = (props: listDataProp) => {
   const { data } = props;
+  console.log(data);
+
 
   return <div className="space-y-7">
     {data?.map((list) => (

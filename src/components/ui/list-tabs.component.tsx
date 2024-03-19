@@ -82,7 +82,7 @@ const ListTabs = ({ defaultIndex = 0, data, videos }: TabComponentProps) => {
       case 1:
         return <ListCommentsComponent />
       case 2:
-        return <ListLikes />
+        return <ListLikes like={data?.likes}/>
       case 3:
         return <ListAbout {...data} />
       default:

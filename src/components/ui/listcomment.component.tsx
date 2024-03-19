@@ -35,7 +35,7 @@ const ListCommentComponent = (props: ListsComponentProps) => {
             <div className="flex items-center gap-x-2">
               <img src="/assets/images/user.png" width={35} alt="" />
               <p className="text-base">
-                Comment by <span className="text-pink font-extrabold">John</span>
+                Comment by <span className="text-pink font-extrabold">{note?.reviewer}</span>
               </p>
             </div>
 
