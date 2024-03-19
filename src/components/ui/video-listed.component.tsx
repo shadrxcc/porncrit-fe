@@ -7,13 +7,14 @@ type listDataProp = {
 
 const VideoListed = (props: listDataProp) => {
   const { data } = props;
-  console.log(data);
-
 
   return <div className="space-y-7">
-    {data?.map((list) => (
-      <List url={`/lists/${list._id}`} key={list._id} {...list} />
-    ))}
+    {data?.length === 0 ? <p className="text-sm">No lists featuring this video  yet</p> : <>
+      {data?.map((list) => (
+        <List url={`/lists/${list._id}`} key={list._id} {...list} />
+      ))}
+    </>}
+
   </div>
 }
 
