@@ -4,10 +4,13 @@ import ButtonComponent from "@/components/shared/button.component";
 import LoaderComponent from "@/components/shared/loader.component";
 import ListTabs from "@/components/ui/list-tabs.component";
 import { AppDispatchType } from "@/services/config-store";
+import axiosInstance from "@/services/httpClient";
 import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
+import { API_URL } from "@/services/utils";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const page = ({ params }: { params: { list: string } }) => {
   const id = params.list
@@ -16,6 +19,23 @@ const page = ({ params }: { params: { list: string } }) => {
   const list = useSelector(selectList);
   const videos = useSelector(selectListVideos);
   const [isLoading, setIsLoading] = useState(false)
+
+  const [liked, setLiked] = useState(false)
+  const [isLiking, setLiking] = useState(false)
+
+  function likeList(listId: string) {
+    setLiking(true)
+    axiosInstance.post(`${API_URL}/likes/like-list`, { listId })
+      .then((res) => {
+        setLiked(true)
+        toast(res?.data?.message)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setLiking(false)
+      })
+  }
 
   useEffect(() => {
     setIsLoading(true)
@@ -31,7 +51,7 @@ const page = ({ params }: { params: { list: string } }) => {
           <div className="space-y-2.5">
             <p className="text-xl font-extrabold">{list?.title}</p>
             <div className="flex items-center gap-x-4">
-              <img width={50} src={list?.user?.avatar} alt="user" className="object-cover w-12 h-12 rounded-full "/>
+              <img width={50} src={list?.user?.avatar} alt="user" className="object-cover w-12 h-12 rounded-full " />
               <div className="flex flex-col gap-y-1">
                 <p className="text-sm">List created by</p>
                 <p className="text-sm text-pink">
@@ -41,7 +61,9 @@ const page = ({ params }: { params: { list: string } }) => {
             </div>
           </div>
 
-          <ButtonComponent className="xs:w-full !w-fit" variant="outline-pink"><img src="/assets/icons/white-like.svg" width={10} alt="like icon" /> Like list</ButtonComponent>
+          <ButtonComponent onClick={() => likeList(list?._id)} className="xs:w-full !w-28" variant="outline-pink">{liked ? 'Liked' : <>
+            <img src="/assets/icons/white-like.svg" width={10} alt="like icon" /> Like list
+          </>}</ButtonComponent>
         </div>
 
         <ListTabs data={list} videos={videos} />
