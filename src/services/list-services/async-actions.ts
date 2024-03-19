@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CustomError, HttpResponse } from "../models/shared.model";
-import { LinkVideoModel, ListData } from "../models/list.model";
+import { LinkVideoModel, ListData, ReviewsModel } from "../models/list.model";
 import axiosInstance from "../httpClient";
 import { API_URL } from "../utils";
 import { RootStateType } from "../config-store";
@@ -9,6 +9,25 @@ import axios from "axios";
 
 
 export const asyncGetUserList = createAsyncThunk<HttpResponse<ListData[]>>(
+    "list/user-list",
+    async () => {
+        try {
+            const response = await axiosInstance.get(`${API_URL}/list/user-list/`);
+            const lists = response?.data;
+
+            return lists;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            toast.error(errorMessage)
+        }
+    }
+);
+
+export const asyncGetUserReviews = createAsyncThunk<HttpResponse<ReviewsModel[]>>(
     "list/user-list",
     async () => {
         try {

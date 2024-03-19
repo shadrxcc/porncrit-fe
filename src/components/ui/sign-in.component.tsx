@@ -30,7 +30,7 @@ const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void
             if (result && result.error === '403') {
                 verify(result.email, result.userId);
             }
-        } catch (error:any) {
+        } catch (error: any) {
             toast.error(error);
         }
     }

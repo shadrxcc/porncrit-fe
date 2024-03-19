@@ -169,7 +169,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                     <p className="text-base">{video?.video?.title}</p>
                     <div>
                         <Image src={video?.video?.image}
-                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.video?.title} />
+                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.video?.title} priority/>
                     </div>
                 </div>
 
