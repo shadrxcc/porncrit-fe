@@ -1,9 +1,16 @@
+import { ListData } from "@/services/models/list.model";
 import List from "./general-list.component";
 
-const VideoListed = () => {
+type listDataProp = {
+  data?: ListData[]
+}
+
+const VideoListed = (props: listDataProp) => {
+  const { data } = props;
+
   return <div className="space-y-7">
-    {[1,2,3,4].map((e) => (
-      <List key={e} url=""/>
+    {data?.map((list) => (
+      <List url={`/lists/${list._id}`} key={list._id} {...list} />
     ))}
   </div>
 }

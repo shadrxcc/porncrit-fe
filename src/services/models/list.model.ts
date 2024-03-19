@@ -62,7 +62,8 @@ export interface VideoModel {
         likes: string[];
         likesCount: number
     };
-    reviews: ReviewsModel[]
+    reviews: ReviewsModel[];
+    lists: ListData[]
 }
 
 
