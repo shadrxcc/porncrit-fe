@@ -1,16 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { asyncGetLinkedVideo } from "./async-actions";
-import { LinkVideoModel, LinkedVideoType } from "../models/list.model";
+import { GetVideoType, LinkVideoModel, VideoModel, } from "../models/list.model";
 import { UsersModel } from "../models/user.model";
 
 
 // Check if localStorage is available before accessing it
 
-const initialState: LinkedVideoType = {
+const initialState: GetVideoType = {
     status: "idle",
-    page: 0,
-    totalData: 0,
-    video: {} as LinkVideoModel,
+    video: {} as VideoModel
 };
 
 export const videoSlice = createSlice({
@@ -20,7 +18,9 @@ export const videoSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(asyncGetLinkedVideo.fulfilled, (state, action) => {
             state.status = "fulfilled";
-            state.video = action.payload.data.video;
+            state.video = action.payload.data;
+            console.log(action.payload);
+            
         });
     },
 });

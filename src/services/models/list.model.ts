@@ -41,24 +41,7 @@ export interface LinkVideoModel {
     likesCount: number
 }
 
-export interface UsersModel {
-    accountDisabled: boolean;
-    avatar: string;
-    bio: string;
-    createdAt: string;
-    email: string;
-    emailVerified: boolean;
-    lastActive: string;
-    performers: string[];
-    role: string;
-    tags: string[];
-    updatedAt: string;
-    username: string;
-    __v: number;
-    _id: string;
-}
-
-export type LinkedVideoType = {
+export interface VideoModel {
     user?: UsersModel
     video: {
         _id: string;
@@ -79,10 +62,38 @@ export type LinkedVideoType = {
         likes: string[];
         likesCount: number
     };
-    status: FetchStatusType;
-    page: number;
-    totalData: number;
-};
+    reviews: ReviewsModel[]
+}
+
+
+export interface ReviewsModel {
+    _id: string;
+    note: string;
+    videoId: string;
+    reviewer: string;
+    comments: [];
+    likes: [];
+    likesCount: number;
+    rating: number;
+}
+
+export interface UsersModel {
+    accountDisabled: boolean;
+    avatar: string;
+    bio: string;
+    createdAt: string;
+    email: string;
+    emailVerified: boolean;
+    lastActive: string;
+    performers: string[];
+    role: string;
+    tags: string[];
+    updatedAt: string;
+    username: string;
+    __v: number;
+    _id: string;
+}
+
 
 export type ListType = {
     lists: ListData[]
@@ -92,6 +103,13 @@ export type ListType = {
     status: FetchStatusType;
     page: number;
     totalData: number;
+};
+
+export type GetVideoType = {
+    video: VideoModel
+    status: FetchStatusType;
+    // page: number;
+    // totalData: number;
 };
 
 export interface UpdateVideo {

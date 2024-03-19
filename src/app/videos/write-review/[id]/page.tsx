@@ -60,9 +60,9 @@ const page = ({ params }: { params: { id: string } }) => {
                 <div className="space-y-2.5">
                     <p className="text-lg font-extrabold">Your review</p>
                     <div className="bg-box rounded-box flex items-center gap-x-3 py-5 px-8">
-                        <Image src={video?.image} width={88} height={50} alt="" />
+                        <Image src={video?.video.image} width={88} height={50} alt="" />
                         <div>
-                            <p className="text-sm font-bold">{video?.title}</p>
+                            <p className="text-sm font-bold">{video?.video.title}</p>
                             <div className="flex items-center gap-x-3">
                                 <img src="/assets/images/rating.png" width={80} alt="" />
                                 <p className="text-[10px]">based on 18.4k ratings</p>

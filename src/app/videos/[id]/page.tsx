@@ -122,7 +122,6 @@ const Video = ({ params }: { params: { id: string } }) => {
     setActiveTabIndex(index);
   };
 
-
   function writeReview() {
     if (!isAuthenticated) {
       toast('Ooops! you have to be logged in to review!')
@@ -148,7 +147,7 @@ const Video = ({ params }: { params: { id: string } }) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListCommentComponent />;
+        return <ListCommentComponent reviews={video?.reviews} />;
       case 1:
         return <VideoListed />;
       case 2:
@@ -166,7 +165,7 @@ const Video = ({ params }: { params: { id: string } }) => {
       {isLoading ? <LoaderComponent /> : <>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
           <Image
-            src={video?.image}
+            src={video?.video?.image}
             alt=""
             className="object-cover w-auto sm:w-[200px] rounded-[3px]"
             height={282}
@@ -174,14 +173,14 @@ const Video = ({ params }: { params: { id: string } }) => {
           />
 
           <div className="flex flex-col gap-y-3.5">
-            <p className="text-sm font-medium">{video?.title}</p>
+            <p className="text-sm font-medium">{video?.video?.title}</p>
             <div className="flex gap-x-3 items-center">
               <img width={150} src="/assets/images/rating.png" alt="" />
               <p className="text-[10px] font-medium">based on 18.4k ratings</p>
             </div>
             <div className="flex items-center gap-4 overflow-auto no-scroll" style={{ whiteSpace: 'nowrap' }}>
 
-              <a href={video.embedLink} target="_blank" rel="noopener noreferrer">
+              <a href={video?.video?.embedLink} target="_blank" rel="noopener noreferrer">
                 <ButtonComponent
                   className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24"
                   onClick={() => setWatch(!watch)}
@@ -194,7 +193,7 @@ const Video = ({ params }: { params: { id: string } }) => {
               <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
                 <img src="/assets/icons/add.svg" alt="" /> Save
               </ButtonComponent>
-              <ButtonComponent onClick={() => likeVideo(video?._id)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
+              <ButtonComponent onClick={() => likeVideo(video?.video?._id)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
                 {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
               </ButtonComponent>
             </div>

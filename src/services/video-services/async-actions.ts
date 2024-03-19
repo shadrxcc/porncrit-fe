@@ -1,17 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CustomError, HttpResponse } from "../models/shared.model";
-import { LinkVideoModel, LinkedVideoType } from "../models/list.model";
+import { LinkVideoModel, VideoModel } from "../models/list.model";
 import axiosInstance from "../httpClient";
 import { API_URL } from "../utils";
 import { RootStateType } from "../config-store";
+import { toast } from "react-toastify";
 
 interface GetVidParams {
     id: string;
 }
 
-export const asyncGetLinkedVideo = createAsyncThunk<HttpResponse<LinkedVideoType>, GetVidParams, { rejectValue: CustomError }>(
+export const asyncGetLinkedVideo = createAsyncThunk<HttpResponse<VideoModel>, GetVidParams>(
     "videos/video",
-    async (params, { rejectWithValue }) => {
+    async (params) => {
         try {
             const response = await axiosInstance.get(`${API_URL}/videos/video-details/${params.id}`);
 
@@ -23,11 +24,11 @@ export const asyncGetLinkedVideo = createAsyncThunk<HttpResponse<LinkedVideoType
                 customError?.response?.data?.message ||
                 customError.message ||
                 "There was an error";
-            return rejectWithValue({ message: errorMessage });
+                toast.error(errorMessage)
         }
     }
 );
-export const selectVideo: (state: RootStateType) => LinkVideoModel = (
+export const selectVideo: (state: RootStateType) => VideoModel = (
     state
 ) => state.videos.video;
 

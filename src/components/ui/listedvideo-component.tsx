@@ -55,16 +55,16 @@ const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-5 sm:gap-x-8 flex-wrap">
+            <div className="flex items-center gap-5 sm:gap-x-8">
               <a href={video?.embedLink} target="_blank" rel="noopener noreferrer">
-                <ButtonComponent variant="outline-pink" className="!px-2.5 !py-1.5 !w-28">
+                <ButtonComponent variant="outline-pink" className="!px-2.5 !py-1.5 !w-24">
                   <img src="/assets/icons/play.svg" alt="" /> Watch now
                 </ButtonComponent>
               </a>
-              <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!px-2.5 !py-1.5 !w-28">
+              <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!px-2.5 !py-1.5 !w-24">
                 <img src="/assets/icons/add.svg" alt="" /> Save
               </ButtonComponent>
-              <ButtonComponent loading={isLiking} disabled={isLiking} onClick={() => likeVideo(video?._id)} variant={liked ? "pink" : "outline-pink"} className="!px-2.5 !py-1.5 !w-28">
+              <ButtonComponent loading={isLiking} disabled={isLiking} onClick={() => likeVideo(video?._id)} variant={liked ? "pink" : "outline-pink"} className="!px-2.5 !py-1.5 !w-24">
                 <img src="/assets/icons/white-like.svg" alt="" /> Like
               </ButtonComponent>
             </div>
