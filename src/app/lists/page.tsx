@@ -120,46 +120,52 @@ const page = () => {
 
 
         <div className='flex flex-col gap-y-7'>
-          <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
-            <div className='flex items-center gap-x-1'>
-              {activeTab.id === 1 && <FilterComponent data={popularOptions} />}
-              {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
-              {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
-            </div>
-            <div className="flex overflow-auto no-scroll justify-around gap-x-10">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab)}
-                  className={`w-fit ${activeTab.id === tab.id
-                    ? ""
-                    : "hover:text-black/60 font-normal !text-white"
-                    } relative px-3 py-1.5 text-sm text-pink font-medium transition focus-visible:outline-2`}
-                  style={{
-                    WebkitTapHighlightColor: "transparent",
-                  }}
-                >
-                  {activeTab.id === tab.id && (
-                    <motion.span
-                      layoutId="bubble"
-                      className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
-                      transition={{
-                        type: "spring",
-                        bounce: 0.5,
-                        duration: 0.6,
-                      }}
-                    />
-                  )}
-                  {tab.label}
-                </button>
-              ))}</div>
-          </div>
 
-          {isLoading ? <LoaderComponent /> : <div className="flex flex-col gap-y-10">
-            {lists.map((list) => (
-              <List url={`/lists/${list?._id}`} key={list?._id} {...list} />
-            ))}
-          </div>}
+
+          {isLoading ? <LoaderComponent /> :
+            <>
+              <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-8 items-center">
+                <div className='flex items-center gap-x-1'>
+                  {activeTab.id === 1 && <FilterComponent data={popularOptions} />}
+                  {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
+                  {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
+                </div>
+                <div className="flex overflow-auto no-scroll justify-around gap-x-10">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab)}
+                      className={`w-fit ${activeTab.id === tab.id
+                        ? ""
+                        : "hover:text-black/60 font-normal !text-white"
+                        } relative px-3 py-1.5 text-sm text-pink font-medium transition focus-visible:outline-2`}
+                      style={{
+                        WebkitTapHighlightColor: "transparent",
+                      }}
+                    >
+                      {activeTab.id === tab.id && (
+                        <motion.span
+                          layoutId="bubble"
+                          className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
+                          transition={{
+                            type: "spring",
+                            bounce: 0.5,
+                            duration: 0.6,
+                          }}
+                        />
+                      )}
+                      {tab.label}
+                    </button>
+                  ))}</div>
+              </div>
+
+              <div className="flex flex-col gap-y-10">
+                {lists.map((list) => (
+                  <List url={`/lists/${list?._id}`} key={list?._id} {...list} />
+                ))}
+              </div>
+            </>
+          }
         </div>
 
       </div>
