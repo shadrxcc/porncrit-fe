@@ -19,7 +19,11 @@ export type LinkVideo = {
     url: string
 }
 
-
+export type LikesModel={
+     _id: string;
+        type: string;
+        liker: string;
+}
 
 export interface LinkVideoModel {
     _id: string;
@@ -64,6 +68,7 @@ export interface VideoModel {
     };
     reviews: ReviewsModel[];
     lists: ListData[]
+    likes: LikesModel[]
 }
 
 

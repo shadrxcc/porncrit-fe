@@ -151,7 +151,7 @@ const Video = ({ params }: { params: { id: string } }) => {
       case 1:
         return <VideoListed data={video?.lists}/>;
       case 2:
-        return <ListLikeComponent />;
+        return <ListLikeComponent like={video?.likes}/>;
       case 3:
         return <VideoViewed />
       case 4:
