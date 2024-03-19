@@ -14,8 +14,7 @@ import AddListComponent from "@/components/ui/addtolist.component";
 import ListCommentComponent from "@/components/ui/listcomment.component";
 import ListLikeComponent from "@/components/ui/listlike.component";
 import VideoInfo from "@/components/ui/video-info.component";
-import Link from "next/link";
-import { DaySvg } from '@/components/shared/day.component'
+
 import PopularSvg from "@/components/shared/popular";
 import HighestSvg from "@/components/shared/highest";
 import LowestSvg from "@/components/shared/lowest";

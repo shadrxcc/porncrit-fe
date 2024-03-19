@@ -37,6 +37,8 @@ export interface LinkVideoModel {
     uploader: string; // Changed from string[] to string
     tags: string[];
     __v?: number;
+    likes: string[];
+    likesCount: number
 }
 
 export interface UsersModel {
