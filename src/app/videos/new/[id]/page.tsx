@@ -10,25 +10,30 @@ import { AppDispatchType } from "@/services/config-store";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetLinkedVideo, selectVideo } from "@/services/video-services/async-actions";
 import { useEffect, useState } from "react";
-import { PerformersType, TagsType, UpdateVideo } from "@/services/models/list.model";
+import { PerformersType, SearchVideo, TagsType, UpdateVideo } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import LoaderComponent from "@/components/shared/loader.component";
 import Preloader from "@/components/shared/preloader";
+import { SuggestedTags } from "@/app/lists/new/page";
+import LoaderSvg from "@/components/shared/loader.svg.component";
 
 const NewVideo = ({ params }: { params: { id: string } }) => {
     const id = params.id
-    const [tag, setTag] = useState('');
+
     const [upload, setUploading] = useState(false)
+    const [tag, setTag] = useState('');
+    const [tagError, setTagError] = useState('');
     const [tags, setTags] = useState<Array<TagsType>>([]);
+    const [suggestions, setSuggestions] = useState<SuggestedTags[]>([]);
     const [performer, setPerformer] = useState('');
     const [performers, setPerformers] = useState<Array<PerformersType>>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [progress, setProgress] = useState(0); // State to track progress
-    const [tagError, setTagError] = useState('');
+    const [progress, setProgress] = useState(0); // State to track progress;
+    const [searchTag, setSearchTag] = useState(false)
     const [performerError, setPerformerError] = useState('');
+    const [noTags, setNoTags] = useState("");
 
     const dispatch: AppDispatchType = useDispatch();
     const video = useSelector(selectVideo);
@@ -54,20 +59,45 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
+    async function fetchTags(searchTerm: string) {
+        setSearchTag(true)
+        try {
+            const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
+
+            const tags = res?.data?.data
+            if (tags.length === 0) {
+                setNoTags("Oooops! Looks like we couldn't find that tag.");
+            } else {
+                setNoTags("");
+            }
+
+            return tags;
+        } catch (err) {
+            toast.error('Error Completing request. Try again later.');
+            throw err;
+        } finally {
+            setSearchTag(false)
+        }
+    }
+
+    const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
+        setSearchTag(true)
+        try {
+            const fetchedTags = await fetchTags(searchTerm);
+            if (fetchedTags.length > 0) {
+                setNoTags("");
+            }
+            setSuggestions(fetchedTags);
+        } catch {
+            setSuggestions([]);
+        } finally {
+            setSearchTag(false)
+        }
+    };
+
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            if (tag) {
-                const trimmedValue = tag.trim();
-                if (trimmedValue !== '' && !tags.some((tags) => tags.tag === trimmedValue)) {
-                    setTags((prevValues) => [
-                        ...prevValues,
-                        { tag: String(trimmedValue) },
-                    ]);
-                    setTag('');
-                }
-            }
-
             if (performer) {
                 const trimmedValue = performer.trim();
                 if (trimmedValue !== '' && !performers.some((p) => p.performer === trimmedValue)) {
@@ -81,15 +111,6 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
         }
     };
 
-    const deleteInputCharacter = (e: { key: string }) => {
-        if (e.key === 'Backspace') {
-            if (tag) {
-                setTag(tag.slice(0, -1));
-            } else if (performer) {
-                setPerformer(performer.slice(0, -1));
-            }
-        }
-    };
 
     // handle input change
     const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,10 +118,26 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
         if (e.target.name === 'tags') {
             setTag(inputValue);
             setTagError('');
-        } else if (e.target.name === 'performers') {
-            setPerformer(inputValue);
-            setPerformerError('');
+            setNoTags("")
+            if (inputValue.length > 0) {
+                fetchTagsAndSetSuggestions(inputValue);
+            } else {
+                setSearchTag(false)
+                setSuggestions([]);
+            }
         }
+    };
+
+    const handleSuggestionClick = (tag: string | undefined) => {
+        if (tag) {
+            setTags((prevTags) => [...prevTags, { tag }]);
+            setTag('');
+            setSuggestions([]);
+        }
+    };
+
+    const deleteTag = (tagtoDelete: string) => {
+        setTags((prevTags) => prevTags.filter((tag) => tag.tag !== tagtoDelete));
     };
 
     function updateVideo(props: UpdateVideo) {
@@ -129,10 +166,10 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                 </div>
 
                 <div className="space-y-2.5">
-                    <p className="text-base">{video?.title}</p>
+                    <p className="text-base">{video?.video?.title}</p>
                     <div>
-                        <Image src={video?.image}
-                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.title} />
+                        <Image src={video?.video?.image}
+                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.video?.title} />
                     </div>
                 </div>
 
@@ -160,7 +197,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                             }
 
                             const params = {
-                                ...values, videoId: video?._id, model: performers.map((performer) => performer.performer),
+                                ...values, videoId: video?.video?._id, model: performers.map((performer) => performer.performer),
                                 tags: tags.map((tag) => tag.tag)
                             }
                             updateVideo(params)
@@ -169,27 +206,43 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                             <div className="flex flex-col gap-y-4">
                                 <div className={`flex flex-col gap-y-3`}>
                                     <label className="text-lg font-bold text-white" htmlFor="tags">Favorite Tags</label>
-                                    <input name="tags"
-                                        className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
-                                        placeholder="Type and choose tags that fit the video. If not found, add your own!"
-                                        onChange={inputChange}
-                                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                            handleKeyPress(e);
-                                            deleteInputCharacter(e);
-                                        }}
-                                        value={tag}
-                                    />
-                                    {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
+                                    <div className="flex items-center relative">
+                                        <input name="tags"
+                                            className={`px-4 bg-white w-full text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
+                                            placeholder="Type and choose tags that fit the video. If not found, add your own!"
+                                            onChange={inputChange}
+                                            value={tag}
+                                        />
+                                        {searchTag ? <div className="absolute right-3 bottom-2 top-2">
+                                            <LoaderSvg />
+                                        </div> : null}
+                                    </div>
                                 </div>
+
+                                {suggestions?.length > 0 ? <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none text-sm">
+                                    {suggestions.map((suggestion, index) => (
+                                        <div key={index} className="cursor-pointer p-2 hover:bg-body" onClick={() => handleSuggestionClick(suggestion.title)}>
+                                            {suggestion?.title}
+                                        </div>
+                                    ))}
+                                </div> : null}
+
+                                {tag.trim() !== "" && noTags ? (
+                                    <div className="bg-box mt-1 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                        <p className="text-sm">{noTags}</p>
+                                    </div>
+                                ) : null}
 
                                 {tags?.length > 0 && (
 
                                     <div className="flex items-center flex-wrap gap-3">
                                         {tags.map((item: TagsType) => (
-                                            <SelectTagComponent key={item.tag} tag={item.tag} />
+                                            <SelectTagComponent key={item.tag} tag={item.tag} remove={() => deleteTag(item.tag)} />
                                         ))}
                                     </div>
                                 )}
+
+                                {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
 
                             </div>
                             <div className="flex flex-col gap-y-4">
@@ -201,7 +254,6 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                                         onChange={inputChange}
                                         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                             handleKeyPress(e);
-                                            deleteInputCharacter(e);
                                         }}
                                         value={performer}
                                     />
@@ -217,7 +269,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                                 )}
                             </div>
                             <div className="flex justify-end">
-                                <ButtonComponent type="button"  onClick={() => router.push(`/videos/${video?._id}`)}
+                                <ButtonComponent type="button" onClick={() => router.push(`/videos/${video?.video?._id}`)}
                                     variant="secondary"
                                     className="!w-fit !text-white place-self-end"
                                 >

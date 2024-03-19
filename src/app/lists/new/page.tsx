@@ -17,7 +17,7 @@ import LoaderSvg from "@/components/shared/loader.svg.component";
 import { useRouter } from "next/navigation";
 
 
-type SuggestedTags = {
+export type SuggestedTags = {
     createdAt?: string
     title?: string
     updatedAt?: string
