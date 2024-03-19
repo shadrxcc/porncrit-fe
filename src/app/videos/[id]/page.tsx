@@ -30,6 +30,8 @@ import LoaderComponent from "@/components/shared/loader.component";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import { toast } from "react-toastify";
+import axiosInstance from "@/services/httpClient";
+import { API_URL } from "@/services/utils";
 
 
 export type Tab = {
@@ -95,6 +97,7 @@ const Video = ({ params }: { params: { id: string } }) => {
 
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
+  const [isLiking, setLiking] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch: AppDispatchType = useDispatch();
@@ -115,7 +118,7 @@ const Video = ({ params }: { params: { id: string } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isAuthenticated, dispatch])
 
-  
+
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
@@ -127,7 +130,20 @@ const Video = ({ params }: { params: { id: string } }) => {
     } else {
       router.push(`/videos/write-review/${id}`)
     }
+  }
 
+  function likeVideo(videoId: string) {
+    setLiking(true)
+    axiosInstance.post(`${API_URL}/likes/like-video`, { videoId })
+      .then((res) => {
+        setLiked(true)
+        toast(res?.data?.message)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setLiking(false)
+      })
   }
 
   const getTabContent = () => {
@@ -176,10 +192,10 @@ const Video = ({ params }: { params: { id: string } }) => {
                   {watch ? "Rewatch" : "Watch now"}
                 </ButtonComponent>
               </a>
-              <ButtonComponent onClick={()=>setList(true)} variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
+              <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
                 <img src="/assets/icons/add.svg" alt="" /> Save
               </ButtonComponent>
-              <ButtonComponent onClick={() => setLiked(!liked)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
+              <ButtonComponent onClick={() => likeVideo(video?._id)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !text-xs !p-2 flex-1 !w-24">
                 {liked ? "Liked" : <><img src="/assets/icons/white-like.svg" alt="" />Like</>}
               </ButtonComponent>
             </div>
