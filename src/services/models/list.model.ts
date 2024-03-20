@@ -23,6 +23,7 @@ export type LikesModel = {
     _id: string;
     type: string;
     liker: string;
+    updatedAt: string
 }
 
 export interface LinkVideoModel {

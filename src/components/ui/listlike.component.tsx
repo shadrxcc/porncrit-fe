@@ -1,4 +1,5 @@
 import { LikesModel, VideoModel } from "@/services/models/list.model";
+import { formatTimestamp } from "@/services/utils";
 import Image from "next/image";
 
 type LikeProps = {
@@ -25,7 +26,7 @@ const ListLikeComponent = (props: LikeProps) => {
                     <p className="text-sm">
                       <span className="text-pink font-bold">{item.liker}</span> liked this {item.type}
                     </p>
-                    <p className="text-mauve text-sm">2 mins ago</p>
+                    <p className="text-mauve text-sm">{formatTimestamp(item.updatedAt)}</p>
                   </div>
 
                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="22" viewBox="0 0 25 22" fill="none">

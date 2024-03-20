@@ -25,18 +25,18 @@ const UserAbout = () => {
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Favorite tags</p>
-            <div className="flex flex-wrap items-center gap-4">
+            {user?.tags.length === 0 ? <p className="text-sm text-mauve text-center">No tags added yet.</p> : <div className="flex flex-wrap items-center gap-4">
                 {user?.tags.map((tag) => (
-                    <ButtonComponent onClick={()=>router.push(`/tags/${tag}`)} key={tag} className="rounded-[20px]" variant="tags">
+                    <ButtonComponent onClick={() => router.push(`/tags/${tag}`)} key={tag} className="rounded-[20px]" variant="tags">
                         {tag}
                     </ButtonComponent>
                 ))}
-            </div>
+            </div>}
         </div>
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">Favorite performers</p>
-            <div className="flex flex-wrap items-center gap-4">
+            {user?.performers.length === 0 ? <p className="text-sm text-mauve text-center">No performers added yet.</p> : <div className="flex flex-wrap items-center gap-4">
                 {user?.performers.map((performer) => (
                     <div key={performer} className="flex items-center gap-x-2">
                         <img width={40} src="/assets/images/tori.png" alt="tori" />
@@ -45,8 +45,7 @@ const UserAbout = () => {
                         </ButtonComponent>
                     </div>
                 ))}
-
-            </div>
+            </div>}
         </div>
 
         <div className="flex flex-col gap-y-2">

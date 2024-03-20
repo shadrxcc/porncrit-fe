@@ -37,6 +37,7 @@ const EditProfile = () => {
   const [performer, setPerformer] = useState('');
   const [performers, setPerformers] = useState<Array<PerformersType>>([]);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false)
+  const [avatarSelected, setAvatarSelected] = useState(false);
 
   const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
   const router = useRouter();
@@ -44,7 +45,7 @@ const EditProfile = () => {
   // Check if the user is not authenticated and redirect to the homepage
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push('/'); 
+      router.push('/');
     }
   }, [isAuthenticated, router]);
 
@@ -113,6 +114,7 @@ const EditProfile = () => {
         fileReader.onloadend = (event: ProgressEvent<FileReader>) => {
           const img = event.target?.result as string;
           setUrl(img);
+          setAvatarSelected(true)
         };
       } else {
       }
@@ -208,7 +210,7 @@ const EditProfile = () => {
         </div>
 
         <div className="flex items-center gap-x-6">
-          <ButtonComponent onClick={changeAvatar} loading={isAvatar} disabled={isAvatar}>Change avatar</ButtonComponent>
+          <ButtonComponent onClick={changeAvatar} loading={isAvatar} disabled={!avatarSelected || isAvatar}>Change avatar</ButtonComponent>
           <p className="text-sm font-medium text-mauve underline cursor-pointer">
             Delete avatar
           </p>

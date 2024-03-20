@@ -25,9 +25,7 @@ const HeroComponent = ({ signin, username }: { signin: () => void, username: str
             setIsLinking(true)
             axiosInstance.post(`${API_URL}/videos/link-video`, url)
                 .then((res) => {
-                    toast.success(res?.data?.message)
                     const videoId = res?.data?.data._id
-
                     router.push(`/videos/new/${videoId}`)
                 })
                 .catch((err) => {
@@ -42,7 +40,7 @@ const HeroComponent = ({ signin, username }: { signin: () => void, username: str
                         router.push(`/videos/not-found`)
                     }
 
-                    toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+                    // toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
                 }).finally(() => {
                     setIsLinking(false)
                 })

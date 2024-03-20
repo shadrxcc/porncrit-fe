@@ -11,7 +11,7 @@ type ListsComponentProps = {
   user?: Partial<UsersModel>;
   videos?: Partial<LinkVideoModel[]>;
   likesCount?: number
-  comments: string[];
+  comments?: string[];
 }
 
 type ListProps = ListsComponentProps & {
@@ -34,7 +34,7 @@ const List = (props: ListProps) => {
       </div>
 
       <div className="flex rounded-[3px] items-center">
-        {videos?.map((clip) => (
+        {videos?.slice(0,3).map((clip) => (
           <Image
             className="rounded-[3px]"
             src={clip?.image || ''}

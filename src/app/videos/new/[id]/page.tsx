@@ -269,7 +269,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                                 )}
                             </div>
                             <div className="flex justify-end">
-                                <ButtonComponent type="button" onClick={() => router.push(`/videos/${video?.video?._id}`)}
+                                <ButtonComponent type="button" onClick={() => router.back()}
                                     variant="secondary"
                                     className="!w-fit !text-white place-self-end"
                                 >
