@@ -6,7 +6,6 @@ import ButtonComponent from '../shared/button.component'
 import axios from 'axios';
 import { API_URL } from '@/services/utils';
 import { toast } from 'react-toastify';
-import { log } from 'console';
 
 type VerifyEmailProps = {
     userId: string;
@@ -16,20 +15,9 @@ type VerifyEmailProps = {
 const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, email: string, userId: string }) => {
     const [isLoading, setLoading] = useState(false)
     const [otp, setOtp] = useState("");
-    const [Id, setUserId] = useState("");
+    const[isResend,setResend]=useState(false)
 
-
-    useEffect(() => {
-        if (userId) {
-            setUserId(userId);
-        }
-    }, [userId]);
-
-    console.log(userId);
-    console.log(email);
     
-    
-
     const handleVerify = (props: VerifyEmailProps) => {
         setLoading(true)
         axios.post(`${API_URL}/auth/verify-email`, { ...props })
@@ -38,29 +26,29 @@ const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, e
                 signin()
             })
             .catch((err) => {
-                console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
+                toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
                 setLoading(false);
+
             });
     }
 
     const handleResend = () => {
-        setLoading(true)
-        axios.post(`${API_URL}/auth/request-email-verification`, { userId:Id })
+        setResend(true)
+        axios.post(`${API_URL}/auth/request-email-verification`, { userId })
             .then((res) => {
-                toast.success(res?.data.message, {
+                toast.success('OTP resent.', {
                     position: "bottom-center"
                 })
-                signin()
             })
             .catch((err) => {
                 toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.', {
                     position: "bottom-center"
                 })
-                setLoading(false);
-            });
+
+            }).finally(()=>{
+                setResend(false)
+            })
     }
-
-
 
     return (
         <div className='flex flex-col items-center gap-y-4 '>
@@ -74,7 +62,7 @@ const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, e
                     })}
                     onSubmit={() => {
                         const params = {
-                            verificationCode: otp, userId: Id
+                            verificationCode: otp, userId
                         };
                         handleVerify(params)
                     }}
@@ -94,7 +82,7 @@ const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, e
                     </Form>
                 </Formik>
                 <span className='flex gap-x-1 items-center'>
-                    <p className='text-mauve text-sm'>Didn’t receive a code?</p><ButtonComponent type='button' onClick={handleResend} className='!bg-transparent !text-pink !p-0'>Resend</ButtonComponent>
+                    <p className='text-mauve text-sm'>Didn’t receive a code?</p><ButtonComponent disabled={isResend} loading={isResend} type='button' onClick={handleResend} className='!bg-transparent !text-pink !p-0'>Resend</ButtonComponent>
                 </span>
             </div>
 

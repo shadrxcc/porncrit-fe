@@ -28,7 +28,7 @@ const SignupComponent = (props: SignUpProps) => {
     axios.post(`${API_URL}/auth/register`, { ...props })
       .then((res) => {
         resetForm();
-        const userId = res?.data?.data._id
+        const userId = res?.data?.data?.user?._id
         const email = props.email
         toast(res?.data?.message)
         setLoading(false);
