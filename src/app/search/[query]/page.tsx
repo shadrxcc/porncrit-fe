@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react";
-import { Tab } from "../videos/[id]/page";
+import { useEffect, useState } from "react";
+import { Tab } from "../../videos/[id]/page";
 import { motion } from "framer-motion";
 import ReviewsComponent from "@/components/ui/reviews.component";
 import VideoListed from "@/components/ui/video-listed.component";
@@ -17,6 +17,11 @@ import NewestSvg from "@/components/shared/newest";
 import Oldest from "@/components/shared/oldest";
 import MostActiveSvg from "@/components/shared/mostactive";
 import FilterComponent from "@/components/shared/filter.component";
+import { AppDispatchType } from "@/services/config-store";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncSearch, selectSearchResults } from "@/services/search-services/async-actions";
+import SearchLists from "@/components/ui/search-lists.component";
+import SearchFans from "@/components/ui/search-fans.component";
 
 
 
@@ -63,39 +68,69 @@ const fansOptions = [
   { name: 'Biggest Fan', icon: <MostActiveSvg /> }
 ];
 
-const page = () => {
+const page = ({ params }: { params: { query: string } }) => {
+
+  const query = params.query;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+
+  const dispatch: AppDispatchType = useDispatch();
+  const results = useSelector(selectSearchResults);
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+    dispatch(asyncSearch({ query })).finally(() => setIsLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
 
+  console.log(results);
+
+
   const getTabContent = () => {
+    let content;
+    let subheading;
     switch (activeTabIndex) {
       case 0:
-        return <ReviewsComponent />;
+        content = <ReviewsComponent data={results} />;
+        subheading = `“${query}” reviews`;
+        break;
       case 1:
-        return <List url=""/>;
+        content = <SearchLists />;
+        subheading = `“${query}” lists`;
+        break;
       case 2:
-        return <TagLikeComponent />;
+        content = <TagLikeComponent />;
+        subheading = `“${query}” likes`;
+        break;
       case 3:
-        return <TagFansComponent />
+        content = <SearchFans />;
+        subheading = `“${query}” fans`;
+        break;
       default:
-        return null;
+        content = null;
+        subheading = '';
     }
+    return { content, subheading };
   };
 
 
+  const { content, subheading } = getTabContent();
+
   return (
     <div className="space-y-5 md:w-standard mt-8 mx-auto">
-      <h1 className="text-xl font-extrabold leading-7">“Search query goes here”</h1>
+      <h1 className="text-xl font-extrabold leading-7">{subheading}</h1>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
-      <div className='flex items-center gap-x-1'>
-                    {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
-                    {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
-                    {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
-                    {activeTabIndex === 3 && <FilterComponent data={fansOptions} />}
-                </div>
+        <div className='flex items-center gap-x-1'>
+          {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
+          {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
+          {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
+          {activeTabIndex === 3 && <FilterComponent data={fansOptions} />}
+        </div>
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-12">
           {tabs.map((tab, index) => (
             <a className="text-sm text-nowrap text-center" key={index}>
@@ -128,7 +163,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className="mt-9">{getTabContent()}</div>
+      <div className="mt-9">{content}</div>
     </div>
   )
 }

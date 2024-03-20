@@ -18,6 +18,7 @@ import authReducer from "./auth-services/slice";
 import videoReducer from "./video-services/slice"
 import listReducer from "./list-services/slice"
 import reviewReducer from "./reviews-services/slice"
+import searchReducer from "./search-services/slice"
 
 interface NoopStorage {
     getItem(key: string): Promise<string | null>;
@@ -29,7 +30,9 @@ const rootReducer = combineReducers({
     auth: authReducer,
     videos: videoReducer,
     lists: listReducer,
-    reviews: reviewReducer
+    reviews: reviewReducer,
+    search: searchReducer
+
 });
 
 const createNoopStorage = (): NoopStorage => {

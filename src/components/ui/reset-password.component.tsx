@@ -24,13 +24,6 @@ type NewProps = {
 const ConfirmOtpComponent = ({ reset, email }: { reset: (userId: string, token: string) => void, email: string }) => {
     const [isLoading, setLoading] = useState(false)
     const [otp, setOtp] = useState("");
-    const [entermail, setEnteredMail] = useState('')
-
-    useEffect(() => {
-        if (email) {
-            setEnteredMail(email);
-        }
-    }, [email]);
 
     const handleReset = (props: ResetProps) => {
         setLoading(true)
@@ -45,7 +38,7 @@ const ConfirmOtpComponent = ({ reset, email }: { reset: (userId: string, token: 
                 reset(userId, token)
             })
             .catch((err) => {
-                console.log(err?.response?.data?.message || 'Error Completing request. Try again later.')
+                toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
             })
             .finally(() => setLoading(false));
     }
@@ -62,11 +55,9 @@ const ConfirmOtpComponent = ({ reset, email }: { reset: (userId: string, token: 
                 onSubmit={() => {
                     const params = {
                         code: otp,
-                        email: entermail,
+                        email,
                         passwordReset: true
                     }
-                    console.log(params);
-
                     handleReset(params)
                 }}
             >

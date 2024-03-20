@@ -3,7 +3,7 @@ import SearchSvg from "./searchsvg.component";
 
 type InputProps = {
     widthClass?: string;
-    placeholder:string
+    placeholder: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }
 
@@ -17,7 +17,7 @@ const SearchInputComponent: React.FC<InputProps> = ({ widthClass, ...props }) =>
                     className={`bg-transparent text-[#BDA7B1] text-sm  !outline-none w-full focus:outline-none`}
                     {...props}
                 />
-                <SearchSvg/>
+                <SearchSvg />
 
             </div>
         </>
