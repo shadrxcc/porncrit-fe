@@ -151,23 +151,23 @@ export default function Home() {
                 <p className="text-sm text-mauve">Click a tag to find videos fans have reviewed, listed and liked</p>
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                <Link href={`/tags`}>
+                
                   <ButtonComponent className="rounded-[20px]" variant="tags">
                     Big boobs
                   </ButtonComponent>
-                </Link>
+            
 
-                <Link href={`/tags`}>
+         
                   <ButtonComponent className="rounded-[20px]" variant="tags">
                     Brunette
                   </ButtonComponent>
-                </Link>
+            
 
-                <Link href={`/tags`}>
+        
                   <ButtonComponent className="rounded-[20px]" variant="tags">
                     Masturbation
                   </ButtonComponent>
-                </Link>
+            
 
                 <Link href={`/tags`}>
                   <ButtonComponent className="rounded-[20px]" variant="tags">
