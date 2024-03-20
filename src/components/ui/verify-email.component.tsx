@@ -42,7 +42,7 @@ const VerifyEmailComponent = ({ signin, email, userId }: { signin: () => void, e
             })
             .catch((err) => {
                 toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.', {
-                    position: "bottom-center"
+                     position: "bottom-center"
                 })
 
             }).finally(()=>{

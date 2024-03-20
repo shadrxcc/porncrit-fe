@@ -66,7 +66,7 @@ const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void
                 <Form className='w-full'>
                     <div className='flex flex-col w-full gap-y-3.5'>
                         <div className='flex flex-col gap-y-8'>
-                            <InputComponent name='email' type='email' label='Email address or Username' />
+                            <InputComponent name='email' type='email' label='Email address' />
                             <InputComponent name="password" type='password' label='Password' />
                         </div>
                         <div className='flex flex-col items-center justify-center gap-y-2.5'>
