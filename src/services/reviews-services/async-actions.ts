@@ -44,6 +44,25 @@ export const asyncGetAllReviews = createAsyncThunk<HttpResponse<GetReviews[]>>(
     }
 );
 
+export const asyncGetPopularReviews = createAsyncThunk<HttpResponse<GetReviews[]>>(
+    "reviews/popular",
+    async () => {
+        try {
+            const response = await axiosInstance.get(`${API_URL}/reviews/get-popular`);
+            const reviews = response?.data;
+
+            return reviews;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            toast.error(errorMessage)
+        }
+    }
+);
+
 export const selectMyReviews
 : (state: RootStateType) => Reviews = (
     state
@@ -53,3 +72,8 @@ export const selectAllReviews
 : (state: RootStateType) => GetReviews[] = (
     state
 ) => state.reviews.allreviews;
+
+export const selectPopularReviews
+: (state: RootStateType) => GetReviews[] = (
+    state
+) => state.reviews.popular;

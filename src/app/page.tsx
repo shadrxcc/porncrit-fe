@@ -18,6 +18,7 @@ import { useAuthModal } from "@/context/auth-modal-context";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
+import { asyncGetPopularReviews, selectPopularReviews } from "@/services/reviews-services/async-actions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,12 +39,24 @@ export default function Home() {
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
 
+  const reviews = useSelector(selectPopularReviews);
+
+  useEffect(() => {
+    setIsLoading(true)
+    dispatch(asyncGetPopularReviews()).finally(() => setIsLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
   useEffect(() => {
     if (isAuthenticated) {
       setIsLoading(true);
       dispatch(getUserProfile()).finally(() => setIsLoading(false));
     }
   }, [dispatch, isAuthenticated]);
+
+  console.log(reviews);
+  
 
   return (
     <main className="md:w-standard mx-auto">
@@ -86,8 +99,8 @@ export default function Home() {
               <p className='text-sm text-mauve'>Click the video title to discover popular videos reviewed by fans</p></div>
 
             <div className="flex flex-col gap-y-10">
-              {[1, 2, 3, 4].map((e) => (
-                <PopularReviewsComponent key={e} />
+              {reviews.map((review) => (
+                <PopularReviewsComponent key={review._id} {...review}/>
               ))}
             </div>
           </div>

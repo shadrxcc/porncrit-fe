@@ -121,6 +121,7 @@ export interface Reviews {
 export type ReviewsType = {
     myreview: Reviews;
     allreviews: GetReviews[];
+    popular:GetReviews[]
     status: FetchStatusType;
     page: number;
     totalData: number;
