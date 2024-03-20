@@ -119,12 +119,34 @@ export interface Reviews {
 
 export type ReviewsType = {
     myreview: Reviews;
+    allreviews: GetReviews[];
     status: FetchStatusType;
     page: number;
     totalData: number;
 };
+export interface ReeviewsModel {
+    _id: string;
+    note: string;
+    videoId: string;
+    reviewer: string;
+    comments: [];
+    likes: [];
+    likesCount: number;
+    rating: number;
+}
 
-
+export interface GetReviews {
+    _id: string;
+    note: string;
+    videoId: string;
+    reviewer: string;
+    comments: [];
+    likes: [];
+    likesCount: number;
+    rating: number;
+    video: LinkVideoModel;
+    user: UsersModel;
+}
 
 export type GetVideoType = {
     video: VideoModel

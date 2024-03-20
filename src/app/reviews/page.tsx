@@ -1,9 +1,9 @@
 "use client"
 
 import PopularReviewsComponent from '@/components/ui/popular-reviews.component'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectIsAuthenticated } from '@/services/auth-services/selector'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { DaySvg } from '@/components/shared/day.component'
 import LinkVideoInput from '@/components/shared/linkvideo-input'
@@ -17,6 +17,9 @@ import NewestSvg from '@/components/shared/newest'
 import FilterComponent from '@/components/shared/filter.component'
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
+import { AppDispatchType } from '@/services/config-store'
+import { asyncGetAllReviews, selectAllReviews } from '@/services/reviews-services/async-actions'
+import LoaderComponent from '@/components/shared/loader.component'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -49,83 +52,96 @@ const fansOptions = [
 const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const dispatch: AppDispatchType = useDispatch();
+  const reviews = useSelector(selectAllReviews);
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+    dispatch(asyncGetAllReviews()).finally(() => setIsLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
 
   return (
     <div className='mx-auto flex flex-col gap-y-8 md:w-standard'>
-      <div className='flex flex-col gap-y-4 border-b pb-7 border-mauve border-opacity-30'>
-        <div className='w-fit space-y-1'>
-          <p className='text-xl font-bold'>Reviews</p>
-          {isAuthenticated ?
-            <p className='text-sm text-mauve'>Review the porn you love</p>
-            :
-            <p className='text-sm text-pink'>Join <span className='text-mauve'>PornCrit to review the porn you love</span></p>
-          }
+      {isLoading && <LoaderComponent />}
+      {!isLoading ? <>
+        <div className='flex flex-col gap-y-4 border-b pb-7 border-mauve border-opacity-30'>
+          <div className='w-fit space-y-1'>
+            <p className='text-xl font-bold'>Reviews</p>
+            {isAuthenticated ?
+              <p className='text-sm text-mauve'>Review the porn you love</p>
+              :
+              <p className='text-sm text-pink'>Join <span className='text-mauve'>PornCrit to review the porn you love</span></p>
+            }
 
+          </div>
+          <Formik
+            initialValues={{
+              url: "",
+            }}
+            validationSchema={Yup.object({
+              url: Yup
+                .string()
+                .url('Please enter a valid URL')
+                .required('URL is required'),
+            })}
+            onSubmit={() => {
+
+            }}
+          >
+            <Form className="w-full">
+              <LinkVideoInput name="url" placeholder="Paste the link for a video you want to review. " />
+            </Form>
+          </Formik>
         </div>
-        <Formik
-          initialValues={{
-            url: "",
-          }}
-          validationSchema={Yup.object({
-            url: Yup
-              .string()
-              .url('Please enter a valid URL')
-              .required('URL is required'),
-          })}
-          onSubmit={() => {
 
-          }}
-        >
-          <Form className="w-full">
-            <LinkVideoInput name="url" placeholder="Paste the link for a video you want to review. " />
-          </Form>
-        </Formik>
-      </div>
+        <div className='flex flex-col gap-y-7'>
+          <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-4 items-center">
+            <div className='flex items-center gap-x-1'>
+              {activeTab.id === 1 && <FilterComponent data={popularOptions} />}
+              {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
+              {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
+            </div>
 
-      <div className='flex flex-col gap-y-7'>
-        <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-4 items-center">
-          <div className='flex items-center gap-x-1'>
-            {activeTab.id === 1 && <FilterComponent data={popularOptions} />}
-            {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
-            {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
+            <div className="flex overflow-auto no-scroll gap-x-10">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab)}
+                  className={`w-fit ${activeTab.id === tab.id
+                    ? ""
+                    : "font-normal !text-white"
+                    } relative px-3 py-1.5 text-sm text-pink transition `}
+                  style={{
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                >
+                  {activeTab.id === tab.id && (
+                    <motion.span
+                      layoutId="bubble"
+                      className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
+                      transition={{
+                        type: "spring",
+                        bounce: 0.5,
+                        duration: 0.6,
+                      }}
+                    />
+                  )}
+                  {tab.label}
+                </button>
+              ))}</div>
           </div>
 
-          <div className="flex overflow-auto no-scroll gap-x-10">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab)}
-                className={`w-fit ${activeTab.id === tab.id
-                  ? ""
-                  : "font-normal !text-white"
-                  } relative px-3 py-1.5 text-sm text-pink transition `}
-                style={{
-                  WebkitTapHighlightColor: "transparent",
-                }}
-              >
-                {activeTab.id === tab.id && (
-                  <motion.span
-                    layoutId="bubble"
-                    className="absolute h-0.5 rounded-full top-[90%] inset-0 z-10 bg-pink"
-                    transition={{
-                      type: "spring",
-                      bounce: 0.5,
-                      duration: 0.6,
-                    }}
-                  />
-                )}
-                {tab.label}
-              </button>
-            ))}</div>
+          <div className="flex flex-col gap-y-10">
+            {reviews?.map((review) => (
+              <PopularReviewsComponent key={review?._id} {...review}/>
+            ))}
+          </div>
         </div>
-
-        <div className="flex flex-col gap-y-10">
-          {[1, 2, 3, 4].map((e) => (
-            <PopularReviewsComponent key={e} />
-          ))}
-        </div>
-      </div>
-
+      </> : null}
     </div>
   )
 }
