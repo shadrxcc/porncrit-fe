@@ -106,6 +106,7 @@ export type ListType = {
     lists: ListData[]
     list: ListData
     allLists: ListData[]
+    popular:ListData[]
     listvideos: LinkVideoModel[]
     status: FetchStatusType;
     page: number;

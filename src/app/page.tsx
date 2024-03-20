@@ -18,6 +18,7 @@ import { useAuthModal } from "@/context/auth-modal-context";
 import { getUserProfile } from "@/services/auth-services/async-actions";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
+import { asyncGetPopularLists, selectPopularList } from "@/services/list-services/async-actions";
 import { asyncGetPopularReviews, selectPopularReviews } from "@/services/reviews-services/async-actions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -40,10 +41,12 @@ export default function Home() {
   const user = useSelector(selectAuthUser);
 
   const reviews = useSelector(selectPopularReviews);
+  const lists = useSelector(selectPopularList);
 
   useEffect(() => {
     setIsLoading(true)
     dispatch(asyncGetPopularReviews()).finally(() => setIsLoading(false))
+    dispatch(asyncGetPopularLists()).finally(() => setIsLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -53,7 +56,7 @@ export default function Home() {
       setIsLoading(true);
       dispatch(getUserProfile()).finally(() => setIsLoading(false));
     }
-  }, [dispatch, isAuthenticated]);  
+  }, [dispatch, isAuthenticated]);    
 
   return (
     <main className="md:w-standard mx-auto">
@@ -112,8 +115,8 @@ export default function Home() {
               </div>
               <p className="text-xl font-bold"></p>
               <div className="flex flex-col gap-y-7">
-                {[1, 2, 3].map((e) => (
-                  <PopularListComponent key={e} />
+                {lists?.map((list) => (
+                  <PopularListComponent url={`/lists/${list?._id}`} key={list?._id} {...list}/>
                 ))}
               </div>
             </div>

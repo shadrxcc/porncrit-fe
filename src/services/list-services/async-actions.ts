@@ -7,7 +7,7 @@ import { RootStateType } from "../config-store";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-
+// get-popular
 export const asyncGetUserList = createAsyncThunk<HttpResponse<ListData[]>>(
     "list/user-list",
     async () => {
@@ -32,6 +32,25 @@ export const asyncGetAllLists = createAsyncThunk<HttpResponse<ListData[]>>(
     async () => {
         try {
             const response = await axios.get(`${API_URL}/list/get-all`);
+            const lists = response?.data;
+
+            return lists;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            toast.error(errorMessage)
+        }
+    }
+);
+
+export const asyncGetPopularLists = createAsyncThunk<HttpResponse<ListData[]>>(
+    "lists/popular",
+    async () => {
+        try {
+            const response = await axios.get(`${API_URL}/list/get-popular`);
             const lists = response?.data;
 
             return lists;
@@ -99,6 +118,10 @@ export const selectList: (state: RootStateType) => ListData = (
 export const selectAllList: (state: RootStateType) => ListData[] = (
     state
 ) => state.lists.allLists;
+
+export const selectPopularList: (state: RootStateType) => ListData[] = (
+    state
+) => state.lists.popular;
 
 export const selectListVideos: (state: RootStateType) => LinkVideoModel[] = (
     state
