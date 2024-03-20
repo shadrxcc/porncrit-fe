@@ -6,18 +6,19 @@ import ButtonComponent from "../shared/button.component";
 import CommentLineSvg from "../shared/commentline.component";
 import FavoriteLight from "../shared/favlight.component";
 import Replies from "./replies";
-import { ReviewsModel } from "@/services/models/list.model";
+import { CommentsProp} from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 
 
-const ListCommentComponent: React.FC<Partial<ReviewsModel>> = function (props
+
+const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
 ) {
 
-  const { _id, note, reviewer, likesCount } = props;
+  const { _id, comment, commenter, likesCount } = props;
   const [replies, setReplies] = useState(false);
-  const [comment, setComment] = useState(false);
+  const [isComment, setComment] = useState(false);
   const [isLiking, setLiking] = useState(false)
 
   function openReplies() {
@@ -48,15 +49,15 @@ const ListCommentComponent: React.FC<Partial<ReviewsModel>> = function (props
       <div>
         <div className="flex flex-col gap-y-5 bg-box rounded-box px-2 sm:px-8 py-5">
           <div className="flex items-center gap-x-2">
-            <img src="/assets/images/user.png" width={35} alt="" />
+            <img className="w-8 h-8 rounded-full object-cover" src={commenter?.avatar} width={35} alt="" />
             <p className="text-base">
-              Comment by <span className="text-pink font-extrabold">{reviewer}</span>
+              Comment by <span className="text-pink font-extrabold">{commenter?.username}</span>
             </p>
           </div>
 
           <div>
             <p className="text-sm">
-              {note}
+              {comment}
             </p>
           </div>
 
@@ -108,7 +109,7 @@ const ListCommentComponent: React.FC<Partial<ReviewsModel>> = function (props
               </div>
             </div> : null} */}
         </div>
-      
+
       </div>
     </>
   );

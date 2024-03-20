@@ -201,6 +201,20 @@ export interface EditList {
     listId: string;
 }
 
+export interface CommentsProp{  
+            _id: string;
+            comment: string;
+            type: string;
+            commenter: {
+                username: string;
+                avatar: string;
+                _id: string;
+            },
+            likes: string[],
+            subjectId: string;
+            likesCount: number
+}
+
 export interface ListData {
     _id: string;
     description: string;
@@ -211,7 +225,7 @@ export interface ListData {
     user: Partial<UsersModel>;
     likes: LikesModel[];
     likesCount: number;
-    comments: string[]
+    comments: CommentsProp[]
 }
 
 export interface ListComment {

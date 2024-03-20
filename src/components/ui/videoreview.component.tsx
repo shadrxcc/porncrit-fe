@@ -48,7 +48,7 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
       <div>
         <div className="flex flex-col gap-y-5 bg-box rounded-box px-2 sm:px-8 py-5">
           <div className="flex items-center gap-x-2">
-            <img src="/assets/images/user.png" width={35} alt="" />
+            <img className="w-8 h-8 rounded-full object-cover" src="/assets/images/user.png" width={35} alt="" />
             <p className="text-base">
               Comment by <span className="text-pink font-extrabold">{reviewer}</span>
             </p>

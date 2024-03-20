@@ -59,7 +59,7 @@ const ListCommentsComponent = (props: CommentsProp) => {
         <div className="flex flex-col gap-y-8">
             {data.comments.length === 0 ? <p className="text-sm text-mauve text-center">No comments on this list. Be the first to comment.</p> : <>
                 {data.comments.map((comment) => (
-                    <ListCommentComponent key={comment} />
+                    <ListCommentComponent key={comment._id} {...comment}/>
                 ))}
             </>}
         </div>
