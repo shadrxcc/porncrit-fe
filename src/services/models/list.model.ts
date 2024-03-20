@@ -111,6 +111,21 @@ export type ListType = {
     totalData: number;
 };
 
+export interface Reviews {
+    reviews: ReviewsModel[];
+    user: UsersModel
+}
+
+
+export type ReviewsType = {
+    myreview: Reviews;
+    status: FetchStatusType;
+    page: number;
+    totalData: number;
+};
+
+
+
 export type GetVideoType = {
     video: VideoModel
     status: FetchStatusType;
@@ -173,6 +188,7 @@ export interface ListData {
     user: Partial<UsersModel>;
     likes: LikesModel[];
     likesCount: number;
+    comments: string[]
 }
 
 export interface ListComment {

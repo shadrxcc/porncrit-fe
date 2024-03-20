@@ -27,25 +27,6 @@ export const asyncGetUserList = createAsyncThunk<HttpResponse<ListData[]>>(
     }
 );
 
-export const asyncGetUserReviews = createAsyncThunk<HttpResponse<ReviewsModel[]>>(
-    "list/user-list",
-    async () => {
-        try {
-            const response = await axiosInstance.get(`${API_URL}/list/user-list/`);
-            const lists = response?.data;
-
-            return lists;
-        } catch (error) {
-            const customError = error as CustomError;
-            const errorMessage =
-                customError?.response?.data?.message ||
-                customError.message ||
-                "There was an error";
-            toast.error(errorMessage)
-        }
-    }
-);
-
 export const asyncGetAllLists = createAsyncThunk<HttpResponse<ListData[]>>(
     "lists/all-lists",
     async () => {

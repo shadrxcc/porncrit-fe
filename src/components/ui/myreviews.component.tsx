@@ -1,10 +1,15 @@
+import { Reviews } from "@/services/models/list.model";
 import LinkVideoInput from "../shared/linkvideo-input";
 import ReviewsComponent from "./myreview.component";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
+type ReviewsType = {
+  data: Reviews
+}
 
-const MyReviews = () => {
+const MyReviews = (props: ReviewsType) => {
+  const { data } = props;
   return <div className="space-y-5">
     <Formik
       initialValues={{
@@ -25,9 +30,11 @@ const MyReviews = () => {
       </Form>
     </Formik>
     <div className="flex mt-9 flex-col gap-y-9">
-      {[1, 2, 3, 4].map((e) => (
-        <ReviewsComponent key={e} />
-      ))}
+      {data?.reviews?.length === 0 ? <p className="text-sm text-center text-mauve">You haven't made any reviews yet.</p> : <>
+        {data?.reviews?.map((review) => (
+          <ReviewsComponent key={review?._id} {...review} />
+        ))}
+      </>}
     </div>
   </div>
 }

@@ -11,6 +11,7 @@ type ListsComponentProps = {
   user?: Partial<UsersModel>;
   videos?: Partial<LinkVideoModel[]>;
   likesCount?: number
+  comments: string[];
 }
 
 type ListProps = ListsComponentProps & {
@@ -18,7 +19,7 @@ type ListProps = ListsComponentProps & {
 };
 
 const List = (props: ListProps) => {
-  const { title, description, url, user, videos, likesCount } = props;
+  const { title, description, url, user, videos, likesCount, comments } = props;
   const router = useRouter()
 
   return <div className="w-full md:w-standard space-y-3 bg-box rounded-box px-3 sm:px-8 py-10">
@@ -55,10 +56,11 @@ const List = (props: ListProps) => {
           <img src="/assets/icons/video.svg" alt="" />{" "}
           <p className="text-xs text-mauve">125</p>
         </span>
-        <span className="flex items-center gap-x-1.5">
+        {comments && comments.length !== 0 ? <span className="flex items-center gap-x-1.5">
           <img src="/assets/icons/comment.svg" alt="" />{" "}
-          <p className="text-xs text-mauve">35</p>
-        </span>
+          <p className="text-xs text-mauve">{comments.length}</p>
+        </span> : null}
+
         {likesCount && likesCount > 0 ? <span className="flex items-center gap-x-1.5">
           <img src="/assets/icons/fav.svg" alt="" />{" "}
           <p className="text-xs text-mauve">{likesCount}</p>

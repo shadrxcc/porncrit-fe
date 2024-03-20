@@ -7,6 +7,7 @@ import { getUserProfile } from "@/services/auth-services/async-actions";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
 import { asyncGetUserList, selectLists } from "@/services/list-services/async-actions";
+import { asyncGetUserReviews, selectMyReviews } from "@/services/reviews-services/async-actions";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,7 @@ const page = () => {
   const lists = useSelector(selectLists);
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
+  const reviews = useSelector(selectMyReviews);
   const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
   const router = useRouter();
 
@@ -36,11 +38,12 @@ const page = () => {
     if (isAuthenticated) {
       setIsLoadingProfile(true);
       dispatch(asyncGetUserList())
+      dispatch(asyncGetUserReviews())
       dispatch(getUserProfile()).finally(() => setIsLoadingProfile(false));
     }
 
 
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, isAuthenticated]);  
 
   return (
     <div className='mx-auto md:w-standard'>
@@ -60,7 +63,7 @@ const page = () => {
         </div>
 
         <div className="">
-          <MyProfileTabComponent list={lists} />
+          <MyProfileTabComponent list={lists} reviews={reviews}/>
         </div>
       </div>}
     </div>

@@ -18,9 +18,7 @@ export const videoSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(asyncGetLinkedVideo.fulfilled, (state, action) => {
             state.status = "fulfilled";
-            state.video = action.payload.data;
-            console.log(action.payload);
-            
+            state.video = action.payload.data;            
         });
     },
 });

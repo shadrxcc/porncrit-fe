@@ -14,6 +14,7 @@ import HighestSvg from "../shared/highest";
 import LowestSvg from "../shared/lowest";
 import FilterComponent from "../shared/filter.component";
 import { LinkVideoModel, ListData } from "@/services/models/list.model";
+import ListVideos from "./listvideos.component";
 
 
 
@@ -78,9 +79,9 @@ const ListTabs = ({ defaultIndex = 0, data, videos }: TabComponentProps) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListedVideo data={videos}/>
+        return <ListVideos data={videos as LinkVideoModel[]} />
       case 1:
-        return <ListCommentsComponent id={data?._id}/>
+        return <ListCommentsComponent data={data}/>
       case 2:
         return <ListLikes like={data?.likes}/>
       case 3:

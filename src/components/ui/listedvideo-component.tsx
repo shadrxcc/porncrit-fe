@@ -11,7 +11,9 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 
-const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
+const ListedVideo: React.FC<Partial<LinkVideoModel>> = function (props
+) {
+  const { _id, image, title, embedLink } = props;
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
   const [isLiking, setLiking] = useState(false)
@@ -36,41 +38,38 @@ const ListedVideo = ({ data }: { data: Partial<LinkVideoModel[]> }) => {
         <AddtolistComponent />
       </MyModal>
       <div className="flex flex-col gap-y-8">
-        {data.map((video) => (
-          <div key={video?._id} className="flex flex-col gap-y-6 px-2.5 sm:px-9 py-6 rounded-[10px] bg-box">
-            <div className="flex gap-5">
-              {" "}
-              <Link href={`/videos/${video?._id}`}><Image
-                src={video?.image || `/assets/images/4some.png`}
-                width={88}
-                height={50}
-                className="rounded-sm"
-                alt="foursome"
-              />
-              </Link>
+        <div className="flex flex-col gap-y-6 px-2.5 sm:px-9 py-6 rounded-[10px] bg-box">
+          <div className="flex gap-5">
+            {" "}
+            <Link href={`/videos/${_id}`}><Image
+              src={image || `/assets/images/4some.png`}
+              width={88}
+              height={50}
+              className="rounded-sm"
+              alt="foursome"
+            />
+            </Link>
 
-              <div className="text-sm flex flex-col gap-y-4">
-                <Link href={`/videos/${video?._id}`}><p>{video?.title}</p></Link>
-                <img src="/assets/images/rating.png" width={100} alt="" />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-5 sm:gap-x-8">
-              <a href={video?.embedLink} target="_blank" rel="noopener noreferrer">
-                <ButtonComponent variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
-                  <img src="/assets/icons/play.svg" alt="" /> Watch now
-                </ButtonComponent>
-              </a>
-              <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
-                <img src="/assets/icons/add.svg" alt="" /> Save
-              </ButtonComponent>
-              <ButtonComponent loading={isLiking} disabled={isLiking} onClick={() => likeVideo(video?._id)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
-                <img src="/assets/icons/white-like.svg" alt="" /> Like
-              </ButtonComponent>
+            <div className="text-sm flex flex-col gap-y-4">
+              <Link href={`/videos/${_id}`}><p>{title}</p></Link>
+              <img src="/assets/images/rating.png" width={100} alt="" />
             </div>
           </div>
-        ))}
 
+          <div className="flex items-center gap-5 sm:gap-x-8">
+            <a href={embedLink} target="_blank" rel="noopener noreferrer">
+              <ButtonComponent variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
+                <img src="/assets/icons/play.svg" alt="" /> Watch now
+              </ButtonComponent>
+            </a>
+            <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
+              <img src="/assets/icons/add.svg" alt="" /> Save
+            </ButtonComponent>
+            <ButtonComponent loading={isLiking} disabled={isLiking} onClick={() => likeVideo(_id)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
+              <img src="/assets/icons/white-like.svg" alt="" /> Like
+            </ButtonComponent>
+          </div>
+        </div>
       </div >
     </>
   );

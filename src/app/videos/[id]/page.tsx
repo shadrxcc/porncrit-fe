@@ -31,6 +31,7 @@ import { getUserProfile } from "@/services/auth-services/async-actions";
 import { toast } from "react-toastify";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
+import VideoListsComponent from "@/components/ui/videolists.component";
 
 
 export type Tab = {
@@ -147,7 +148,7 @@ const Video = ({ params }: { params: { id: string } }) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListCommentComponent reviews={video?.reviews} />;
+        return <VideoListsComponent data={video} />;
       case 1:
         return <VideoListed data={video?.lists}/>;
       case 2:

@@ -16,7 +16,7 @@ import LowestSvg from "../shared/lowest";
 import NewestSvg from "../shared/newest";
 import Oldest from "../shared/oldest";
 import FilterComponent from "../shared/filter.component";
-import { ListData } from "@/services/models/list.model";
+import { ListData, Reviews } from "@/services/models/list.model";
 
 export type Tab = {
   id: string;
@@ -25,7 +25,8 @@ export type Tab = {
 
 type TabComponentProps = {
   defaultIndex?: number;
-  list: ListData[]
+  list: ListData[];
+  reviews:Reviews
 };
 
 const tabs = [
@@ -75,7 +76,7 @@ const likeOptions = [
 ];
 
 
-const MyProfileTabComponent = ({ defaultIndex = 0,list }: TabComponentProps) => {
+const MyProfileTabComponent = ({ defaultIndex = 0,list,reviews }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
 
   const onTabClick = (index: number) => {
@@ -85,7 +86,7 @@ const MyProfileTabComponent = ({ defaultIndex = 0,list }: TabComponentProps) => 
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <MyReviews />
+        return <MyReviews data={reviews}/>
       case 1:
         return <MyLists data={list}/>
       case 2:

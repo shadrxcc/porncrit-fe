@@ -6,17 +6,17 @@ import SecondaryInputComponent from "../shared/secondary-input.component"
 import ListCommentComponent from "./listcomment.component"
 import * as Yup from "yup";
 import { useState } from "react";
-import { ListComment } from "@/services/models/list.model"
+import { ListComment, ListData } from "@/services/models/list.model"
 import axiosInstance from "@/services/httpClient"
 import { API_URL } from "@/services/utils"
 import { toast } from "react-toastify"
 
 type CommentsProp = {
-    id: string
+    data: ListData
 }
 
 const ListCommentsComponent = (props: CommentsProp) => {
-    const { id } = props
+    const { data } = props
 
     const [isCommenting, setComment] = useState(false)
 
@@ -43,7 +43,7 @@ const ListCommentsComponent = (props: CommentsProp) => {
             })}
             onSubmit={(value) => {
                 const params = {
-                    ...value, listId: id
+                    ...value, listId: data?._id
                 }
                 listComment(params);
             }}>
@@ -56,8 +56,12 @@ const ListCommentsComponent = (props: CommentsProp) => {
         </Formik>
 
 
-        <div>
-            <ListCommentComponent />
+        <div className="flex flex-col gap-y-8">
+            {data.comments.length === 0 ? <p className="text-sm text-mauve text-center">No comments on this list. Be the first to comment.</p> : <>
+                {data.comments.map((comment) => (
+                    <ListCommentComponent key={comment} />
+                ))}
+            </>}
         </div>
     </div>
 }
