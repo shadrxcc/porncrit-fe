@@ -53,10 +53,7 @@ export default function Home() {
       setIsLoading(true);
       dispatch(getUserProfile()).finally(() => setIsLoading(false));
     }
-  }, [dispatch, isAuthenticated]);
-
-  console.log(reviews);
-  
+  }, [dispatch, isAuthenticated]);  
 
   return (
     <main className="md:w-standard mx-auto">

@@ -3,7 +3,7 @@ import ButtonComponent from "../shared/button.component";
 import { useRouter } from "next/navigation";
 import { UsersModel } from "@/services/models/user.model";
 import { memo } from "react";
-import { LinkVideoModel } from "@/services/models/list.model";
+import { CommentsProp, LinkVideoModel } from "@/services/models/list.model";
 
 type ListsComponentProps = {
   title?: string;
@@ -11,7 +11,7 @@ type ListsComponentProps = {
   user?: Partial<UsersModel>;
   videos?: Partial<LinkVideoModel[]>;
   likesCount?: number
-  comments?: string[];
+  comments?: CommentsProp[];
 }
 
 type ListProps = ListsComponentProps & {
@@ -56,9 +56,9 @@ const List = (props: ListProps) => {
           <img src="/assets/icons/video.svg" alt="" />{" "}
           <p className="text-xs text-mauve">125</p>
         </span>
-        {comments && comments.length !== 0 ? <span className="flex items-center gap-x-1.5">
+        {comments && comments?.length !== 0 ? <span className="flex items-center gap-x-1.5">
           <img src="/assets/icons/comment.svg" alt="" />{" "}
-          <p className="text-xs text-mauve">{comments.length}</p>
+          <p className="text-xs text-mauve">{comments?.length}</p>
         </span> : null}
 
         {likesCount && likesCount > 0 ? <span className="flex items-center gap-x-1.5">
