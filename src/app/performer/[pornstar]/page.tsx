@@ -94,7 +94,7 @@ const page = ({ params }: { params: { pornstar: string } }) => {
     return (
         <div className="space-y-5 md:w-standard mt-8 mx-auto">
             <h1 className="text-xl font-extrabold leading-7">{tabs[activeTabIndex].subheading}</h1>
-            <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+            <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
             <div className='flex items-center gap-x-1'>
                     {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
                     {activeTabIndex === 1 && <FilterComponent data={listOptions} />}

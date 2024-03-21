@@ -26,7 +26,7 @@ export type Tab = {
 type TabComponentProps = {
   defaultIndex?: number;
   list: ListData[];
-  reviews:Reviews
+  reviews: Reviews
 };
 
 const tabs = [
@@ -76,7 +76,7 @@ const likeOptions = [
 ];
 
 
-const MyProfileTabComponent = ({ defaultIndex = 0,list,reviews }: TabComponentProps) => {
+const MyProfileTabComponent = ({ defaultIndex = 0, list, reviews }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
 
   const onTabClick = (index: number) => {
@@ -86,9 +86,9 @@ const MyProfileTabComponent = ({ defaultIndex = 0,list,reviews }: TabComponentPr
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <MyReviews data={reviews}/>
+        return <MyReviews data={reviews} />
       case 1:
-        return <MyLists data={list}/>
+        return <MyLists data={list} />
       case 2:
         return <MyFollowers />
       case 3:
@@ -103,7 +103,7 @@ const MyProfileTabComponent = ({ defaultIndex = 0,list,reviews }: TabComponentPr
 
   return (
     <div>
-      <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+      <div className="flex relative  sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
           {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
           {activeTabIndex === 1 && <FilterComponent data={listOptions} />}

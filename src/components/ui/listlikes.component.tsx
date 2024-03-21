@@ -4,9 +4,9 @@ type LikeProps = {
     like?: LikesModel[]
 }
 
-const ListLikes = (props:LikeProps) => {
-    const{like}=props
-    return <div><ListLikeComponent like={like} /></div>
+const ListLikes = (props: LikeProps) => {
+    const { like } = props
+    return <div className="flex flex-col gap-y-8"><ListLikeComponent like={like} /></div>
 }
 
 export default ListLikes;

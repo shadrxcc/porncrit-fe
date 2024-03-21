@@ -228,6 +228,7 @@ export interface ListData {
     likes: LikesModel[];
     likesCount: number;
     comments: CommentsProp[]
+    updatedAt: string;
 }
 
 export interface ListComment {

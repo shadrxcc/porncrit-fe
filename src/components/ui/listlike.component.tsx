@@ -9,7 +9,7 @@ type LikeProps = {
 const ListLikeComponent = (props: LikeProps) => {
   const { like } = props;
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
       {like?.length === 0 ? <p className="text-sm text-center text-mauve">No recent likes for this video yet.</p> :
         <>
           {like?.map((item) => (
