@@ -22,6 +22,7 @@ const page = ({ params }: { params: { list: string } }) => {
 
   const [liked, setLiked] = useState(false)
   const [isLiking, setLiking] = useState(false)
+  const [isUnLiking, setUnLiking] = useState(false)
 
   function likeList(listId: string) {
     setLiking(true)
@@ -37,12 +38,34 @@ const page = ({ params }: { params: { list: string } }) => {
       })
   }
 
+  function unLikeList(listId: string) {
+    setUnLiking(true)
+    axiosInstance.post(`${API_URL}/likes/unlike-list`, { listId })
+      .then((res) => {
+        setLiked(false)
+        toast(res?.data?.message)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setUnLiking(false)
+      })
+  }
+
   useEffect(() => {
     setIsLoading(true)
     dispatch(asyncGetList({ id })).finally(() => setIsLoading(false))
     dispatch(asyncGetListVideos({ id })).finally(() => setIsLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  const handleLikeButtonClick = () => {
+    if (liked) {
+      unLikeList(list?._id);
+    } else {
+      likeList(list?._id);
+    }
+ };
 
   return (
     <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
@@ -61,9 +84,15 @@ const page = ({ params }: { params: { list: string } }) => {
             </div>
           </div>
 
-          <ButtonComponent onClick={() => likeList(list?._id)} className="xs:w-full !w-28" variant="outline-pink">{liked ? 'Liked' : <>
-            <img src="/assets/icons/white-like.svg" width={10} alt="like icon" /> Like list
-          </>}</ButtonComponent>
+          <ButtonComponent onClick={handleLikeButtonClick} className="xs:w-full !w-28" variant="outline-pink">
+            {!isLiking && <>
+              {
+                liked ? 'Liked' : <>
+                  <img src="/assets/icons/white-like.svg" width={10} alt="like icon" /> Like list
+                </>
+              }
+            </>}
+          </ButtonComponent>
         </div>
 
         <ListTabs data={list} videos={videos} />
