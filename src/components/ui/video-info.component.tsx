@@ -29,7 +29,7 @@ const VideoInfo = (props: VideoInfoProp) => {
             <p className="text-xl font-extrabold">Performers</p>
             {video?.video?.models?.length === 0 ? <p className="text-sm">No performers available at the moment.</p> : <div className="flex flex-wrap items-center gap-4">
                 {video?.video?.models?.map((model) => (
-                    <Link key={model} href={`/performers/${model}`}>
+                    <Link key={model} href={`/performer/${model}`}>
                         <div className="flex items-center gap-x-2">
                             <img width={40} src="/assets/images/tori.png" alt={model} />
                             <ButtonComponent className="rounded-[20px]" variant="tags">

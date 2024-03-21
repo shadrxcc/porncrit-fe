@@ -10,6 +10,7 @@ import { ReviewsModel } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
+import FavFilled from "../shared/favfilled";
 
 
 const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
@@ -19,6 +20,7 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
   const [replies, setReplies] = useState(false);
   const [comment, setComment] = useState(false);
   const [isLiking, setLiking] = useState(false)
+  const [liked, setLiked] = useState(false)
 
   function openReplies() {
     setReplies(!replies);
@@ -35,6 +37,7 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
     axiosInstance.post(`${API_URL}/likes/like-review`, { reviewId })
       .then((res) => {
         toast(res?.data?.message)
+        setLiked(true)
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
@@ -42,6 +45,30 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
         setLiking(false)
       })
   }
+
+  function unLikeReview(reviewId: string | undefined) {
+    setLiking(true)
+    console.log(reviewId);
+
+    axiosInstance.post(`${API_URL}/likes/unlike-review`, { reviewId })
+      .then((res) => {
+        setLiked(false)
+        toast(res?.data?.message)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setLiking(false)
+      })
+  }
+
+  const handleLikeButtonClick = () => {
+    if (liked) {
+      unLikeReview(_id);
+    } else {
+      likeReview(_id);
+    }
+  };
 
   return (
     <>
@@ -80,8 +107,10 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
                 {/* <p className="text-xs">Comment</p> */}
               </ButtonComponent>
 
-              <ButtonComponent onClick={() => likeReview(_id)} type="button" loading={isLiking} disabled={isLiking} variant="secondary" className="!w-fit !p-0">
-                {!isLiking && <FavoriteLight />}
+              <ButtonComponent onClick={handleLikeButtonClick} type="button" loading={isLiking} disabled={isLiking} variant="secondary" className="!w-fit !p-0">
+                {!isLiking && <>
+                  {liked ? <FavFilled /> : <FavoriteLight />}
+                </>}
                 <p className="text-xs">{likesCount}</p>
               </ButtonComponent>
 
@@ -108,7 +137,7 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
               </div>
             </div> : null} */}
         </div>
-      
+
       </div>
     </>
   );

@@ -56,7 +56,7 @@ export default function Home() {
       setIsLoading(true);
       dispatch(getUserProfile()).finally(() => setIsLoading(false));
     }
-  }, [dispatch, isAuthenticated]);    
+  }, [dispatch, isAuthenticated]);
 
   return (
     <main className="md:w-standard mx-auto">
@@ -100,7 +100,7 @@ export default function Home() {
 
             <div className="flex flex-col gap-y-10">
               {reviews.map((review) => (
-                <PopularReviewsComponent key={review._id} {...review}/>
+                <PopularReviewsComponent key={review._id} {...review} />
               ))}
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
               <p className="text-xl font-bold"></p>
               <div className="flex flex-col gap-y-7">
                 {lists?.map((list) => (
-                  <PopularListComponent url={`/lists/${list?._id}`} key={list?._id} {...list}/>
+                  <PopularListComponent url={`/lists/${list?._id}`} key={list?._id} {...list} />
                 ))}
               </div>
             </div>
@@ -151,31 +151,27 @@ export default function Home() {
                 <p className="text-sm text-mauve">Click a tag to find videos fans have reviewed, listed and liked</p>
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                
-                  <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Big boobs
-                  </ButtonComponent>
-            
+                <Link href={`/tags/${'Big boobs'}`}><ButtonComponent className="rounded-[20px]" variant="tags">
+                  Big boobs
+                </ButtonComponent></Link>
 
-         
-                  <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Brunette
-                  </ButtonComponent>
-            
+                <Link href={`/tags/${'Brunette'}`}><ButtonComponent className="rounded-[20px]" variant="tags">
+                  Brunette
+                </ButtonComponent></Link>
 
-        
-                  <ButtonComponent className="rounded-[20px]" variant="tags">
-                    Masturbation
-                  </ButtonComponent>
-            
+                <Link href={`/tags/${'Masturbation'}`}><ButtonComponent className="rounded-[20px]" variant="tags">
+                  Masturbation
+                </ButtonComponent></Link>
 
-                <Link href={`/tags`}>
+
+
+                <Link href={`/tags/${'solo'}`}>
                   <ButtonComponent className="rounded-[20px]" variant="tags">
                     Solo
                   </ButtonComponent>
                 </Link>
 
-                <Link href={`/tags`}>
+                <Link href={`/tags/${'Jilling'}`}>
                   <ButtonComponent className="rounded-[20px]" variant="tags">
                     Jilling
                   </ButtonComponent>

@@ -6,10 +6,11 @@ import ButtonComponent from "../shared/button.component";
 import CommentLineSvg from "../shared/commentline.component";
 import FavoriteLight from "../shared/favlight.component";
 import Replies from "./replies";
-import { CommentsProp} from "@/services/models/list.model";
+import { CommentsProp } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
+import FavFilled from "../shared/favfilled";
 
 
 
@@ -20,6 +21,7 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
   const [replies, setReplies] = useState(false);
   const [isComment, setComment] = useState(false);
   const [isLiking, setLiking] = useState(false)
+  const [liked, setLiked] = useState(false)
 
   function openReplies() {
     setReplies(!replies);
@@ -29,13 +31,12 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
     setComment(true);
   }
 
-  function likeReview(reviewId: string | undefined) {
+  function likeComment(commentId: string | undefined) {
     setLiking(true)
-    console.log(reviewId);
-
-    axiosInstance.post(`${API_URL}/likes/like-review`, { reviewId })
+    axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
       .then((res) => {
         toast(res?.data?.message)
+        setLiked(true)
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
@@ -43,6 +44,28 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
         setLiking(false)
       })
   }
+  function unLikeComment(commentId: string | undefined) {
+    setLiking(true)
+    axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
+      .then((res) => {
+        toast(res?.data?.message)
+        setLiked(false)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setLiking(false)
+      })
+  }
+
+  const handleLikeButtonClick = () => {
+    if (liked) {
+      unLikeComment(_id);
+    } else {
+      likeComment(_id);
+    }
+  };
+
 
   return (
     <>
@@ -81,8 +104,10 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
                 {/* <p className="text-xs">Comment</p> */}
               </ButtonComponent>
 
-              <ButtonComponent onClick={() => likeReview(_id)} type="button" loading={isLiking} disabled={isLiking} variant="secondary" className="!w-fit !p-0">
-                {!isLiking && <FavoriteLight />}
+              <ButtonComponent onClick={handleLikeButtonClick} type="button" loading={isLiking} disabled={isLiking} variant="secondary" className="!w-fit !p-0">
+                {!isLiking && <>
+                  {liked ? <FavFilled /> : <FavoriteLight />}
+                </>}
                 <p className="text-xs">{likesCount}</p>
               </ButtonComponent>
 

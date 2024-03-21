@@ -23,22 +23,18 @@ const tabs: Tab[] = [
     {
         title: "Reviews",
         id: "reviews",
-        subheading: "Reviews of “performer’s name” videos"
     },
     {
         title: "Lists",
         id: "lists",
-        subheading: "Lists featuring “performers name”"
     },
     {
         title: "Likes",
         id: "likes",
-        subheading: "“Performers names” likes"
     },
     {
         title: "Fans",
         id: "fans",
-        subheading: "“Performers names” fans"
     },
 ];
 
@@ -76,24 +72,37 @@ const page = ({ params }: { params: { pornstar: string } }) => {
     };
 
     const getTabContent = () => {
+        let content;
+        let subheading;
         switch (activeTabIndex) {
             case 0:
-                return <ReviewsComponent />;
+                content = <ReviewsComponent />;
+                subheading = `Reviews of “${performer}” videos`;
+                break;
             case 1:
-                return <List url=""/>;
+                content = <List url="" />;
+                subheading = `Lists featuring “${performer}”`;
+                break;
             case 2:
-                return <TagLikeComponent />;
+                content = <TagLikeComponent />;
+                subheading = `“${performer}” likes`;
+                break;
             case 3:
-                return <TagFansComponent />
+                content = <TagFansComponent />;
+                subheading = `“${performer}” fans`;
+                break;
             default:
-                return null;
+                content = null;
+                subheading = '';
         }
+        return { content, subheading };
     };
 
+    const { content, subheading } = getTabContent();
 
     return (
         <div className="space-y-5 md:w-standard mt-8 mx-auto">
-            <h1 className="text-xl font-extrabold leading-7">{tabs[activeTabIndex].subheading}</h1>
+                        <h1 className="text-xl font-extrabold leading-7">{subheading}</h1>
             <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
             <div className='flex items-center gap-x-1'>
                     {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
@@ -133,7 +142,7 @@ const page = ({ params }: { params: { pornstar: string } }) => {
                 </div>
             </div>
 
-            <div className="mt-9">{getTabContent()}</div>
+            <div className="mt-9">{content}</div>
         </div>
     )
 }

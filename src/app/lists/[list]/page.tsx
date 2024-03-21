@@ -22,7 +22,6 @@ const page = ({ params }: { params: { list: string } }) => {
 
   const [liked, setLiked] = useState(false)
   const [isLiking, setLiking] = useState(false)
-  const [isUnLiking, setUnLiking] = useState(false)
 
   function likeList(listId: string) {
     setLiking(true)
@@ -39,7 +38,7 @@ const page = ({ params }: { params: { list: string } }) => {
   }
 
   function unLikeList(listId: string) {
-    setUnLiking(true)
+    setLiking(true)
     axiosInstance.post(`${API_URL}/likes/unlike-list`, { listId })
       .then((res) => {
         setLiked(false)
@@ -48,7 +47,7 @@ const page = ({ params }: { params: { list: string } }) => {
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
       }).finally(() => {
-        setUnLiking(false)
+        setLiking(false)
       })
   }
 
@@ -65,7 +64,7 @@ const page = ({ params }: { params: { list: string } }) => {
     } else {
       likeList(list?._id);
     }
- };
+  };
 
   return (
     <div className="flex flex-col gap-y-10 md:w-standard mx-auto">
@@ -84,7 +83,7 @@ const page = ({ params }: { params: { list: string } }) => {
             </div>
           </div>
 
-          <ButtonComponent onClick={handleLikeButtonClick} className="xs:w-full !w-28" variant="outline-pink">
+          <ButtonComponent loading={isLiking} disabled={isLiking} onClick={handleLikeButtonClick} className="xs:w-full !w-28" variant={liked ? "pink" : "outline-pink"}>
             {!isLiking && <>
               {
                 liked ? 'Liked' : <>
