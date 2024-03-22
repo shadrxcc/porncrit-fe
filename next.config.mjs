@@ -9,7 +9,7 @@ const nextConfig = {
             "gcore-pic.xvideos-cdn.com",
             "ei.phncdn.com",
             "ei-ph.rdtcdn.com",
-            "thumb-nss.xhcdn.com"
+            "thumb-nss.xhcdn.com",
         ],
         remotePatterns: [
             {
@@ -48,7 +48,6 @@ const nextConfig = {
                 port: '',
                 pathname: '/videos/**',
             },
-            ,
             {
                 protocol: 'https',
                 hostname: 'thumb-nss.xhcdn.com',
