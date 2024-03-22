@@ -65,6 +65,7 @@ const fansOptions = [
 
 const page = ({ params }: { params: { tag: string } }) => {
     const tag = params.tag
+    const formattedTag = decodeURIComponent(params.tag)
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const onTabClick = (index: number) => {
         setActiveTabIndex(index);
@@ -76,19 +77,19 @@ const page = ({ params }: { params: { tag: string } }) => {
         switch (activeTabIndex) {
             case 0:
                 content = <ReviewsComponent />;
-                subheading = `Reviews of “${tag}” videos`;
+                subheading = `Reviews of “${formattedTag}” videos`;
                 break;
             case 1:
                 content = <List url="" />;
-                subheading = `Lists featuring “${tag}”`;
+                subheading = `Lists featuring “${formattedTag}”`;
                 break;
             case 2:
                 content = <TagLikeComponent />;
-                subheading = `“${tag}” likes`;
+                subheading = `“${formattedTag}” likes`;
                 break;
             case 3:
                 content = <TagFansComponent />;
-                subheading = `“${tag}” fans`;
+                subheading = `“${formattedTag}” fans`;
                 break;
             default:
                 content = null;

@@ -20,6 +20,7 @@ import { UpdateProfile } from "@/services/models/user.model";
 import { useRouter } from "next/navigation";
 import { SuggestedTags } from "@/app/lists/new/page";
 import LoaderSvg from "@/components/shared/loader.svg.component";
+import { asyncGetAllTags, selectAllTags } from "@/services/tags-services/async-actions";
 
 type ChangePasswordProps = {
   currentPassword: string;
@@ -48,49 +49,14 @@ const EditProfile = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
   const router = useRouter();
 
+  const alltags = useSelector(selectAllTags)
+
   // Check if the user is not authenticated and redirect to the homepage
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/');
     }
   }, [isAuthenticated, router]);
-
-  async function fetchTags(searchTerm: string) {
-    setSearchTag(true)
-    try {
-      const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
-
-      const tags = res?.data?.data
-      if (tags.length === 0) {
-        setNoTags("Oooops! Looks like we couldn't find that tag.");
-      } else {
-        setNoTags("");
-      }
-
-      return tags;
-    } catch (err) {
-      toast.error('Error Completing request. Try again later.');
-      throw err;
-    } finally {
-      setSearchTag(false)
-    }
-  }
-
-  const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
-    setSearchTag(true)
-    try {
-      const fetchedTags = await fetchTags(searchTerm);
-      if (fetchedTags.length > 0) {
-        setNoTags("");
-      }
-      setSuggestions(fetchedTags);
-    } catch {
-      setSuggestions([]);
-    } finally {
-      setSearchTag(false)
-    }
-  };
-
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -133,7 +99,12 @@ const EditProfile = () => {
       setTagError('');
       setNoTags("")
       if (inputValue.length > 0) {
-        fetchTagsAndSetSuggestions(inputValue);
+        const filteredSuggestions = alltags.filter(tag => tag.title.toLowerCase().includes(inputValue.toLowerCase()));
+        setSuggestions(filteredSuggestions);
+
+        if (filteredSuggestions.length === 0) {
+          setNoTags("Oooops! Looks like we couldn't find that tag.");
+        }
       } else {
         setSearchTag(false)
         setSuggestions([]);
@@ -196,7 +167,16 @@ const EditProfile = () => {
 
   useEffect(() => {
     dispatch(getUserProfile());
+    dispatch(asyncGetAllTags())
   }, [dispatch]);
+
+  useEffect(() => {
+    const updatedTags = user?.tags?.map(tag => ({
+      tag: tag
+    })) || [];
+
+    setTags(updatedTags);
+  }, []); //
 
   useEffect(() => {
     if (imgUrl) {
@@ -273,8 +253,8 @@ const EditProfile = () => {
         </div>
       </div>
       <Formik initialValues={{
-        username: "",
-        bio: ""
+        username: user?.username || "",
+        bio: user?.bio || ""
       }}
         validationSchema={Yup.object({})}
         onSubmit={(values, { resetForm }) => {

@@ -5,6 +5,16 @@ export type TagsType = {
     tag: string;
 };
 
+export interface TagsModel {
+    _id: string,
+    title: string,
+}
+
+export type GetTagsType = {
+    tags: TagsModel[];
+    status: FetchStatusType
+};
+
 export type VideoType = {
     title: string;
     image: string;
@@ -153,6 +163,7 @@ export interface GetReviews {
 
 export type GetVideoType = {
     video: VideoModel
+    videos: LinkVideoModel[]
     status: FetchStatusType;
     // page: number;
     // totalData: number;

@@ -10,7 +10,7 @@ const ListLikeComponent = (props: LikeProps) => {
   const { like } = props;
   return (
     <div className="flex flex-col gap-y-4">
-      {like?.length === 0 ? <p className="text-sm text-center text-mauve">No recent likes for this video yet.</p> :
+      {like?.length === 0 ? <p className="text-sm text-center text-mauve">No recent likes for this list yet.</p> :
         <>
           {like?.map((item) => (
             <div key={item._id} className=" bg-box rounded-box px-2 sm:px-8 py-5">

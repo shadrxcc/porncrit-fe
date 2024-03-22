@@ -7,7 +7,6 @@ import { RootStateType } from "../config-store";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-// get-popular
 export const asyncGetUserList = createAsyncThunk<HttpResponse<ListData[]>>(
     "list/user-list",
     async () => {

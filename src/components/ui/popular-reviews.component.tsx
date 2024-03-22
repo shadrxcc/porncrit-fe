@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import Rating from "react-animated-rating";
 import ButtonComponent from "../shared/button.component";
+import { memo } from "react";
 
 const PopularReviewsComponent: React.FC<Partial<GetReviews>> = function (props
 ) {
@@ -50,4 +51,4 @@ const PopularReviewsComponent: React.FC<Partial<GetReviews>> = function (props
     )
 }
 
-export default PopularReviewsComponent
+export default memo(PopularReviewsComponent);

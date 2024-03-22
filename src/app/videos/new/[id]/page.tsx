@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import Preloader from "@/components/shared/preloader";
 import { SuggestedTags } from "@/app/lists/new/page";
 import LoaderSvg from "@/components/shared/loader.svg.component";
+import { asyncGetAllTags, selectAllTags } from "@/services/tags-services/async-actions";
 
 const NewVideo = ({ params }: { params: { id: string } }) => {
     const id = params.id
@@ -37,63 +38,30 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
 
     const dispatch: AppDispatchType = useDispatch();
     const video = useSelector(selectVideo);
+    const alltags = useSelector(selectAllTags)
 
     const router = useRouter()
 
     useEffect(() => {
         setIsLoading(true);
-        const startTime = Date.now(); // Record the start time of the request
+        const startTime = Date.now(); // record the start time of the request
         dispatch(asyncGetLinkedVideo({ id }))
             .finally(() => {
                 setIsLoading(false);
             });
-        // Simulate request progress
+        dispatch(asyncGetAllTags())
+
+        // simulate request progress
         const interval = setInterval(() => {
             const elapsedTime = Date.now() - startTime;
-            const progress = Math.min(elapsedTime / 1000, 1); // Calculate progress as a fraction of the elapsed time
-            setProgress(progress); // Update progress state
+            const progress = Math.min(elapsedTime / 1000, 1); // calculate progress as a fraction of the elapsed time
+            setProgress(progress); // update progress state
             if (progress >= 1) {
-                clearInterval(interval); // Clear interval when progress reaches 100%
+                clearInterval(interval); // clear interval when progress reaches 100%
             }
-        }, 100); // Update progress every 100ms
+        }, 100); // update progress every 100ms
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
-
-    async function fetchTags(searchTerm: string) {
-        setSearchTag(true)
-        try {
-            const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
-
-            const tags = res?.data?.data
-            if (tags.length === 0) {
-                setNoTags("Oooops! Looks like we couldn't find that tag.");
-            } else {
-                setNoTags("");
-            }
-
-            return tags;
-        } catch (err) {
-            toast.error('Error Completing request. Try again later.');
-            throw err;
-        } finally {
-            setSearchTag(false)
-        }
-    }
-
-    const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
-        setSearchTag(true)
-        try {
-            const fetchedTags = await fetchTags(searchTerm);
-            if (fetchedTags.length > 0) {
-                setNoTags("");
-            }
-            setSuggestions(fetchedTags);
-        } catch {
-            setSuggestions([]);
-        } finally {
-            setSearchTag(false)
-        }
-    };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -120,7 +88,12 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
             setTagError('');
             setNoTags("")
             if (inputValue.length > 0) {
-                fetchTagsAndSetSuggestions(inputValue);
+                const filteredSuggestions = alltags.filter(tag => tag.title.toLowerCase().includes(inputValue.toLowerCase()));
+                setSuggestions(filteredSuggestions);
+
+                if (filteredSuggestions.length === 0) {
+                    setNoTags("Oooops! Looks like we couldn't find that tag.");
+                }
             } else {
                 setSearchTag(false)
                 setSuggestions([]);

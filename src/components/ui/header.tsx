@@ -143,18 +143,10 @@ const Header = () => {
     setVerifyMail(true)
   }
 
-  function verifyMailSignIn() {
-    setSignUp(false)
-    setLogin(false)
-    setVerifyMail(true)
-  }
-
   function toggleDropdown() {
     setMenu(false);
     setDropdown(!dropdown)
   }
-
-
 
   function logOut() {
     dispatch(logout())

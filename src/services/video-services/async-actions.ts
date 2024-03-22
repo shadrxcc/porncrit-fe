@@ -24,11 +24,35 @@ export const asyncGetLinkedVideo = createAsyncThunk<HttpResponse<VideoModel>, Ge
                 customError?.response?.data?.message ||
                 customError.message ||
                 "There was an error";
-                toast.error(errorMessage)
+            toast.error(errorMessage)
         }
     }
 );
+
+export const asyncGetAllVideos = createAsyncThunk<HttpResponse<LinkVideoModel[]>>(
+    "videos/all",
+    async () => {
+        try {
+            const response = await axiosInstance.get(`${API_URL}/videos/get-videos`);
+            const videos = response?.data;
+
+            return videos;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            toast.error(errorMessage)
+        }
+    }
+);
+
 export const selectVideo: (state: RootStateType) => VideoModel = (
     state
 ) => state.videos.video;
+
+export const selectAllVideos: (state: RootStateType) => LinkVideoModel[] = (
+    state
+) => state.videos.videos;
 

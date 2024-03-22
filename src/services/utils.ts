@@ -28,7 +28,13 @@ export const API_URL: string =
         }
     
         const value = Math.floor(diffInSeconds / timeUnits[largestUnit]);
-        const unitLabel = largestUnit === 'month' ? 'month' : largestUnit + 's';
+        let unitLabel = largestUnit;
+
+        if (value === 1) {
+            unitLabel = largestUnit;
+        } else if (value > 1) {
+            unitLabel += 's';
+        }
     
         return `${value} ${unitLabel} ago`;
     };

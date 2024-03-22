@@ -73,7 +73,7 @@ const page = ({ params }: { params: { list: string } }) => {
           <div className="space-y-2.5">
             <p className="text-xl font-extrabold">{list?.title}</p>
             <div className="flex items-center gap-x-4">
-              <img width={50} src={list?.user?.avatar} alt="user" className="object-cover w-12 h-12 rounded-full " />
+              <img width={50} src={list?.user?.avatar||`/assets/images/user.png`} alt="user" className="object-cover w-12 h-12 rounded-full " />
               <div className="flex flex-col gap-y-1">
                 <p className="text-sm">List created by</p>
                 <p className="text-sm text-pink">

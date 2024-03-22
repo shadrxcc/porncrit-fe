@@ -2,6 +2,7 @@ import Image from "next/image";
 import ButtonComponent from "../shared/button.component"
 import { VideoModel } from "@/services/models/list.model";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 type VideoInfoProp = {
@@ -11,6 +12,7 @@ type VideoInfoProp = {
 const VideoInfo = (props: VideoInfoProp) => {
     const { video } = props;
 
+const router = useRouter()
 
     return <div className="flex flex-col gap-y-8">
         <div className="flex flex-col gap-y-2">
@@ -18,7 +20,7 @@ const VideoInfo = (props: VideoInfoProp) => {
             {video && video?.video?.tags?.length === 0 ? <p className="text-sm">No tags available for this video at the moment.</p> :
                 <div className="flex flex-wrap items-center gap-4">
                     {video?.video?.tags?.map((tag) => (
-                        <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
+                        <ButtonComponent onClick={()=> router.push(`/tags/${tag}`)} key={tag} className="rounded-[20px]" variant="tags">
                             {tag}
                         </ButtonComponent>
                     ))}

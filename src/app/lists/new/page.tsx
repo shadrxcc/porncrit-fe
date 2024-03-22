@@ -8,13 +8,18 @@ import SelectTagComponent from "@/components/ui/select-tag.component";
 import Image from "next/image";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CreateList, SearchVideo, TagsType, VideoType } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import LoaderSvg from "@/components/shared/loader.svg.component";
 import { useRouter } from "next/navigation";
+import { AppDispatchType } from "@/services/config-store";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetAllVideos, selectAllVideos } from "@/services/video-services/async-actions";
+import { asyncGetAllTags, selectAllTags } from "@/services/tags-services/async-actions";
+import LoaderComponent from "@/components/shared/loader.component";
 
 
 export type SuggestedTags = {
@@ -38,6 +43,11 @@ const NewList = () => {
     const [noTags, setNoTags] = useState("");
     const [noVideo, setNoVideo] = useState("");
     const [isCreating, setCreating] = useState(false)
+    const [pageLoading, setPageLoading] = useState(false)
+
+    const dispatch: AppDispatchType = useDispatch();
+    const allvideos = useSelector(selectAllVideos);
+    const alltags = useSelector(selectAllTags)
 
     const dragVideo = useRef<number>(0)
     const dragOver = useRef<number>(0)
@@ -52,78 +62,12 @@ const NewList = () => {
 
     const router = useRouter()
 
-    async function fetchTags(searchTerm: string) {
-        setSearchTag(true)
-        try {
-            const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
-
-            const tags = res?.data?.data
-            if (tags.length === 0) {
-                setNoTags("Oooops! Looks like we couldn't find that tag.");
-            } else {
-                setNoTags("");
-            }
-
-            return tags;
-        } catch (err) {
-            toast.error('Error Completing request. Try again later.');
-            throw err;
-        } finally {
-            setSearchTag(false)
-        }
-    }
-
-
-    async function fetchVideos(searchTerm: string) {
-        setSearchVideo(true)
-        try {
-            const res = await axiosInstance.get(`${API_URL}/videos/get-videos/${searchTerm}`);
-            const videos = res?.data?.data
-            if (videos.length === 0) {
-                setNoVideo("Oooops! Looks like we couldn't find that video.");
-            }
-
-            return videos;
-        } catch (err) {
-            toast.error('Error fetching videos. Try again later.');
-            throw err;
-        } finally {
-            setSearchVideo(false)
-        }
-    }
-
-
-    const fetchVideosAndSetSuggestions = async (searchTerm: string) => {
-        setSearchVideo(true)
-        try {
-            const fetchedVideos = await fetchVideos(searchTerm);
-            if (fetchedVideos.length > 0) {
-                setNoVideo("");
-            }
-            setVideoSuggestions(fetchedVideos);
-        } catch {
-            setVideoSuggestions([]);
-        } finally {
-            setSearchVideo(false)
-        }
-    };
-
-
-    const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
-        setSearchTag(true)
-        try {
-            const fetchedTags = await fetchTags(searchTerm);
-            if (fetchedTags.length > 0) {
-                setNoTags("");
-            }
-            setSuggestions(fetchedTags);
-        } catch {
-            setSuggestions([]);
-        } finally {
-            setSearchTag(false)
-        }
-    };
-
+    useEffect(() => {
+        setPageLoading(true)
+        dispatch(asyncGetAllVideos()).finally(()=>setPageLoading(false))
+        dispatch(asyncGetAllTags()).finally(()=>setPageLoading(false))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // handle input change
     const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,7 +77,12 @@ const NewList = () => {
             setTagError('');
             setNoTags("")
             if (inputValue.length > 0) {
-                fetchTagsAndSetSuggestions(inputValue);
+                const filteredSuggestions = alltags.filter(tag => tag.title.toLowerCase().includes(inputValue.toLowerCase()));
+                setSuggestions(filteredSuggestions);
+
+                if (filteredSuggestions.length === 0) {
+                    setNoTags("Oooops! Looks like we couldn't find that tag.");
+                }
             } else {
                 setSearchTag(false)
                 setSuggestions([]);
@@ -148,7 +97,12 @@ const NewList = () => {
             setVideo(inputValue);
             setNoVideo("")
             if (inputValue.length > 0) {
-                fetchVideosAndSetSuggestions(inputValue);
+                const filteredSuggestions = allvideos.filter(vid => vid.title.toLowerCase().includes(inputValue.toLowerCase()));
+                setVideoSuggestions(filteredSuggestions);
+
+                if (filteredSuggestions.length === 0) {
+                    setNoVideo("Oooops! Looks like we couldn't find that video.");
+                }
             } else {
                 setSearchVideo(false)
                 setVideoSuggestions([]);
@@ -203,7 +157,10 @@ const NewList = () => {
 
     return (
         <div className="flex md:w-standard mx-auto gap-y-8 flex-col">
-            <h1 className="text-xl font-extrabold">Create new list</h1>
+            {pageLoading&&<LoaderComponent/>}
+
+            {!pageLoading&&<>
+                <h1 className="text-xl font-extrabold">Create new list</h1>
             <Formik initialValues={{
                 title: "",
                 description: "",
@@ -361,8 +318,7 @@ const NewList = () => {
                     </div>
                 </Form>
             </Formik>
-
-
+            </>}
         </div>
     );
 };

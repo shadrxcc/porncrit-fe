@@ -19,6 +19,7 @@ import videoReducer from "./video-services/slice"
 import listReducer from "./list-services/slice"
 import reviewReducer from "./reviews-services/slice"
 import searchReducer from "./search-services/slice"
+import tagsReducer from "./tags-services/slice"
 
 interface NoopStorage {
     getItem(key: string): Promise<string | null>;
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
     videos: videoReducer,
     lists: listReducer,
     reviews: reviewReducer,
-    search: searchReducer
+    search: searchReducer,
+    tags: tagsReducer
 
 });
 

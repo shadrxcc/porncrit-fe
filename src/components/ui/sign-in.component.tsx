@@ -9,11 +9,14 @@ import * as Yup from "yup";
 import { asyncLoginUser } from '@/services/auth-services/async-actions';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void, signup: () => void, close: () => void, verify: (email: string, userId: string) => void }) => {
     const authStatus = useSelector(selectAuthStatus);
     const loading = authStatus === "pending";
     const dispatch: AppDispatchType = useDispatch();
+
+    const router = useRouter()
 
     async function handleSubmit(values: { email: string; password: string }) {
         try {
@@ -29,6 +32,8 @@ const SignInComponent = ({ forgot, signup, close, verify }: { forgot: () => void
 
             if (result && result.error === '403') {
                 verify(result.email, result.userId);
+            } else {
+                router.refresh()
             }
         } catch (error: any) {
             toast.error(error);

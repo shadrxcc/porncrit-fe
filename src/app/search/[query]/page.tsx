@@ -72,6 +72,7 @@ const fansOptions = [
 const page = ({ params }: { params: { query: string } }) => {
 
   const query = params.query;
+  const formattedQuery = decodeURIComponent(query)
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
 
@@ -98,19 +99,19 @@ const page = ({ params }: { params: { query: string } }) => {
     switch (activeTabIndex) {
       case 0:
         content = <ReviewsComponent data={results} />;
-        subheading = `“${query}” reviews`;
+        subheading = `“${formattedQuery}” reviews`;
         break;
       case 1:
-        content = <SearchLists />;
-        subheading = `“${query}” lists`;
+        content = <SearchLists data={results}/>;
+        subheading = `“${formattedQuery}” lists`;
         break;
       case 2:
         content = <TagLikeComponent />;
-        subheading = `“${query}” likes`;
+        subheading = `“${formattedQuery}” likes`;
         break;
       case 3:
         content = <SearchFans />;
-        subheading = `“${query}” fans`;
+        subheading = `“${formattedQuery}” fans`;
         break;
       default:
         content = null;

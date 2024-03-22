@@ -3,6 +3,7 @@ import ButtonComponent from "../shared/button.component"
 import { LinkVideoModel, ListData } from "@/services/models/list.model";
 import { formatTimestamp } from "@/services/utils";
 import Rating from "react-animated-rating";
+import { useRouter } from "next/navigation";
 
 
 type listDataProp = {
@@ -12,6 +13,8 @@ type listDataProp = {
 
 const ListAbout = (props: listDataProp) => {
     const { data } = props;
+
+    const router = useRouter()
 
     const calculateAverageRating = (videos: LinkVideoModel[]): number => {
         let totalRatings = 0;
@@ -34,7 +37,7 @@ const ListAbout = (props: listDataProp) => {
             <p className="text-xl font-extrabold">List tags</p>
             {data?.tags?.length === 0 ? <p className="text-sm">No tags available</p> : <div className="flex flex-wrap items-center gap-4">
                 {data?.tags?.map((tag) => (
-                    <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
+                    <ButtonComponent onClick={()=>router.push(`/tags/${tag}`)} key={tag} className="rounded-[20px]" variant="tags">
                         {tag}
                     </ButtonComponent>
                 ))}
@@ -56,7 +59,7 @@ const ListAbout = (props: listDataProp) => {
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">List Stats</p>
             <div className="text-sm flex flex-col gap-y-5">
-                <p>{data?.videos?.length} videos</p>
+                <p>{data?.videos?.length} {data?.videos.length > 1 ? 'videos' : 'video'}</p>
                 <p>Last edited {formatTimestamp(data?.updatedAt)}</p>
                 <span className="flex flex-col gap-y-3">
                     <p>Average video rating</p>

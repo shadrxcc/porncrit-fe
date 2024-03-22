@@ -7,8 +7,8 @@ import SelectTagComponent from "@/components/ui/select-tag.component";
 import Image from "next/image";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useEffect, useState } from "react";
-import { CreateList, EditList, SearchVideo, TagsType, VideoType } from "@/services/models/list.model";
+import { useEffect, useRef, useState } from "react";
+import { EditList, SearchVideo, TagsType, VideoType } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
@@ -16,6 +16,8 @@ import TextArea from "@/components/shared/text-area.component";
 import { AppDispatchType } from "@/services/config-store";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
+import { useRouter } from "next/navigation";
+import { asyncGetAllTags, selectAllTags } from "@/services/tags-services/async-actions";
 
 
 type SuggestedTags = {
@@ -34,18 +36,52 @@ const EditList = ({ params }: { params: { id: string } }) => {
   const [video, setVideo] = useState('');
   const [videos, setVideos] = useState<Array<VideoType>>([]);
   const [videoSuggestions, setVideoSuggestions] = useState<Array<Partial<SearchVideo>>>([]);
+  const [isUpdating, setUpdating] = useState(false)
+  const [noTags, setNoTags] = useState("");
+  const [searchTag, setSearchTag] = useState(false)
+
+  const dragVideo = useRef<number>(0)
+  const dragOver = useRef<number>(0)
+
+
+
+  function handleSort() {
+    const newVideos = [...videos]
+    const temp = newVideos[dragVideo.current]
+    newVideos[dragVideo.current] = newVideos[dragOver.current]
+    newVideos[dragOver.current] = temp
+    setVideos(newVideos)
+  }
 
   const id = params.id
 
   const dispatch: AppDispatchType = useDispatch();
   const list = useSelector(selectList);
   const listvideos = useSelector(selectListVideos);
+  const alltags = useSelector(selectAllTags)
+  const navigate = useRouter()
 
   useEffect(() => {
     dispatch(asyncGetList({ id }))
     dispatch(asyncGetListVideos({ id }))
+    dispatch(asyncGetAllTags())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  useEffect(() => {
+    const updatedVideos = listvideos?.map(video => ({
+      id: video?._id,
+      title: video?.title,
+      image: video?.image,
+    }));
+
+    const updatedTags = list?.tags?.map(tag => ({
+      tag: tag
+    }));
+
+    setTags(updatedTags);
+    setVideos(updatedVideos);
+  }, [listvideos]); //
 
   const deleteInputCharacter = (e: { key: string }) => {
     if (e.key === 'Backspace') {
@@ -54,18 +90,6 @@ const EditList = ({ params }: { params: { id: string } }) => {
       }
     }
   };
-
-  async function fetchTags(searchTerm: string) {
-    try {
-      const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
-
-      const tags = res?.data?.data
-      return tags;
-    } catch (err) {
-      toast.error('Error Completing request. Try again later.');
-      throw err;
-    }
-  }
 
   async function fetchVideos(searchTerm: string) {
     try {
@@ -88,26 +112,25 @@ const EditList = ({ params }: { params: { id: string } }) => {
   };
 
 
-  const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
-    try {
-      const fetchedTags = await fetchTags(searchTerm);
-      setSuggestions(fetchedTags);
-    } catch (error) {
-      console.error('Error fetching tags:', error);
-      setSuggestions([]);
-    }
-  };
-
-
   // handle input change
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (e.target.name === 'tags') {
       setTag(inputValue);
       setTagError('');
-      if (inputValue.length > 2) {
-        fetchTagsAndSetSuggestions(inputValue);
+      setNoTags("")
+      setSuggestions([]);
+      if (inputValue.length > 0 && inputValue.trim() !== '') {
+        setSearchTag(true)
+        const filteredSuggestions = alltags.filter(tag => tag.title.toLowerCase().includes(inputValue.toLowerCase()));
+        setSuggestions(filteredSuggestions);
+
+        if (filteredSuggestions.length === 0) {
+          setNoTags("Oooops! Looks like we couldn't find that tag.");
+        }
       } else {
+        setTag("")
+        setSearchTag(false)
         setSuggestions([]);
       }
     }
@@ -156,15 +179,17 @@ const EditList = ({ params }: { params: { id: string } }) => {
     setTags((prevTags) => prevTags.filter((tag) => tag.tag !== tagtoDelete));
   };
 
-  function createList(props: EditList) {
+  function updateList(props: EditList) {
+    setUpdating(true)
     axiosInstance.patch(`${API_URL}/list/update`, { ...props })
       .then((res) => {
         toast(res?.data?.message)
-        console.log(res);
-
+        navigate.back()
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setUpdating(false)
       })
   }
 
@@ -173,16 +198,16 @@ const EditList = ({ params }: { params: { id: string } }) => {
     <div className="flex md:w-standard mx-auto gap-y-8 flex-col">
       <h1 className="text-xl font-extrabold">Edit list</h1>
       <Formik initialValues={{
-        title: "",
-        description: "",
+        title: list?.title,
+        description: list?.description,
       }}
         validationSchema={Yup.object({
         })}
         onSubmit={(values) => {
           const params = {
-            ...values, tags: tags.map((tag) => tag.tag), videos: videos.map((video) => video.id), listId: "65f05a693c5895a4a5225d6c"
+            ...values, tags: tags.map((tag) => tag.tag), videos: videos.map((video) => video.id), listId: id
           };
-          createList(params);
+          updateList(params);
         }}>
         <Form>
           <div className="space-y-7">
@@ -217,6 +242,11 @@ const EditList = ({ params }: { params: { id: string } }) => {
                     ))}
                   </div> : null}
 
+                  {tag.trim() !== "" && noTags ? (
+                    <div className="bg-box mt-1 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                      <p className="text-sm">{noTags}</p>
+                    </div>
+                  ) : null}
 
                   {tagError && <p className="text-red-500 text-sm">{tagError}</p>}
                 </div>
@@ -262,8 +292,11 @@ const EditList = ({ params }: { params: { id: string } }) => {
                   <div className="space-y-3">
                     <p className="text-sm font-medium">Videos</p>
                     <div className="flex flex-col gap-y-3">
-                      {videos.map((video) => (
-                        <div key={video?.id} className="flex flex-col py-3 gap-y-5 rounded-box bg-box px-[18px]">
+                      {videos.map((video, index) => (
+                        <div onDragStart={() => dragVideo.current = index}
+                          onDragEnter={() => dragOver.current = index}
+                          onDragEnd={handleSort}
+                          onDragOver={(e) => e.preventDefault()} key={video?.id} className="flex flex-col py-3 gap-y-5 rounded-box bg-box px-[18px]">
                           <div className="flex items-center gap-x-3">
                             <Image
                               src={video?.image}
@@ -277,7 +310,8 @@ const EditList = ({ params }: { params: { id: string } }) => {
                           <div className="flex items-center justify-between">
                             <ButtonComponent type="button" onClick={() => deleteVideo(video.id)} className="xs:w-full !w-fit" variant="outline-pink">
                               Delete</ButtonComponent>
-                            <ButtonComponent type="button" variant="secondary" className="!w-fit !p-0">
+                            <ButtonComponent
+                              draggable type="button" variant="secondary" className="!w-fit !p-0">
                               <CodeSvg />
                             </ButtonComponent>
                           </div>
@@ -288,7 +322,7 @@ const EditList = ({ params }: { params: { id: string } }) => {
                 )}
 
               </div>
-              <ButtonComponent type="submit" className="!w-fit place-self-end">
+              <ButtonComponent loading={isUpdating} disabled={isUpdating} type="submit" className="!w-fit place-self-end">
                 Save list
               </ButtonComponent>
             </div>
