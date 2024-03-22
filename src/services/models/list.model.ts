@@ -222,7 +222,7 @@ export interface ListData {
     description: string;
     title: string;
     tags: string[];
-    uploader: string
+    uploader: Partial<UsersModel>
     videos: Partial<LinkVideoModel[]>;
     user: Partial<UsersModel>;
     likes: LikesModel[];

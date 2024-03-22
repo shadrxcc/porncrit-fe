@@ -130,10 +130,14 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
 
     const handleSuggestionClick = (tag: string | undefined) => {
         if (tag) {
-            setTags((prevTags) => [...prevTags, { tag }]);
-            setTag('');
-            setSuggestions([]);
+            const trimmedValue = tag.trim();
+            if (trimmedValue !== '' && !tags.some((tg) => tg.tag === trimmedValue)) {
+                setTags((prevTags) => [...prevTags, { tag }]);
+                setTag('');
+                setSuggestions([]);
+            }
         }
+
     };
 
     const deleteTag = (tagtoDelete: string) => {
@@ -169,7 +173,7 @@ const NewVideo = ({ params }: { params: { id: string } }) => {
                     <p className="text-base">{video?.video?.title}</p>
                     <div>
                         <Image src={video?.video?.image}
-                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.video?.title} priority/>
+                            className="w-full md:w-min rounded-[3px]" width={282} height={158} alt={video?.video?.title} priority />
                     </div>
                 </div>
 

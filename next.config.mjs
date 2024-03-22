@@ -7,7 +7,8 @@ const nextConfig = {
             "cdn77-pic.xvideos-cdn.com",
             "img-egc.xvideos-cdn.com",
             "gcore-pic.xvideos-cdn.com",
-            "ei.phncdn.com"
+            "ei.phncdn.com",
+            "ei-ph.rdtcdn.com"
         ],
         remotePatterns: [
             {
@@ -37,6 +38,12 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'ei.phncdn.com',
+                port: '',
+                pathname: '/videos/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'ei-ph.rdtcdn.com',
                 port: '',
                 pathname: '/videos/**',
             },

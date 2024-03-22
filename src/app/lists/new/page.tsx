@@ -8,7 +8,7 @@ import SelectTagComponent from "@/components/ui/select-tag.component";
 import Image from "next/image";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CreateList, SearchVideo, TagsType, VideoType } from "@/services/models/list.model";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
@@ -38,6 +38,17 @@ const NewList = () => {
     const [noTags, setNoTags] = useState("");
     const [noVideo, setNoVideo] = useState("");
     const [isCreating, setCreating] = useState(false)
+
+    const dragVideo = useRef<number>(0)
+    const dragOver = useRef<number>(0)
+
+    function handleSort() {
+        const newVideos = [...videos]
+        const temp = newVideos[dragVideo.current]
+        newVideos[dragVideo.current] = newVideos[dragOver.current]
+        newVideos[dragOver.current] = temp
+        setVideos(newVideos)
+    }
 
     const router = useRouter()
 
@@ -311,8 +322,11 @@ const NewList = () => {
                                     <div className="space-y-3">
                                         <p className="text-sm font-medium">Videos</p>
                                         <div className="flex flex-col gap-y-3">
-                                            {videos.map((video) => (
-                                                <div key={video?.id} className="flex flex-col py-3 gap-y-5 rounded-box bg-box px-[18px]">
+                                            {videos.map((video, index) => (
+                                                <div onDragStart={() => dragVideo.current = index}
+                                                    onDragEnter={() => dragOver.current = index}
+                                                    onDragEnd={handleSort}
+                                                    onDragOver={(e) => e.preventDefault()} key={video?.id} className="flex flex-col py-3 gap-y-5 rounded-box bg-box px-[18px]">
                                                     <div className="flex items-center gap-x-3">
                                                         <Image
                                                             src={video?.image}
@@ -327,7 +341,9 @@ const NewList = () => {
                                                     <div className="flex items-center justify-between">
                                                         <ButtonComponent type="button" onClick={() => deleteVideo(video.id)} className="xs:w-full !w-fit" variant="outline-pink">
                                                             Delete</ButtonComponent>
-                                                        <ButtonComponent type="button" variant="secondary" className="!w-fit !p-0">
+                                                        <ButtonComponent draggable
+
+                                                            type="button" variant="secondary" className="!w-fit !p-0">
                                                             <CodeSvg />
                                                         </ButtonComponent>
                                                     </div>

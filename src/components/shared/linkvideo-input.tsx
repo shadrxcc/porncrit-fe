@@ -23,7 +23,7 @@ const LinkVideoInput: React.FC<InputProps> = ({ label, loading, disable, ...prop
 
                 <div className="flex relative items-center">
                     <input
-                        className={`px-6 bg-white border-opacity-10 flex-1 border placeholder:text-mauve border-lightpink border-accent text-sm text-brown !outline-none w-full focus:outline-none py-3 primary-input rounded-[35px]`}
+                        className={`pl-3.5 pr-14 bg-white border-opacity-10 flex-1 border placeholder:text-mauve border-lightpink border-accent text-sm text-brown !outline-none w-full focus:outline-none py-3 primary-input rounded-[35px]`}
                         {...props}
                         {...field}
                     />
@@ -37,7 +37,7 @@ const LinkVideoInput: React.FC<InputProps> = ({ label, loading, disable, ...prop
 
 
                 {meta.touched && meta.error && (
-                    <div className="error text-red-500 text-xs">
+                    <div className="error text-red-500 text-xs text-center">
                         {meta.error}
                     </div>
                 )}

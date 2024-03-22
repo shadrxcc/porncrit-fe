@@ -32,7 +32,7 @@ const ListAbout = (props: listDataProp) => {
 
         <div className="flex flex-col gap-y-2">
             <p className="text-xl font-extrabold">List tags</p>
-            {data?.tags?.length === 0 ? <p className="text-sm text-mauve ">No tags available</p> : <div className="flex flex-wrap items-center gap-4">
+            {data?.tags?.length === 0 ? <p className="text-sm">No tags available</p> : <div className="flex flex-wrap items-center gap-4">
                 {data?.tags?.map((tag) => (
                     <ButtonComponent key={tag} className="rounded-[20px]" variant="tags">
                         {tag}

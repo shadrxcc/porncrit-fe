@@ -18,6 +18,8 @@ import { getUserProfile } from "@/services/auth-services/async-actions";
 import { PerformersType, TagsType } from "@/services/models/list.model";
 import { UpdateProfile } from "@/services/models/user.model";
 import { useRouter } from "next/navigation";
+import { SuggestedTags } from "@/app/lists/new/page";
+import LoaderSvg from "@/components/shared/loader.svg.component";
 
 type ChangePasswordProps = {
   currentPassword: string;
@@ -33,11 +35,15 @@ const EditProfile = () => {
   const inputFile = useRef<HTMLInputElement | null>(null);
   const [avatar, setDisplayImgUrl] = useState<string | undefined>('');
   const [tag, setTag] = useState('');
+  const [tagError, setTagError] = useState('');
   const [tags, setTags] = useState<Array<TagsType>>([]);
+  const [suggestions, setSuggestions] = useState<SuggestedTags[]>([]);
   const [performer, setPerformer] = useState('');
   const [performers, setPerformers] = useState<Array<PerformersType>>([]);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false)
   const [avatarSelected, setAvatarSelected] = useState(false);
+  const [searchTag, setSearchTag] = useState(false)
+  const [noTags, setNoTags] = useState("");
 
   const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
   const router = useRouter();
@@ -49,20 +55,46 @@ const EditProfile = () => {
     }
   }, [isAuthenticated, router]);
 
+  async function fetchTags(searchTerm: string) {
+    setSearchTag(true)
+    try {
+      const res = await axiosInstance.get(`${API_URL}/tags/get-tags/${searchTerm}`);
+
+      const tags = res?.data?.data
+      if (tags.length === 0) {
+        setNoTags("Oooops! Looks like we couldn't find that tag.");
+      } else {
+        setNoTags("");
+      }
+
+      return tags;
+    } catch (err) {
+      toast.error('Error Completing request. Try again later.');
+      throw err;
+    } finally {
+      setSearchTag(false)
+    }
+  }
+
+  const fetchTagsAndSetSuggestions = async (searchTerm: string) => {
+    setSearchTag(true)
+    try {
+      const fetchedTags = await fetchTags(searchTerm);
+      if (fetchedTags.length > 0) {
+        setNoTags("");
+      }
+      setSuggestions(fetchedTags);
+    } catch {
+      setSuggestions([]);
+    } finally {
+      setSearchTag(false)
+    }
+  };
+
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (tag) {
-        const trimmedValue = tag.trim();
-        if (trimmedValue !== '' && !tags.some((tags) => tags.tag === trimmedValue)) {
-          setTags((prevValues) => [
-            ...prevValues,
-            { tag: String(trimmedValue) },
-          ]);
-          setTag('');
-        }
-      }
-
       if (performer) {
         const trimmedValue = performer.trim();
         if (trimmedValue !== '' && !performers.some((p) => p.performer === trimmedValue)) {
@@ -89,13 +121,37 @@ const EditProfile = () => {
   // handle input change
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (e.target.name === 'tags') {
-      setTag(inputValue);
-    } else if (e.target.name === 'performers') {
+    if (e.target.name === 'performers') {
       setPerformer(inputValue);
     }
   };
 
+  const tagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (e.target.name === 'tags') {
+      setTag(inputValue);
+      setTagError('');
+      setNoTags("")
+      if (inputValue.length > 0) {
+        fetchTagsAndSetSuggestions(inputValue);
+      } else {
+        setSearchTag(false)
+        setSuggestions([]);
+      }
+    }
+  };
+
+  const deleteTag = (tagtoDelete: string) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag.tag !== tagtoDelete));
+  };
+
+  const handleSuggestionClick = (tag: string | undefined) => {
+    if (tag) {
+      setTags((prevTags) => [...prevTags, { tag }]);
+      setTag('');
+      setSuggestions([]);
+    }
+  };
 
   const onImagePickerClick = () => {
     inputFile && inputFile.current && inputFile.current.click();
@@ -239,23 +295,38 @@ const EditProfile = () => {
             <div className="flex flex-col gap-y-4">
               <div className={`flex flex-col gap-y-3`}>
                 <label className="text-lg font-bold text-white" htmlFor="tags">Favorite Tags</label>
-                <input name="tags"
-                  className={`px-4 bg-white text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
-                  placeholder="Start typing and pick your 3 favourite tags"
-                  onChange={inputChange}
-                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    handleKeyPress(e);
-                    deleteInputCharacter(e);
-                  }}
-                  value={tag}
-                />
+                <div className="flex items-center relative">
+                  <input name="tags"
+                    className={`px-4 bg-white w-full text-mauve placeholder:text-mauve border-opacity-10 border border-white text-sm !outline-none focus:outline-none py-2.5 rounded-lg`}
+                    placeholder="Start typing and pick your 3 favourite tags"
+                    onChange={tagInputChange}
+                    value={tag}
+                  />
+                  {searchTag ? <div className="absolute right-3 bottom-2 top-2">
+                    <LoaderSvg />
+                  </div> : null}
+                </div>
+
               </div>
+              {suggestions?.length > 0 ? <div className="bg-box mt-1 max-h-60 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md py-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none text-sm">
+                {suggestions.map((suggestion, index) => (
+                  <div key={index} className="cursor-pointer p-2 hover:bg-body" onClick={() => handleSuggestionClick(suggestion.title)}>
+                    {suggestion?.title}
+                  </div>
+                ))}
+              </div> : null}
+
+              {tag.trim() !== "" && noTags ? (
+                <div className="bg-box mt-1 w-full flex flex-col gap-y-2 z-9 overflow-auto rounded-md p-2.5 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                  <p className="text-sm">{noTags}</p>
+                </div>
+              ) : null}
 
               {tags?.length > 0 && (
 
                 <div className="flex items-center flex-wrap gap-3">
                   {tags.map((item: TagsType) => (
-                    <SelectTagComponent key={item.tag} tag={item.tag} />
+                    <SelectTagComponent key={item.tag} tag={item.tag} remove={() => deleteTag(item.tag)} />
                   ))}
                 </div>
               )}

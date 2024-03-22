@@ -32,6 +32,28 @@ const ListedVideo: React.FC<Partial<LinkVideoModel>> = function (props
       })
   }
 
+  function unLikeVideo(videoId: string | undefined) {
+    setLiking(true)
+    axiosInstance.post(`${API_URL}/likes/unlike-video`, { videoId })
+      .then((res) => {
+        setLiked(true)
+        toast(res?.data?.message)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+      }).finally(() => {
+        setLiking(false)
+      })
+  }
+
+  const handleLikeButtonClick = () => {
+    if (liked) {
+      unLikeVideo(_id);
+    } else {
+      likeVideo(_id);
+    }
+  };
+
   return (
     <>
       <MyModal closeModal={() => setList(false)} isOpen={list}>
@@ -65,8 +87,10 @@ const ListedVideo: React.FC<Partial<LinkVideoModel>> = function (props
             <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
               <img src="/assets/icons/add.svg" alt="" /> Save
             </ButtonComponent>
-            <ButtonComponent loading={isLiking} disabled={isLiking} onClick={() => likeVideo(_id)} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
-              <img src="/assets/icons/white-like.svg" alt="" /> Like
+            <ButtonComponent onClick={handleLikeButtonClick} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
+              {liked ? "Liked" : <>
+                <img src="/assets/icons/white-like.svg" alt="" /> Like
+              </>}
             </ButtonComponent>
           </div>
         </div>

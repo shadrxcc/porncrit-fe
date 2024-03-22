@@ -20,6 +20,17 @@ import * as Yup from "yup";
 import { AppDispatchType } from '@/services/config-store'
 import { asyncGetAllReviews, selectAllReviews } from '@/services/reviews-services/async-actions'
 import LoaderComponent from '@/components/shared/loader.component'
+import { useAuthModal } from '@/context/auth-modal-context'
+import MyModal from '@/components/shared/modal.component'
+import VerifyEmail from '@/components/ui/verify-email.component'
+import SignIn from '@/components/ui/sign-in.component'
+import Signup from '@/components/ui/signup-form.component'
+import ForgottenPassword from '@/components/ui/forgotten-password.component'
+import ConfirmOtp, { PasswordResetComponent } from '@/components/ui/reset-password.component'
+import { useRouter } from 'next/navigation'
+import { LinkVideo } from '@/services/models/list.model'
+import axiosInstance from '@/services/httpClient'
+import { API_URL } from '@/services/utils'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -56,6 +67,18 @@ const page = () => {
   const reviews = useSelector(selectAllReviews);
   const [isLoading, setIsLoading] = useState(false)
 
+  const { signup, login,
+    forgotPassword,
+    verifymail, reset,
+    confirmreset, enteredEmail,
+    userId, resetToken,
+    openForgotPassword, openResetPassword,
+    verifyMail, closeModal,
+    openLogin, openReset, openSignUp } = useAuthModal()
+  const [isLinking, setIsLinking] = useState(false);
+
+  const router = useRouter()
+
   useEffect(() => {
     setIsLoading(true)
     dispatch(asyncGetAllReviews()).finally(() => setIsLoading(false))
@@ -64,8 +87,43 @@ const page = () => {
 
 
 
+  function listUrl(url: LinkVideo) {
+    if (!isAuthenticated) {
+      openSignUp()
+    } else {
+      setIsLinking(true)
+      axiosInstance.post(`${API_URL}/videos/link-video`, url)
+        .then((res) => {
+          const videoId = res?.data?.data._id
+          router.push(`/videos/new/${videoId}`)
+        })
+        .catch((err) => {
+          if (err?.response?.status === 409) {
+            const videoId = err?.response?.data?.data._id
+            router.push(`/videos/exists/${videoId}`)
+          }
+
+          if (err?.response?.status === 400) {
+            router.push(`/videos/not-found`)
+          }
+          // toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        }).finally(() => {
+          setIsLinking(false)
+        })
+
+    }
+  }
+
+
+
   return (
     <div className='mx-auto flex flex-col gap-y-8 md:w-standard'>
+      <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmail email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
+      <MyModal isOpen={login} closeModal={closeModal}><SignIn verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+      <MyModal isOpen={signup} closeModal={closeModal}><Signup verify={verifyMail} login={openLogin} /></MyModal>
+      <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPassword reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
+      <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtp email={enteredEmail} reset={openReset} /></MyModal>
+      <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
       {isLoading && <LoaderComponent />}
       {!isLoading ? <>
         <div className='flex flex-col gap-y-4 border-b pb-7 border-mauve border-opacity-30'>
@@ -88,12 +146,12 @@ const page = () => {
                 .url('Please enter a valid URL')
                 .required('URL is required'),
             })}
-            onSubmit={() => {
-
+            onSubmit={(value) => {
+              listUrl(value);
             }}
           >
             <Form className="w-full">
-              <LinkVideoInput name="url" placeholder="Paste the link for a video you want to review. " />
+              <LinkVideoInput loading={isLinking} disable={isLinking} name="url" placeholder="Paste the link for a video you want to review. " />
             </Form>
           </Formik>
         </div>
@@ -137,7 +195,7 @@ const page = () => {
 
           <div className="flex flex-col gap-y-10">
             {reviews?.map((review) => (
-              <PopularReviewsComponent key={review?._id} {...review}/>
+              <PopularReviewsComponent key={review?._id} {...review} />
             ))}
           </div>
         </div>

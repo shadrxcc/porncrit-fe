@@ -9,6 +9,7 @@ type ListsComponentProps = {
   title?: string;
   description?: string;
   user?: Partial<UsersModel>;
+  uploader?: Partial<UsersModel>;
   videos?: Partial<LinkVideoModel[]>;
   likesCount?: number
   comments?: CommentsProp[];
@@ -19,7 +20,7 @@ type ListProps = ListsComponentProps & {
 };
 
 const List = (props: ListProps) => {
-  const { title, description, url, user, videos, likesCount, comments } = props;
+  const { title, description, url, user, videos, likesCount, comments, uploader } = props;
   const router = useRouter()
 
   return <div className="w-full md:w-standard space-y-3 bg-box rounded-box px-3 sm:px-8 py-10">
@@ -34,7 +35,7 @@ const List = (props: ListProps) => {
       </div>
 
       <div className="flex rounded-[3px] items-center">
-        {videos?.slice(0,3).map((clip) => (
+        {videos?.slice(0, 3).map((clip) => (
           <Image
             className="rounded-[3px]"
             src={clip?.image || ''}
@@ -50,7 +51,7 @@ const List = (props: ListProps) => {
     <p className="text-sm">{description} </p>
 
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-x-1.5"><img width={16} src="/assets/images/user.png" alt="" /><p className="text-xs">List by <span className="text-pink">{user?.username}</span></p></div>
+      <div className="flex items-center gap-x-1.5"><img width={16} className="w-7 h-7 object-cover rounded-full" src={user?.avatar || uploader?.avatar || "/assets/images/user.png"} alt="" /><p className="text-xs">List by <span className="text-pink">{user?.username || uploader?.username}</span></p></div>
       <div className="flex items-center gap-2.5 ">
         <span className="flex items-center gap-x-1.5">
           <img src="/assets/icons/video.svg" alt="" />{" "}

@@ -50,7 +50,7 @@ const PopularListComponent = (props: ListProps) => {
       <p className="text-sm">{description} </p>
 
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-x-1.5"><img className="rounded-full object-cover w-7 h-7" width={16} src={user?.avatar} alt="" /><p className="text-xs">List by <span className="text-pink">{user?.username}</span></p></div>
+        <div className="flex items-center gap-x-1.5"><img className="rounded-full object-cover w-7 h-7" width={16} src={user?.avatar|| "/assets/images/user.png"} alt="" /><p className="text-xs">List by <span className="text-pink">{user?.username}</span></p></div>
         <div className="flex items-center gap-2.5 ">
           <span className="flex items-center gap-x-1.5">
             <img src="/assets/icons/video.svg" alt="" />{" "}
