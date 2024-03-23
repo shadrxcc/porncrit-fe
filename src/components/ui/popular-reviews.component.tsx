@@ -12,7 +12,7 @@ const PopularReviewsComponent: React.FC<Partial<GetReviews>> = function (props
         <div className="flex flex-col px-3 sm:px-9 py-8 rounded-[10px] bg-box gap-y-4">
             <div className="flex flex-col gap-y-2">
                 <div className="flex flex-row gap-3">
-                    <Image className="w-min object-contain rounded-[2px]" width={60} height={20} src={video?.image || `/assets/images/videothumb.png`} priority alt="hot-nasty-porn" />
+                    <Image className="w-min object-contain rounded-[3px]" width={60} height={20} src={video?.image || `/assets/images/videothumb.png`} priority alt="hot-nasty-porn" />
                     <div className="flex flex-col gap-y-2.5 w-full">
                         <div className="flex flex-col gap-y-1.5">
                             <div className="flex items-center justify-between">

@@ -2,10 +2,8 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import ListLikes from "./listlikes.component";
 import ListCommentsComponent from "./listcomments.component";
-import ListedVideo from "@/components/ui/listedvideo-component"
 import ListAbout from "./list-about";
 import PopularSvg from "../shared/popular";
 import NewestSvg from "../shared/newest";
@@ -29,7 +27,7 @@ type TabComponentProps = {
   onRefresh?: () => void
   openLogin: () => void;
   isAuthenticated: boolean;
-  videos: Partial<LinkVideoModel[]>
+  videos: LinkVideoModel[];
 };
 
 const tabs = [
@@ -74,6 +72,65 @@ const likesOptions = [
 
 const ListTabs = ({ defaultIndex = 0, data, videos, onRefresh, openLogin, isAuthenticated }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
+  const [listvideos, setListVideos] = useState('')
+  const [listcomments, setListComments] = useState('')
+  const [listlikes, setListLikes] = useState('')
+
+  const sortListVideos = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...videos]?.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...videos]?.sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      case "Top rated":
+        return [...videos]?.sort((a, b) => (b.likesCount - a.likesCount));
+      case "Lowest rated":
+        return [...videos]?.sort((a, b) => (a.likesCount - b.likesCount));
+      default:
+        return videos;
+    }
+  };
+
+  const sortListComments = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...data?.comments]?.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...data?.comments]?.sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      case "Most popular":
+        return [...data?.comments]?.sort((a, b) => (b.likesCount - a.likesCount));
+      default:
+        return data?.comments;
+    }
+  };
+
+  const sortListLikes = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...data?.likes]?.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...data?.likes]?.sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      default:
+        return data?.likes;
+    }
+  };
+
+
+  const filteredvideos = sortListVideos(listvideos)
+  const filteredcomments = sortListComments(listcomments)
+  const filteredlikes = sortListLikes(listlikes)
+
+  const listVideoChange = (option: string) => {
+    setListVideos(option);
+  };
+
+  const listCommentChange = (option: string) => {
+    setListComments(option);
+  };
+
+  const listLikesChange = (option: string) => {
+    setListLikes(option);
+  };
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -82,11 +139,11 @@ const ListTabs = ({ defaultIndex = 0, data, videos, onRefresh, openLogin, isAuth
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListVideos data={videos as LinkVideoModel[]} openLogin={openLogin} isAuthenticated={isAuthenticated}/>
+        return <ListVideos data={filteredvideos} openLogin={openLogin} isAuthenticated={isAuthenticated} />
       case 1:
-        return <ListCommentsComponent openLogin={openLogin} onRefresh={onRefresh} data={data} />
+        return <ListCommentsComponent openLogin={openLogin} onRefresh={onRefresh} data={filteredcomments} list={data} />
       case 2:
-        return <ListLikes like={data?.likes} />
+        return <ListLikes like={filteredlikes} />
       case 3:
         return <ListAbout data={data} />
       default:
@@ -99,9 +156,9 @@ const ListTabs = ({ defaultIndex = 0, data, videos, onRefresh, openLogin, isAuth
     <div>
       <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
-          {activeTabIndex === 0 && <FilterComponent data={videoOptions} />}
-          {activeTabIndex === 1 && <FilterComponent data={commentOptions} />}
-          {activeTabIndex === 2 && <FilterComponent data={likesOptions} />}
+          {activeTabIndex === 0 && <FilterComponent data={videoOptions} onFilterChange={listVideoChange} />}
+          {activeTabIndex === 1 && <FilterComponent data={commentOptions} onFilterChange={listCommentChange} />}
+          {activeTabIndex === 2 && <FilterComponent data={likesOptions} onFilterChange={listLikesChange} />}
         </div>
 
         <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-5 sm:gap-x-10">

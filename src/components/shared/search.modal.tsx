@@ -74,8 +74,8 @@ export default function SearchModal(props: ModalProps) {
                                                 onKeyUp={handleSearch}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                             />
-                                            <SearchSvg />
-
+                                           <ButtonComponent className='!w-fit' variant='secondary'><SearchSvg /></ButtonComponent>
+                                            
                                         </div></div>
                                     <ButtonComponent onClick={closeModal} variant="secondary" className="!p-0 !w-fit !border-0 float-right place-self-end !justify-end"><ClosePinkSvg /></ButtonComponent>
                                 </Dialog.Panel>

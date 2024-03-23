@@ -6,21 +6,22 @@ import SecondaryInputComponent from "../shared/secondary-input.component"
 import ListCommentComponent from "./listcomment.component"
 import * as Yup from "yup";
 import { memo, useState } from "react";
-import { ListComment, ListData } from "@/services/models/list.model"
+import { CommentsProp, ListComment, ListData } from "@/services/models/list.model"
 import axiosInstance from "@/services/httpClient"
 import { API_URL } from "@/services/utils"
 import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
 import { selectIsAuthenticated } from "@/services/auth-services/selector"
 
-type CommentsProp = {
-    data: ListData
+type CommentsProps = {
+    list: ListData
+    data: CommentsProp[]
     onRefresh?: () => void;
     openLogin: () => void
 }
 
-const ListCommentsComponent = (props: CommentsProp) => {
-    const { data, onRefresh, openLogin } = props
+const ListCommentsComponent = (props: CommentsProps) => {
+    const { data, onRefresh, openLogin,list } = props
 
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const [isCommenting, setComment] = useState(false)
@@ -54,7 +55,7 @@ const ListCommentsComponent = (props: CommentsProp) => {
             })}
             onSubmit={(value, { resetForm }) => {
                 const params = {
-                    ...value, listId: data?._id
+                    ...value, listId: list?._id
                 }
                 listComment(params, resetForm);
             }}>
@@ -68,8 +69,8 @@ const ListCommentsComponent = (props: CommentsProp) => {
 
 
         <div className="flex flex-col gap-y-8">
-            {data?.comments?.length === 0 ? <p className="text-sm text-mauve text-center">No comments on this list. Be the first to comment.</p> : <>
-                {data?.comments?.map((comment) => (
+            {data?.length === 0 ? <p className="text-sm text-mauve text-center">No comments on this list. Be the first to comment.</p> : <>
+                {data?.map((comment) => (
                     <ListCommentComponent isAuthenticated={isAuthenticated} openLogin={openLogin} onRefresh={onRefresh} key={comment._id} {...comment} />
                 ))}
             </>}

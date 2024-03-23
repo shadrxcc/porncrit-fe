@@ -30,6 +30,7 @@ export type LinkVideo = {
 }
 
 export type LikesModel = {
+    createdAt: string | number | Date;
     _id: string;
     type: string;
     liker: string;
@@ -215,6 +216,7 @@ export interface EditList {
 }
 
 export interface CommentsProp {
+    createdAt: string | number | Date;
     _id: string;
     comment: string;
     type: string;
@@ -229,6 +231,7 @@ export interface CommentsProp {
 }
 
 export interface ListData {
+    createdAt: string | number | Date;
     _id: string;
     description: string;
     title: string;

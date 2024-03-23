@@ -99,18 +99,55 @@ const Video = ({ params }: { params: { id: string } }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [watch, setWatch] = useState(false);
   const [write, setWrite] = useState(false);
+  const [LikefilterOption, setLikeFilterOption] = useState('');
+  const [Listfilter, setListFilter] = useState('');
 
   const router = useRouter()
 
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
-  const [isLiking, setLiking] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch: AppDispatchType = useDispatch();
   const video = useSelector(selectVideo);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectAuthUser);
+
+
+  const sortVideoLikes = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...video?.likes].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...video?.likes].sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      default:
+        return video?.likes;
+    }
+  };
+
+  const filteredlikes = sortVideoLikes(LikefilterOption)
+
+  const sortVideoLists = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...video?.lists].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...video?.lists].sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      default:
+        return video?.lists;
+    }
+  };
+
+  const filteredLists = sortVideoLists(Listfilter)
+
+
+  const handleLikeFilterChange = (option: string) => {
+    setLikeFilterOption(option);
+  };
+
+  const handleListFilterChange = (option: string) => {
+    setListFilter(option);
+  };
 
   const { signup, login,
     forgotPassword,
@@ -151,7 +188,6 @@ const Video = ({ params }: { params: { id: string } }) => {
     if (!isAuthenticated) {
       openLogin()
     } else {
-      setLiking(true)
       axiosInstance.post(`${API_URL}/likes/like-video`, { videoId })
         .then((res) => {
           setLiked(true)
@@ -159,14 +195,11 @@ const Video = ({ params }: { params: { id: string } }) => {
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-        }).finally(() => {
-          setLiking(false)
         })
     }
   }
 
   function unLikeVideo(videoId: string) {
-    setLiking(true)
     axiosInstance.post(`${API_URL}/likes/like-video`, { videoId })
       .then((res) => {
         setLiked(false)
@@ -174,8 +207,6 @@ const Video = ({ params }: { params: { id: string } }) => {
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-      }).finally(() => {
-        setLiking(false)
       })
   }
 
@@ -194,9 +225,9 @@ const Video = ({ params }: { params: { id: string } }) => {
       case 0:
         return <VideoListsComponent data={video} isAuthenticated={isAuthenticated} openLogin={openLogin} />;
       case 1:
-        return <VideoListed data={video?.lists} />;
+        return <VideoListed data={filteredLists} />;
       case 2:
-        return <ListLikeComponent like={video?.likes} />;
+        return <ListLikeComponent like={filteredlikes} />;
       case 3:
         return <VideoViewed />
       case 4:
@@ -216,6 +247,7 @@ const Video = ({ params }: { params: { id: string } }) => {
               className="object-cover w-auto sm:w-[200px] rounded-[3px]"
               height={282}
               width={200}
+              priority
             />
 
             <div className="flex flex-col gap-y-3.5">
@@ -278,8 +310,8 @@ const Video = ({ params }: { params: { id: string } }) => {
             <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
               <div className='flex items-center gap-x-1'>
                 {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
-                {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
-                {activeTabIndex === 2 && <FilterComponent data={likeOptions} />}
+                {activeTabIndex === 1 && <FilterComponent data={listOptions} onFilterChange={handleListFilterChange} />}
+                {activeTabIndex === 2 && <FilterComponent data={likeOptions} onFilterChange={handleLikeFilterChange} />}
                 {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}
               </div>
               <div className="flex overflow-auto no-scroll gap-y-5 items-center gap-x-2.5 sm:gap-x-2.5">

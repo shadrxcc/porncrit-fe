@@ -10,9 +10,10 @@ export type Data = {
 
 export type FilterProps = {
     data: Data[];
+    onFilterChange?: (filterOption: string) => void;
 }
 
-const FilterComponent: FC<FilterProps> = ({ data }) => {
+const FilterComponent: FC<FilterProps> = ({ data, onFilterChange }) => {
 
     const [scope, animate] = useAnimate();
 
@@ -25,7 +26,7 @@ const FilterComponent: FC<FilterProps> = ({ data }) => {
 
     return (
         <div className="w-full">
-            <Listbox>
+            <Listbox onChange={onFilterChange}>
                 <div className="flex flex-col gap-y-2">
                     <div ref={scope} className="relative flex">
                         <Listbox.Button onClick={(e) => onButtonClick(e)} className="relative cursor-pointer text-left focus:outline-none text-sm">
