@@ -44,6 +44,7 @@ const VideoReviewComponent: React.FC<IProps> = function (props
     setLiked(true)
     const newLikesCount = localLikesCount + 1;
     setLocalLikesCount(newLikesCount);
+    
     axiosInstance.post(`${API_URL}/likes/like-review`, { reviewId })
       .then(() => {
         setLiked(true)
@@ -63,9 +64,8 @@ const VideoReviewComponent: React.FC<IProps> = function (props
       const newLikesCount = localLikesCount - 1;
       setLocalLikesCount(newLikesCount);
       axiosInstance.post(`${API_URL}/likes/unlike-review`, { reviewId })
-        .then((res) => {
+        .then(() => {
           setLiked(false)
-          toast(res?.data?.message)
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
@@ -127,8 +127,8 @@ const VideoReviewComponent: React.FC<IProps> = function (props
                 <CommentLineSvg />
               </ButtonComponent>
 
-              <ButtonComponent onClick={handleLikeButtonClick} type="button" variant="secondary" className="!w-fit !p-0">  
-                  {liked ? <FavFilled /> : <FavoriteLight />}
+              <ButtonComponent onClick={handleLikeButtonClick} type="button" variant="secondary" className="!w-fit !p-0">
+                {liked ? <FavFilled /> : <FavoriteLight />}
                 <p className="text-xs">{localLikesCount}</p>
               </ButtonComponent>
 

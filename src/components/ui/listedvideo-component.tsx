@@ -11,9 +11,15 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 
-const ListedVideo: React.FC<Partial<LinkVideoModel>> = function (props
+export interface IProps extends LinkVideoModel {
+  onRefresh?: () => void;
+  isAuthenticated: boolean;
+  openLogin: () => void;
+}
+
+const ListedVideo: React.FC<IProps> = function (props
 ) {
-  const { _id, image, title, embedLink } = props;
+  const { _id, image, title, embedLink, isAuthenticated, openLogin } = props;
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
   const [isLiking, setLiking] = useState(false)
@@ -46,11 +52,23 @@ const ListedVideo: React.FC<Partial<LinkVideoModel>> = function (props
       })
   }
 
-  const handleLikeButtonClick = () => {
-    if (liked) {
-      unLikeVideo(_id);
+  function addToList() {
+    if (!isAuthenticated) {
+      openLogin()
     } else {
-      likeVideo(_id);
+      setList(true)
+    }
+  }
+
+  const handleLikeButtonClick = () => {
+    if (!isAuthenticated) {
+      openLogin()
+    } else {
+      if (liked) {
+        unLikeVideo(_id);
+      } else {
+        likeVideo(_id);
+      }
     }
   };
 
@@ -84,7 +102,7 @@ const ListedVideo: React.FC<Partial<LinkVideoModel>> = function (props
                 <img src="/assets/icons/play.svg" alt="" /> Watch now
               </ButtonComponent>
             </a>
-            <ButtonComponent onClick={() => setList(true)} variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
+            <ButtonComponent onClick={addToList} variant="outline-pink" className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">
               <img src="/assets/icons/add.svg" alt="" /> Save
             </ButtonComponent>
             <ButtonComponent onClick={handleLikeButtonClick} variant={liked ? "pink" : "outline-pink"} className="!gap-x-1.5 !p-2 !text-xs flex-1 !w-24">

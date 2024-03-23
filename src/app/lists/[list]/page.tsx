@@ -120,7 +120,7 @@ const page = ({ params }: { params: { list: string } }) => {
             </>}
           </ButtonComponent>
         </div>
-        <ListTabs openLogin={openLogin} data={list} videos={videos} onRefresh={onRefresh} />
+        <ListTabs openLogin={openLogin} data={list} videos={videos} onRefresh={onRefresh} isAuthenticated={isAuthenticated} />
       </>}
 
       <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>

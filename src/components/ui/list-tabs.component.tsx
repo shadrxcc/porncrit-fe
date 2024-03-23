@@ -27,7 +27,8 @@ type TabComponentProps = {
   defaultIndex?: number;
   data: ListData;
   onRefresh?: () => void
-  openLogin: () => void
+  openLogin: () => void;
+  isAuthenticated: boolean;
   videos: Partial<LinkVideoModel[]>
 };
 
@@ -71,7 +72,7 @@ const likesOptions = [
 
 
 
-const ListTabs = ({ defaultIndex = 0, data, videos,onRefresh,openLogin }: TabComponentProps) => {
+const ListTabs = ({ defaultIndex = 0, data, videos, onRefresh, openLogin, isAuthenticated }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
 
   const onTabClick = (index: number) => {
@@ -81,11 +82,11 @@ const ListTabs = ({ defaultIndex = 0, data, videos,onRefresh,openLogin }: TabCom
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <ListVideos data={videos as LinkVideoModel[]} />
+        return <ListVideos data={videos as LinkVideoModel[]} openLogin={openLogin} isAuthenticated={isAuthenticated}/>
       case 1:
-        return <ListCommentsComponent openLogin={openLogin} onRefresh={onRefresh} data={data}/>
+        return <ListCommentsComponent openLogin={openLogin} onRefresh={onRefresh} data={data} />
       case 2:
-        return <ListLikes like={data?.likes}/>
+        return <ListLikes like={data?.likes} />
       case 3:
         return <ListAbout data={data} />
       default:

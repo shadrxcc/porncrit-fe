@@ -37,54 +37,50 @@ const ListCommentComponent: React.FC<IProps> = function (props
   }
 
   function likeComment(commentId: string | undefined) {
-    if (!isAuthenticated) {
-      openLogin()
-    } else {
-      setLiked(true)
-      setLocalLikesCount(localLikesCount + 1);
-      axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
+    setLiked(true)
+    const newLikesCount = localLikesCount + 1;
+    setLocalLikesCount(newLikesCount);
+    axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
+      .then(() => {
+        setLiked(true)
+      })
+      .catch((err) => {
+        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        setLiked(false)
+        if (newLikesCount > likesCount) {
+          setLocalLikesCount(likesCount);
+        }
+      })
+
+  }
+  function unLikeComment(commentId: string | undefined) {
+    if (localLikesCount > 0) {
+      setLiked(false)
+      const newLikesCount = localLikesCount - 1;
+      setLocalLikesCount(newLikesCount);
+      axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
         .then(() => {
-          setLiked(true)
+          setLiked(false)
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-          setLiked(false)
-          if (localLikesCount > 0) {
-            setLocalLikesCount(localLikesCount - 1);
+          if (newLikesCount < likesCount) {
+            setLocalLikesCount(likesCount);
           }
-
+          setLiked(true)
         })
     }
   }
-  function unLikeComment(commentId: string | undefined) {
+
+  const handleLikeButtonClick = () => {
     if (!isAuthenticated) {
       openLogin()
     } else {
-      if (localLikesCount > 0) {
-        setLiked(false)
-        setLocalLikesCount(localLikesCount - 1);
-        axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
-          .then(() => {
-            setLiked(false)
-          })
-          .catch((err) => {
-            toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-            setLocalLikesCount(localLikesCount + 1);
-            setLiked(true)
-          }).finally(() => {
-            setLiking(false)
-          })
+      if (liked) {
+        unLikeComment(_id);
+      } else {
+        likeComment(_id);
       }
-    }
-
-
-  }
-
-  const handleLikeButtonClick = () => {
-    if (liked) {
-      unLikeComment(_id);
-    } else {
-      likeComment(_id);
     }
   };
 
@@ -130,7 +126,7 @@ const ListCommentComponent: React.FC<IProps> = function (props
 
                 {liked ? <FavFilled /> : <FavoriteLight />}
 
-                <p className="text-xs">{likesCount}</p>
+                <p className="text-xs">{localLikesCount}</p>
               </ButtonComponent>
 
               <div className="flex items-center gap-x-1.5">
