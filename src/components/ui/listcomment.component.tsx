@@ -22,6 +22,7 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
   const [isComment, setComment] = useState(false);
   const [isLiking, setLiking] = useState(false)
   const [liked, setLiked] = useState(false)
+  const [localLikesCount, setLocalLikesCount] = useState(likesCount || 0);
 
   function openReplies() {
     setReplies(!replies);
@@ -33,26 +34,31 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
 
   function likeComment(commentId: string | undefined) {
     setLiking(true)
+    setLiked(true)
+    setLocalLikesCount(localLikesCount + 1);
     axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
-      .then((res) => {
-        toast(res?.data?.message)
+      .then(() => {
         setLiked(true)
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        setLiked(false)
+        setLocalLikesCount(localLikesCount - 1);
       }).finally(() => {
         setLiking(false)
       })
   }
   function unLikeComment(commentId: string | undefined) {
-    setLiking(true)
+    setLiked(false)
+    setLocalLikesCount(localLikesCount - 1);
     axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
-      .then((res) => {
-        toast(res?.data?.message)
+      .then(() => {
         setLiked(false)
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        setLocalLikesCount(localLikesCount + 1);
+        setLiked(true)
       }).finally(() => {
         setLiking(false)
       })
@@ -104,11 +110,11 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
                 {/* <p className="text-xs">Comment</p> */}
               </ButtonComponent>
 
-              <ButtonComponent onClick={handleLikeButtonClick} type="button" loading={isLiking} disabled={isLiking} variant="secondary" className="!w-fit !p-0">
-                {!isLiking && <>
-                  {liked ? <FavFilled /> : <FavoriteLight />}
-                </>}
-                <p className="text-xs">{likesCount}</p>
+              <ButtonComponent onClick={handleLikeButtonClick} type="button" variant="secondary" className="!w-fit !p-0">
+
+                {liked ? <FavFilled /> : <FavoriteLight />}
+
+                <p className="text-xs">{localLikesCount}</p>
               </ButtonComponent>
 
               <div className="flex items-center gap-x-1.5">
