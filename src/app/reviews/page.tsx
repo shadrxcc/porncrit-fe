@@ -18,7 +18,7 @@ import FilterComponent from '@/components/shared/filter.component'
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { AppDispatchType } from '@/services/config-store'
-import { asyncGetAllReviews, selectAllReviews } from '@/services/reviews-services/async-actions'
+import { asyncGetAllReviews, asyncGetPopularReviews, selectAllReviews, selectPopularReviews } from '@/services/reviews-services/async-actions'
 import LoaderComponent from '@/components/shared/loader.component'
 import { useAuthModal } from '@/context/auth-modal-context'
 import MyModal from '@/components/shared/modal.component'
@@ -31,6 +31,7 @@ import { useRouter } from 'next/navigation'
 import { LinkVideo } from '@/services/models/list.model'
 import axiosInstance from '@/services/httpClient'
 import { API_URL } from '@/services/utils'
+import { toast } from 'react-toastify'
 
 const tabs = [
   { id: 1, label: "Popular" },
@@ -56,7 +57,6 @@ const fansOptions = [
   { name: 'Newest', icon: <NewestSvg /> },
   { name: 'Top rated', icon: <HighestSvg /> },
   { name: 'Lowest rated', icon: <LowestSvg /> },
-
 ];
 
 
@@ -64,7 +64,7 @@ const page = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch: AppDispatchType = useDispatch();
-  const reviews = useSelector(selectAllReviews);
+  const popularreviews = useSelector(selectPopularReviews);
   const [isLoading, setIsLoading] = useState(false)
 
   const { signup, login,
@@ -76,12 +76,39 @@ const page = () => {
     verifyMail, closeModal,
     openLogin, openReset, openSignUp } = useAuthModal()
   const [isLinking, setIsLinking] = useState(false);
+  const [sortpopular, setSortPopular] = useState('')
+
+  const sortPopularReviews = (option: string) => {
+    const now = new Date();
+    const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+
+    switch (option) {
+      case "This week":
+        return [...popularreviews]?.filter(review => new Date(review.createdAt) >= startOfWeek);
+      case "This month":
+        return [...popularreviews]?.filter(review => new Date(review.createdAt) >= startOfMonth);
+      case "This year":
+        return [...popularreviews]?.filter(review => new Date(review.createdAt) >= startOfYear);
+      case "All time":
+        return popularreviews;
+      default:
+        return popularreviews;
+    }
+  };
+
+  const filteredPopular = sortPopularReviews(sortpopular)
+
+  const handlePopular = (option: string) => {
+    setSortPopular(option)
+  }
 
   const router = useRouter()
 
   useEffect(() => {
     setIsLoading(true)
-    dispatch(asyncGetAllReviews()).finally(() => setIsLoading(false))
+    dispatch(asyncGetPopularReviews()).finally(() => setIsLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -106,13 +133,38 @@ const page = () => {
           if (err?.response?.status === 400) {
             router.push(`/videos/not-found`)
           }
-          // toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+          if (err?.response?.status !== 400 || err?.response?.status !== 409) {
+            toast.error(err?.response?.message)
+          }
         }).finally(() => {
           setIsLinking(false)
         })
 
     }
   }
+
+  const getTabContent = () => {
+    switch (activeTab.id) {
+      case 1:
+        return <>
+          <div className="flex flex-col gap-y-10">
+            {filteredPopular.length===0?<p className='text-sm text-center text-mauve'>No reviews available</p>:
+            <>
+             {filteredPopular?.map((review) => (
+              <PopularReviewsComponent key={review?._id} {...review} />
+            ))}
+            </>}
+           
+          </div>
+        </>
+      case 2:
+        return null
+      case 3:
+        return null
+      default:
+        return null;
+    }
+  };
 
 
 
@@ -159,7 +211,7 @@ const page = () => {
         <div className='flex flex-col gap-y-7'>
           <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-4 items-center">
             <div className='flex items-center gap-x-1'>
-              {activeTab.id === 1 && <FilterComponent data={popularOptions} />}
+              {activeTab.id === 1 && <FilterComponent data={popularOptions} onFilterChange={handlePopular} />}
               {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
               {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
             </div>
@@ -193,10 +245,8 @@ const page = () => {
               ))}</div>
           </div>
 
-          <div className="flex flex-col gap-y-10">
-            {reviews?.map((review) => (
-              <PopularReviewsComponent key={review?._id} {...review} />
-            ))}
+          <div>
+            {getTabContent()}
           </div>
         </div>
       </> : null}

@@ -151,6 +151,7 @@ export interface ReeviewsModel {
 }
 
 export interface GetReviews {
+    createdAt: string | number | Date;
     _id: string;
     note: string;
     videoId: string;
