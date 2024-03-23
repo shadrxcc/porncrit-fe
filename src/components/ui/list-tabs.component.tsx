@@ -26,6 +26,7 @@ export type Tab = {
 type TabComponentProps = {
   defaultIndex?: number;
   data: ListData;
+  onRefresh?: () => void
   videos: Partial<LinkVideoModel[]>
 };
 
@@ -69,7 +70,7 @@ const likesOptions = [
 
 
 
-const ListTabs = ({ defaultIndex = 0, data, videos }: TabComponentProps) => {
+const ListTabs = ({ defaultIndex = 0, data, videos,onRefresh }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
 
   const onTabClick = (index: number) => {
@@ -81,7 +82,7 @@ const ListTabs = ({ defaultIndex = 0, data, videos }: TabComponentProps) => {
       case 0:
         return <ListVideos data={videos as LinkVideoModel[]} />
       case 1:
-        return <ListCommentsComponent data={data}/>
+        return <ListCommentsComponent onRefresh={onRefresh} data={data}/>
       case 2:
         return <ListLikes like={data?.likes}/>
       case 3:

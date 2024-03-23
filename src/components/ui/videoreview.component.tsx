@@ -11,16 +11,26 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import FavFilled from "../shared/favfilled";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import Input from "../shared/secondary-input.component";
+
+export interface IProps extends ReviewsModel {
+  onRefresh?: () => void;
+  isAuthenticated: boolean;
+  openLogin: () => void;
+}
 
 
-const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
+
+const VideoReviewComponent: React.FC<IProps> = function (props
 ) {
 
-  const { _id, note, reviewer, likesCount } = props;
+  const { _id, note, reviewer, likesCount, openLogin, isAuthenticated } = props;
   const [replies, setReplies] = useState(false);
   const [comment, setComment] = useState(false);
-  const [isLiking, setLiking] = useState(false)
   const [liked, setLiked] = useState(false)
+  const [localLikesCount, setLocalLikesCount] = useState(likesCount || 0);
 
   function openReplies() {
     setReplies(!replies);
@@ -31,43 +41,54 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
   }
 
   function likeReview(reviewId: string | undefined) {
-    setLiking(true)
-    console.log(reviewId);
-
+    setLiked(true)
+    const newLikesCount = localLikesCount + 1;
+    setLocalLikesCount(newLikesCount);
     axiosInstance.post(`${API_URL}/likes/like-review`, { reviewId })
-      .then((res) => {
-        toast(res?.data?.message)
+      .then(() => {
         setLiked(true)
       })
       .catch((err) => {
+        setLiked(false)
+        if (newLikesCount > likesCount) {
+          setLocalLikesCount(likesCount);
+        }
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-      }).finally(() => {
-        setLiking(false)
       })
   }
 
   function unLikeReview(reviewId: string | undefined) {
-    setLiking(true)
-    console.log(reviewId);
+    if (localLikesCount > 0) {
+      setLiked(false)
+      const newLikesCount = localLikesCount - 1;
+      setLocalLikesCount(newLikesCount);
+      axiosInstance.post(`${API_URL}/likes/unlike-review`, { reviewId })
+        .then((res) => {
+          setLiked(false)
+          toast(res?.data?.message)
+        })
+        .catch((err) => {
+          toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+          if (newLikesCount < likesCount) {
+            setLocalLikesCount(likesCount);
+          }
+          setLiked(true)
+        })
+    }
 
-    axiosInstance.post(`${API_URL}/likes/unlike-review`, { reviewId })
-      .then((res) => {
-        setLiked(false)
-        toast(res?.data?.message)
-      })
-      .catch((err) => {
-        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-      }).finally(() => {
-        setLiking(false)
-      })
   }
 
   const handleLikeButtonClick = () => {
-    if (liked) {
-      unLikeReview(_id);
+    if (!isAuthenticated) {
+      openLogin()
     } else {
-      likeReview(_id);
+      if (liked) {
+        unLikeReview(_id);
+      } else {
+        likeReview(_id);
+      }
     }
+
   };
 
   return (
@@ -104,14 +125,11 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
             <div className="flex items-center gap-x-7">
               <ButtonComponent onClick={openComment} variant="secondary" className="!w-fit !p-0">
                 <CommentLineSvg />
-                {/* <p className="text-xs">Comment</p> */}
               </ButtonComponent>
 
-              <ButtonComponent onClick={handleLikeButtonClick} type="button" loading={isLiking} disabled={isLiking} variant="secondary" className="!w-fit !p-0">
-                {!isLiking && <>
+              <ButtonComponent onClick={handleLikeButtonClick} type="button" variant="secondary" className="!w-fit !p-0">  
                   {liked ? <FavFilled /> : <FavoriteLight />}
-                </>}
-                <p className="text-xs">{likesCount}</p>
+                <p className="text-xs">{localLikesCount}</p>
               </ButtonComponent>
 
               <div className="flex items-center gap-x-1.5">
@@ -122,20 +140,37 @@ const VideoReviewComponent: React.FC<Partial<ReviewsModel>> = function (props
 
 
 
-          {/* {comment ? <div className="flex flex-col gap-y-4">
-              <Input placeholder="Add your comment..." />
-              <div className="flex justify-end">
-                <ButtonComponent onClick={() => setComment(false)}
-                  variant="secondary"
-                  className="!w-fit !text-mauve place-self-end"
-                >
-                  Cancel
-                </ButtonComponent>
-                <ButtonComponent className="!w-fit place-self-end">
-                  Comment
-                </ButtonComponent>
-              </div>
-            </div> : null} */}
+          {comment ? <>
+            <Formik initialValues={{
+              reply: "",
+            }}
+              validationSchema={Yup.object({
+                reply: Yup.string()
+                  .required("Required"),
+              })}
+              onSubmit={() => {
+
+              }}>
+              <Form>
+                <div className="flex flex-col gap-y-4">
+                  <Input placeholder="Add your comment..." name="reply" />
+                  <div className="flex justify-end">
+                    <ButtonComponent type="button" onClick={() => setComment(false)}
+                      variant="secondary"
+                      className="!w-fit !text-mauve place-self-end"
+                    >
+                      Cancel
+                    </ButtonComponent>
+                    <ButtonComponent type="submit" className="!w-fit place-self-end">
+                      Comment
+                    </ButtonComponent>
+                  </div>
+                </div>
+              </Form>
+            </Formik>
+
+          </>
+            : null}
         </div>
 
       </div>

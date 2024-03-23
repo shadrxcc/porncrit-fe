@@ -12,12 +12,16 @@ import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import FavFilled from "../shared/favfilled";
 
+export interface IProps extends CommentsProp {
+  onRefresh?: () => void;
+  isAuthenticated: boolean;
+  openLogin: () => void;
+}
 
-
-const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
+const ListCommentComponent: React.FC<IProps> = function (props
 ) {
 
-  const { _id, comment, commenter, likesCount } = props;
+  const { _id, comment, commenter, likesCount, isAuthenticated, openLogin } = props;
   const [replies, setReplies] = useState(false);
   const [isComment, setComment] = useState(false);
   const [isLiking, setLiking] = useState(false)
@@ -33,35 +37,47 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
   }
 
   function likeComment(commentId: string | undefined) {
-    setLiking(true)
-    setLiked(true)
-    setLocalLikesCount(localLikesCount + 1);
-    axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
-      .then(() => {
-        setLiked(true)
-      })
-      .catch((err) => {
-        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-        setLiked(false)
-        setLocalLikesCount(localLikesCount - 1);
-      }).finally(() => {
-        setLiking(false)
-      })
+    if (!isAuthenticated) {
+      openLogin()
+    } else {
+      setLiked(true)
+      setLocalLikesCount(localLikesCount + 1);
+      axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
+        .then(() => {
+          setLiked(true)
+        })
+        .catch((err) => {
+          toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+          setLiked(false)
+          if (localLikesCount > 0) {
+            setLocalLikesCount(localLikesCount - 1);
+          }
+
+        })
+    }
   }
   function unLikeComment(commentId: string | undefined) {
-    setLiked(false)
-    setLocalLikesCount(localLikesCount - 1);
-    axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
-      .then(() => {
+    if (!isAuthenticated) {
+      openLogin()
+    } else {
+      if (localLikesCount > 0) {
         setLiked(false)
-      })
-      .catch((err) => {
-        toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-        setLocalLikesCount(localLikesCount + 1);
-        setLiked(true)
-      }).finally(() => {
-        setLiking(false)
-      })
+        setLocalLikesCount(localLikesCount - 1);
+        axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
+          .then(() => {
+            setLiked(false)
+          })
+          .catch((err) => {
+            toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+            setLocalLikesCount(localLikesCount + 1);
+            setLiked(true)
+          }).finally(() => {
+            setLiking(false)
+          })
+      }
+    }
+
+
   }
 
   const handleLikeButtonClick = () => {
@@ -78,7 +94,7 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
       <div>
         <div className="flex flex-col gap-y-5 bg-box rounded-box px-2 sm:px-8 py-5">
           <div className="flex items-center gap-x-2">
-            <img className="w-8 h-8 rounded-full object-cover" src={commenter?.avatar} width={35} alt="" />
+            <img className="w-8 h-8 rounded-full object-cover" src={commenter?.avatar || `/assets/images/user.png`} width={35} alt="" />
             <p className="text-base">
               Comment by <span className="text-pink font-extrabold">{commenter?.username}</span>
             </p>
@@ -114,7 +130,7 @@ const ListCommentComponent: React.FC<Partial<CommentsProp>> = function (props
 
                 {liked ? <FavFilled /> : <FavoriteLight />}
 
-                <p className="text-xs">{localLikesCount}</p>
+                <p className="text-xs">{likesCount}</p>
               </ButtonComponent>
 
               <div className="flex items-center gap-x-1.5">

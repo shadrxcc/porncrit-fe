@@ -2,15 +2,15 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        domains: [
-            "res.cloudinary.com",
-            "cdn77-pic.xvideos-cdn.com",
-            "img-egc.xvideos-cdn.com",
-            "gcore-pic.xvideos-cdn.com",
-            "ei.phncdn.com",
-            "ei-ph.rdtcdn.com",
-            "thumb-nss.xhcdn.com",
-        ],
+        // domains: [
+        //     "res.cloudinary.com",
+        //     "cdn77-pic.xvideos-cdn.com",
+        //     "img-egc.xvideos-cdn.com",
+        //     "gcore-pic.xvideos-cdn.com",
+        //     "ei.phncdn.com",
+        //     "ei-ph.rdtcdn.com",
+        //     "thumb-nss.xhcdn.com",
+        // ],
         remotePatterns: [
             {
                 protocol: "https",

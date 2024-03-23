@@ -1,36 +1,61 @@
 "use client"
 
-import { Form, Formik } from "formik"
+import { Form, Formik, FormikState } from "formik"
 import ButtonComponent from "../shared/button.component"
 import SecondaryInputComponent from "../shared/secondary-input.component"
 import ListCommentComponent from "./listcomment.component"
 import * as Yup from "yup";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { ListComment, ListData } from "@/services/models/list.model"
 import axiosInstance from "@/services/httpClient"
 import { API_URL } from "@/services/utils"
 import { toast } from "react-toastify"
+import { useAuthModal } from "@/context/auth-modal-context"
+import { useSelector } from "react-redux"
+import { selectIsAuthenticated } from "@/services/auth-services/selector"
+import MyModal from "../shared/modal.component"
+import VerifyEmailComponent from "./verify-email.component"
+import SignInComponent from "./sign-in.component"
+import SignupComponent from "./signup-form.component"
+import ForgottenPasswordComponent from "./forgotten-password.component"
+import ConfirmOtpComponent, { PasswordResetComponent } from "./reset-password.component"
 
 type CommentsProp = {
     data: ListData
+    onRefresh?: () => void
 }
 
 const ListCommentsComponent = (props: CommentsProp) => {
-    const { data } = props
+    const { data, onRefresh } = props
+    const { signup, login,
+        forgotPassword,
+        verifymail, reset,
+        confirmreset, enteredEmail,
+        userId, resetToken,
+        openForgotPassword, openResetPassword,
+        verifyMail, closeModal,
+        openLogin, openReset, openSignUp } = useAuthModal()
 
+    const isAuthenticated = useSelector(selectIsAuthenticated);
     const [isCommenting, setComment] = useState(false)
 
-    function listComment(props: ListComment) {
-        setComment(true)
-        axiosInstance.post(`${API_URL}/comments/list`, { ...props })
-            .then((res) => {
-                toast(res?.data?.message)
-            })
-            .catch((err) => {
-                toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-            }).finally(() => {
-                setComment(false)
-            })
+    function listComment(props: ListComment, resetForm: { (nextState?: Partial<FormikState<{ comment: string }>> | undefined): void; (): void; }) {
+        if (!isAuthenticated) {
+            openLogin()
+        } else {
+            setComment(true)
+            axiosInstance.post(`${API_URL}/comments/list`, { ...props })
+                .then((res) => {
+                    resetForm()
+                    toast(res?.data?.message)
+                    onRefresh && onRefresh()
+                })
+                .catch((err) => {
+                    toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+                }).finally(() => {
+                    setComment(false)
+                })
+        }
     }
 
     return <div className="flex flex-col gap-y-6">
@@ -41,11 +66,11 @@ const ListCommentsComponent = (props: CommentsProp) => {
                 comment: Yup.string()
                     .required("Required"),
             })}
-            onSubmit={(value) => {
+            onSubmit={(value, { resetForm }) => {
                 const params = {
                     ...value, listId: data?._id
                 }
-                listComment(params);
+                listComment(params, resetForm);
             }}>
             <Form>
                 <div className="flex flex-col gap-y-4 bg-box rounded-box px-2 sm:px-8 py-5">
@@ -59,11 +84,18 @@ const ListCommentsComponent = (props: CommentsProp) => {
         <div className="flex flex-col gap-y-8">
             {data?.comments?.length === 0 ? <p className="text-sm text-mauve text-center">No comments on this list. Be the first to comment.</p> : <>
                 {data?.comments?.map((comment) => (
-                    <ListCommentComponent key={comment._id} {...comment}/>
+                    <ListCommentComponent isAuthenticated={isAuthenticated} openLogin={openLogin} onRefresh={onRefresh} key={comment._id} {...comment} />
                 ))}
             </>}
         </div>
+
+        <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
+        <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
+        <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
+        <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
+        <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent email={enteredEmail} reset={openReset} /></MyModal>
+        <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
     </div>
 }
 
-export default ListCommentsComponent
+export default memo(ListCommentsComponent) 
