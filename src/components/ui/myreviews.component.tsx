@@ -18,7 +18,7 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 
 type ReviewsType = {
-  data: Reviews
+  data: Reviews['reviews']
 }
 
 const MyReviews = (props: ReviewsType) => {
@@ -94,8 +94,8 @@ const MyReviews = (props: ReviewsType) => {
         </Form>
       </Formik>
       <div className="flex mt-9 flex-col gap-y-9">
-        {data?.reviews?.length === 0 ? <p className="text-sm text-center text-mauve">You haven't made any reviews yet.</p> : <>
-          {data?.reviews?.map((review) => (
+        {data?.length === 0 ? <p className="text-sm text-center text-mauve">You haven't made any reviews yet.</p> : <>
+          {data?.map((review) => (
             <ReviewsComponent key={review?._id} {...review} />
           ))}
         </>}

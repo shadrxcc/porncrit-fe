@@ -46,7 +46,7 @@ const page = ({ params }: { params: { id: string } }) => {
         axiosInstance.post(`${API_URL}/reviews/create`, { ...props })
             .then((res) => {
                 toast(res?.data?.message)
-                navigate.push(`/videos/${id}`)
+                navigate.back()
             })
             .catch((err) => {
                 toast(err?.response?.data?.message || 'Error Completing request. Try again later.')

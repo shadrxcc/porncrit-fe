@@ -85,6 +85,7 @@ export interface VideoModel {
 
 
 export interface ReviewsModel {
+    createdAt: string | number | Date;
     _id: string;
     note: string;
     videoId: string;

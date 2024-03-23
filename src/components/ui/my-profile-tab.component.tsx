@@ -78,6 +78,45 @@ const likeOptions = [
 
 const MyProfileTabComponent = ({ defaultIndex = 0, list, reviews }: TabComponentProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(defaultIndex);
+  const [sortlist, setSortList] = useState('')
+  const [sortreview, setSortReview] = useState('')
+
+  const sortMyList = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...list]?.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...list]?.sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      default:
+        return list;
+    }
+  };
+
+  const sortMyReview = (option: string) => {
+    switch (option) {
+      case "Newest":
+        return [...reviews?.reviews]?.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...reviews?.reviews]?.sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      case "Top rated":
+        return [...reviews?.reviews]?.sort((a, b) => (b.likesCount - a.likesCount));
+      case "Lowest rated":
+        return [...reviews?.reviews]?.sort((a, b) => (a.likesCount - b.likesCount));
+      default:
+        return reviews?.reviews;
+    }
+  };
+
+  const filteredlist = sortMyList(sortlist)
+  const filteredreview = sortMyReview(sortreview)
+
+  const handleListFilter = (option: string) => {
+    setSortList(option)
+  }
+
+  const handleReviewFilter = (option: string) => {
+    setSortReview(option)
+  }
 
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
@@ -86,9 +125,9 @@ const MyProfileTabComponent = ({ defaultIndex = 0, list, reviews }: TabComponent
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <MyReviews data={reviews} />
+        return <MyReviews data={filteredreview} />
       case 1:
-        return <MyLists data={list} />
+        return <MyLists data={filteredlist} />
       case 2:
         return <MyFollowers />
       case 3:
@@ -105,8 +144,8 @@ const MyProfileTabComponent = ({ defaultIndex = 0, list, reviews }: TabComponent
     <div>
       <div className="flex relative  sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
-          {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
-          {activeTabIndex === 1 && <FilterComponent data={listOptions} />}
+          {activeTabIndex === 0 && <FilterComponent data={reviewOptions} onFilterChange={handleReviewFilter} />}
+          {activeTabIndex === 1 && <FilterComponent data={listOptions} onFilterChange={handleListFilter} />}
           {activeTabIndex === 3 && <FilterComponent data={likeOptions} />}
           {activeTabIndex === 2 && <FilterComponent data={fansOptions} />}
         </div>
