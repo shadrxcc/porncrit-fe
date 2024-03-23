@@ -24,7 +24,7 @@ export interface IProps extends CommentsProp {
 const ListCommentComponent: React.FC<IProps> = function (props
 ) {
 
-  const { _id, comment, commenter, likesCount, isAuthenticated, openLogin } = props;
+  const { _id, comment, commenter, likesCount, isAuthenticated, openLogin, onRefresh } = props;
   const [replies, setReplies] = useState(false);
   const [isComment, setComment] = useState(false);
   const [liked, setLiked] = useState(false)
@@ -45,6 +45,7 @@ const ListCommentComponent: React.FC<IProps> = function (props
     axiosInstance.post(`${API_URL}/likes/like-comment`, { commentId })
       .then(() => {
         setLiked(true)
+        onRefresh && onRefresh()
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
@@ -63,6 +64,7 @@ const ListCommentComponent: React.FC<IProps> = function (props
       axiosInstance.post(`${API_URL}/likes/unlike-comment`, { commentId })
         .then(() => {
           setLiked(false)
+          onRefresh && onRefresh()
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')

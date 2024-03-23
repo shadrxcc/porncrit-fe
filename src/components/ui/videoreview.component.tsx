@@ -26,7 +26,7 @@ export interface IProps extends ReviewsModel {
 const VideoReviewComponent: React.FC<IProps> = function (props
 ) {
 
-  const { _id, note, reviewer, likesCount, openLogin, isAuthenticated } = props;
+  const { _id, note, reviewer, likesCount, openLogin, isAuthenticated,onRefresh } = props;
   const [replies, setReplies] = useState(false);
   const [comment, setComment] = useState(false);
   const [liked, setLiked] = useState(false)
@@ -48,6 +48,7 @@ const VideoReviewComponent: React.FC<IProps> = function (props
     axiosInstance.post(`${API_URL}/likes/like-review`, { reviewId })
       .then(() => {
         setLiked(true)
+        onRefresh && onRefresh()
       })
       .catch((err) => {
         setLiked(false)
@@ -66,6 +67,7 @@ const VideoReviewComponent: React.FC<IProps> = function (props
       axiosInstance.post(`${API_URL}/likes/unlike-review`, { reviewId })
         .then(() => {
           setLiked(false)
+          onRefresh && onRefresh()
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
