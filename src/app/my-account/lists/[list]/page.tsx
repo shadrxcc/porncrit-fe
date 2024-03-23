@@ -2,6 +2,7 @@
 
 import ButtonComponent from "@/components/shared/button.component";
 import ListTabs from "@/components/ui/list-tabs.component";
+import MyListTabs from "@/components/ui/my-list-tabs";
 import { AppDispatchType } from "@/services/config-store";
 import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
 import Image from "next/image";
@@ -54,7 +55,7 @@ const page = ({ params }: { params: { list: string } }) => {
           Edit list</ButtonComponent>
       </div>
 
-      <ListTabs data={list} videos={videos} />
+      <MyListTabs data={list} videos={videos} />
     </div>
   );
 };
