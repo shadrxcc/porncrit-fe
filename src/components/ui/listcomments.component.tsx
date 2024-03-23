@@ -22,19 +22,12 @@ import ConfirmOtpComponent, { PasswordResetComponent } from "./reset-password.co
 
 type CommentsProp = {
     data: ListData
-    onRefresh?: () => void
+    onRefresh?: () => void;
+    openLogin: () => void
 }
 
 const ListCommentsComponent = (props: CommentsProp) => {
-    const { data, onRefresh } = props
-    const { signup, login,
-        forgotPassword,
-        verifymail, reset,
-        confirmreset, enteredEmail,
-        userId, resetToken,
-        openForgotPassword, openResetPassword,
-        verifyMail, closeModal,
-        openLogin, openReset, openSignUp } = useAuthModal()
+    const { data, onRefresh, openLogin } = props
 
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const [isCommenting, setComment] = useState(false)
@@ -88,13 +81,6 @@ const ListCommentsComponent = (props: CommentsProp) => {
                 ))}
             </>}
         </div>
-
-        <MyModal isOpen={verifymail} closeModal={closeModal}><VerifyEmailComponent email={enteredEmail} userId={userId} signin={openLogin} /></MyModal>
-        <MyModal isOpen={login} closeModal={closeModal}><SignInComponent verify={verifyMail} close={closeModal} signup={openSignUp} forgot={openForgotPassword} /></MyModal>
-        <MyModal isOpen={signup} closeModal={closeModal}><SignupComponent verify={verifyMail} login={openLogin} /></MyModal>
-        <MyModal isOpen={forgotPassword} closeModal={closeModal}><ForgottenPasswordComponent reset={openResetPassword} login={openLogin} signup={openSignUp} /></MyModal>
-        <MyModal isOpen={confirmreset} closeModal={closeModal}><ConfirmOtpComponent email={enteredEmail} reset={openReset} /></MyModal>
-        <MyModal isOpen={reset} closeModal={closeModal}><PasswordResetComponent toKen={resetToken} userid={userId} login={openLogin} /></MyModal>
     </div>
 }
 
