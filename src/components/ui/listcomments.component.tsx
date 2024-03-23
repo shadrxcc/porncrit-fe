@@ -10,15 +10,8 @@ import { ListComment, ListData } from "@/services/models/list.model"
 import axiosInstance from "@/services/httpClient"
 import { API_URL } from "@/services/utils"
 import { toast } from "react-toastify"
-import { useAuthModal } from "@/context/auth-modal-context"
 import { useSelector } from "react-redux"
 import { selectIsAuthenticated } from "@/services/auth-services/selector"
-import MyModal from "../shared/modal.component"
-import VerifyEmailComponent from "./verify-email.component"
-import SignInComponent from "./sign-in.component"
-import SignupComponent from "./signup-form.component"
-import ForgottenPasswordComponent from "./forgotten-password.component"
-import ConfirmOtpComponent, { PasswordResetComponent } from "./reset-password.component"
 
 type CommentsProp = {
     data: ListData

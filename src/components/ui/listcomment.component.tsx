@@ -11,6 +11,9 @@ import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
 import { toast } from "react-toastify";
 import FavFilled from "../shared/favfilled";
+import Input from "../shared/secondary-input.component";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
 
 export interface IProps extends CommentsProp {
   onRefresh?: () => void;
@@ -24,7 +27,6 @@ const ListCommentComponent: React.FC<IProps> = function (props
   const { _id, comment, commenter, likesCount, isAuthenticated, openLogin } = props;
   const [replies, setReplies] = useState(false);
   const [isComment, setComment] = useState(false);
-  const [isLiking, setLiking] = useState(false)
   const [liked, setLiked] = useState(false)
   const [localLikesCount, setLocalLikesCount] = useState(likesCount || 0);
 
@@ -137,20 +139,38 @@ const ListCommentComponent: React.FC<IProps> = function (props
 
 
 
-          {/* {comment ? <div className="flex flex-col gap-y-4">
-              <Input placeholder="Add your comment..." />
-              <div className="flex justify-end">
-                <ButtonComponent onClick={() => setComment(false)}
-                  variant="secondary"
-                  className="!w-fit !text-mauve place-self-end"
-                >
-                  Cancel
-                </ButtonComponent>
-                <ButtonComponent className="!w-fit place-self-end">
-                  Comment
-                </ButtonComponent>
-              </div>
-            </div> : null} */}
+          {isComment ?
+            <>
+              <Formik initialValues={{
+                reply: "",
+              }}
+                validationSchema={Yup.object({
+                  reply: Yup.string()
+                    .required("Required"),
+                })}
+                onSubmit={() => {
+
+                }}>
+                <Form>
+                  <div className="flex flex-col gap-y-4">
+                    <Input placeholder="Add your comment..." name="reply" />
+                    <div className="flex justify-end">
+                      <ButtonComponent onClick={() => setComment(false)}
+                        variant="secondary"
+                        className="!w-fit !text-mauve place-self-end"
+                      >
+                        Cancel
+                      </ButtonComponent>
+                      <ButtonComponent className="!w-fit place-self-end">
+                        Comment
+                      </ButtonComponent>
+                    </div>
+                  </div>
+                </Form>
+              </Formik>
+            </>
+
+            : null}
         </div>
 
       </div>
