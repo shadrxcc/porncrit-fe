@@ -154,7 +154,7 @@ const ListTabs = ({ defaultIndex = 0, data, videos, onRefresh, openLogin, isAuth
 
   return (
     <div>
-      <div className="flex relative sm:flex-row-reverse justify-end gap-x-5 items-center">
+      <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
         <div className='flex items-center gap-x-1'>
           {activeTabIndex === 0 && <FilterComponent data={videoOptions} onFilterChange={listVideoChange} />}
           {activeTabIndex === 1 && <FilterComponent data={commentOptions} onFilterChange={listCommentChange} />}

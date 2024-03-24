@@ -117,18 +117,11 @@ const Video = ({ params }: { params: { id: string } }) => {
   const route = useRouter();
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    if (!isLoading) {
-      const params = searchParams.get('review')
-      if (params) {
-        const element = document.getElementById(`review-${params}`)
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' })
-          element.style.border = "1px solid #F71D7F"
-        }
-      }
-    }
-  }, [route, searchParams])
+  // useEffect(() => {
+  //   if (!isLoading) {
+
+  //   }
+  // }, [route, searchParams])
 
 
   const sortVideoLikes = (option: string) => {
@@ -184,8 +177,23 @@ const Video = ({ params }: { params: { id: string } }) => {
       .finally(() => {
         setIsLoading(false)
       });
+    const params = searchParams.get('review')
+    if (params) {
+      console.log(params);
+
+      const element = document.getElementById(`review-${params}`)
+      toast.success("")
+    
+      if (element) {
+       
+
+        element.scrollIntoView({ behavior: 'smooth' })
+        element.style.border = "1px solid #F71D7F"
+        element.classList.add('target')
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, isAuthenticated, dispatch])
+  }, [id, isAuthenticated, dispatch, route, searchParams])
 
 
   const onTabClick = (index: number) => {
