@@ -39,37 +39,29 @@ const page = ({ params }: { params: { list: string } }) => {
     openLogin, openReset, openSignUp } = useAuthModal()
 
   const [liked, setLiked] = useState(false)
-  const [isLiking, setLiking] = useState(false)
 
   function likeList(listId: string) {
     if (!isAuthenticated) {
       openLogin()
     } else {
-      setLiking(true)
       axiosInstance.post(`${API_URL}/likes/like-list`, { listId })
         .then((res) => {
           setLiked(true)
-          toast(res?.data?.message)
+          onRefresh && onRefresh()
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-        }).finally(() => {
-          setLiking(false)
         })
     }
   }
 
   function unLikeList(listId: string) {
-    setLiking(true)
     axiosInstance.post(`${API_URL}/likes/unlike-list`, { listId })
       .then((res) => {
         setLiked(false)
-        toast(res?.data?.message)
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
-      }).finally(() => {
-        setLiking(false)
       })
   }
 
@@ -110,14 +102,12 @@ const page = ({ params }: { params: { list: string } }) => {
             </div>
           </div>
 
-          <ButtonComponent loading={isLiking} disabled={isLiking} onClick={handleLikeButtonClick} className="xs:w-full !w-28" variant={liked ? "pink" : "outline-pink"}>
-            {!isLiking && <>
-              {
-                liked ? 'Liked' : <>
-                  <img src="/assets/icons/white-like.svg" width={10} alt="like icon" /> Like list
-                </>
-              }
-            </>}
+          <ButtonComponent onClick={handleLikeButtonClick} className="xs:w-full !w-28" variant={liked ? "pink" : "outline-pink"}>
+            {
+              liked ? 'Liked' : <>
+                <img src="/assets/icons/white-like.svg" width={10} alt="like icon" /> Like list
+              </>
+            }
           </ButtonComponent>
         </div>
         <ListTabs openLogin={openLogin} data={list} videos={videos} onRefresh={onRefresh} isAuthenticated={isAuthenticated} />

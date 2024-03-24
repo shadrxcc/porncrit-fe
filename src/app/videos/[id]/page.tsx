@@ -24,7 +24,7 @@ import FilterComponent from "@/components/shared/filter.component";
 import { asyncGetLinkedVideo, selectVideo } from "@/services/video-services/async-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatchType } from "@/services/config-store";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LoaderComponent from "@/components/shared/loader.component";
 import { selectAuthUser, selectIsAuthenticated } from "@/services/auth-services/selector";
 import { getUserProfile } from "@/services/auth-services/async-actions";
@@ -107,11 +107,28 @@ const Video = ({ params }: { params: { id: string } }) => {
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
+  const [clickedReview, setClickedReview] = useState('')
 
   const dispatch: AppDispatchType = useDispatch();
   const video = useSelector(selectVideo);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectAuthUser);
+
+  const route = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (!isLoading) {
+      const params = searchParams.get('review')
+      if (params) {
+        const element = document.getElementById(`review-${params}`)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+          element.style.border = "1px solid #F71D7F"
+        }
+      }
+    }
+  }, [route, searchParams])
 
 
   const sortVideoLikes = (option: string) => {
