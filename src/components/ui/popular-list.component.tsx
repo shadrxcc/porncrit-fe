@@ -21,7 +21,7 @@ const PopularListComponent = (props: ListProps) => {
   const router = useRouter()
 
   return (
-    <div className="space-y-3 bg-box rounded-box px-2 sm:px-8 py-10">
+    <div className="space-y-3 bg-box rounded-box px-3 sm:px-8 py-10">
       <div className="flex flex-col gap-x-3">
         <div className="flex gap-x-2.5 justify-between items-center w-full">
           <p className="text-sm line-clamp-1 font-black">{title}</p>

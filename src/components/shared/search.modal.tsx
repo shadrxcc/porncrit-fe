@@ -29,7 +29,7 @@ export default function SearchModal(props: ModalProps) {
             if (searchQuery.trim() === '') {
                 toast.error('A search term must be provided.')
             } else {
-                router.push(`/search/${searchQuery}`)
+                router.push(`/search?q=${searchQuery}`)
                 closeModal()
                 setSearchQuery('')
             }
