@@ -33,7 +33,7 @@ const PopularListComponent = (props: ListProps) => {
         </div>
 
         <div className="flex rounded-[3px] items-center">
-          {videos?.slice(0, 3).map((clip) => (
+          {videos?.slice(0, 2).map((clip) => (
             <Image
               className="rounded-[3px]"
               src={clip?.image || ''}

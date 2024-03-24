@@ -57,7 +57,7 @@ const page = ({ params }: { params: { list: string } }) => {
 
   function unLikeList(listId: string) {
     axiosInstance.post(`${API_URL}/likes/unlike-list`, { listId })
-      .then((res) => {
+      .then(() => {
         setLiked(false)
       })
       .catch((err) => {
@@ -95,7 +95,7 @@ const page = ({ params }: { params: { list: string } }) => {
               <img width={50} src={list?.user?.avatar || `/assets/images/user.png`} alt="user" className="object-cover w-12 h-12 rounded-full " />
               <div className="flex flex-col gap-y-1">
                 <p className="text-sm">List created by</p>
-                <p className="text-sm text-pink">
+                <p className="text-sm line-clamp-1 text-pink">
                   {list?.user?.username}
                 </p>
               </div>

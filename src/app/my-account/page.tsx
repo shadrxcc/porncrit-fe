@@ -51,7 +51,7 @@ const MyProfile = () => {
           <Image className="object-cover w-20 h-20 rounded-full border-[2px] border-pink" width={110} src={user?.avatar || "/assets/images/user.png"} height={110} priority={true} alt="user" />
           <div className="flex xs:flex-col gap-y-3 xs:items-start justify-between items-center flex-1">
             <div className="flex flex-col gap-y-2">
-              <p className="text-pink text-xl font-extrabold">{user?.username}</p>
+              <p className="text-pink line-clamp-1 text-xl font-extrabold">{user?.username}</p>
               <p className="text-sm">
                 1.7k followers
               </p>

@@ -130,7 +130,7 @@ const page = () => {
                   {activeTab.id === 2 && <FilterComponent data={recentOptions} />}
                   {activeTab.id === 3 && <FilterComponent data={fansOptions} />}
                 </div>
-                <div className="flex overflow-auto no-scroll justify-around gap-x-10">
+                <div className="flex overflow-auto no-scroll gap-x-10">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}

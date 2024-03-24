@@ -52,7 +52,7 @@ const List = (props: ListProps) => {
     <p className="text-sm">{description} </p>
 
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-x-1.5"><img width={16} className="w-7 h-7 object-cover rounded-full" src={user?.avatar || uploader?.avatar || "/assets/images/user.png"} alt="" /><p className="text-xs">List by <span className="text-pink">{user?.username || uploader?.username}</span></p></div>
+      <div className="flex items-center gap-x-1.5"><img width={16} className="w-7 h-7 object-cover rounded-full" src={user?.avatar || uploader?.avatar || "/assets/images/user.png"} alt="" /><p className="text-xs line-clamp-1">List by <span className="text-pink">{user?.username || uploader?.username}</span></p></div>
       <div className="flex items-center gap-2.5 ">
         <span className="flex items-center gap-x-1.5">
           <img src="/assets/icons/video.svg" alt="" />{" "}

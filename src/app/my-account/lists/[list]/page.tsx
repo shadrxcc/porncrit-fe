@@ -52,7 +52,7 @@ const page = ({ params }: { params: { list: string } }) => {
             />
             <div className="flex flex-col gap-y-1">
               <p className="text-sm">List created by</p>
-              <p className="text-sm text-pink">
+              <p className="text-sm line-clamp-1 text-pink">
                 {list?.user?.username}
               </p>
             </div>
