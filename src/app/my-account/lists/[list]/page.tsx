@@ -3,6 +3,7 @@
 import ButtonComponent from "@/components/shared/button.component";
 import ListTabs from "@/components/ui/list-tabs.component";
 import MyListTabs from "@/components/ui/my-list-tabs";
+import { selectIsAuthenticated } from "@/services/auth-services/selector";
 import { AppDispatchType } from "@/services/config-store";
 import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
 import Image from "next/image";
@@ -18,6 +19,15 @@ const page = ({ params }: { params: { list: string } }) => {
   const videos = useSelector(selectListVideos);
 
   const router = useRouter()
+
+  const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
+
+  // Check if the user is not authenticated and redirect to the homepage
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router])
 
   useEffect(() => {
     dispatch(asyncGetList({ id }))

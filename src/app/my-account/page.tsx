@@ -14,9 +14,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const page = () => {
-
-  const [isLoading, setIsLoading] = useState(false)
+const MyProfile = () => {
   const lists = useSelector(selectLists);
   const dispatch: AppDispatchType = useDispatch()
   const user = useSelector(selectAuthUser);
@@ -26,7 +24,7 @@ const page = () => {
 
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
-  // Check if the user is not authenticated and redirect to the homepage
+  // Check if the user is not authenticated and redirect to the homeMyProfile
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/');
@@ -71,4 +69,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default MyProfile;

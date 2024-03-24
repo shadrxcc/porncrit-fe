@@ -5,18 +5,19 @@ import Rating from "react-animated-rating";
 import ButtonComponent from "../shared/button.component";
 import { memo } from "react";
 
+
 const PopularReviewsComponent: React.FC<Partial<GetReviews>> = function (props
 ) {
     const { note, comments, likesCount, rating, video, user, videoId } = props;
     return (
         <div className="flex flex-col px-3 sm:px-9 py-8 rounded-[10px] bg-box gap-y-4">
             <div className="flex flex-col gap-y-2">
-                <div className="flex flex-row gap-3">
-                    <Image className="w-min object-contain rounded-[3px]" width={60} height={20} src={video?.image || `/assets/images/videothumb.png`} priority alt="hot-nasty-porn" />
-                    <div className="flex flex-col gap-y-2.5 w-full">
+                <div className="flex flex-row items-center gap-3">
+                    <Image className="object-contain rounded-[3px]" width={80} height={40} src={video?.image || `/assets/images/videothumb.png`} priority alt="hot-nasty-porn" />
+                    <div className="flex flex-col gap-y-2 w-full">
                         <div className="flex flex-col gap-y-1.5">
                             <div className="flex items-center justify-between">
-                                <Link href={`/videos/${videoId}`}><p className="text-sm font-extrabold">{video?.title}</p></Link>
+                                <Link href={`/videos/${videoId}`}><p className="text-sm line-clamp-1 font-extrabold">{video?.title}</p></Link>
                                 <Link href={`/videos/${videoId}`}>
                                     <ButtonComponent className="!w-fit" variant="secondary"><svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.37079 5.9458L1.71079 0.295798C1.61783 0.20207 1.50723 0.127676 1.38537 0.0769072C1.26351 0.0261385 1.1328 0 1.00079 0C0.868781 0 0.738075 0.0261385 0.616216 0.0769072C0.494356 0.127676 0.383755 0.20207 0.290792 0.295798C0.104542 0.483161 0 0.736612 0 1.0008C0 1.26498 0.104542 1.51844 0.290792 1.7058L5.24079 6.7058L0.290792 11.6558C0.104542 11.8432 0 12.0966 0 12.3608C0 12.625 0.104542 12.8784 0.290792 13.0658C0.383407 13.1603 0.493852 13.2355 0.615727 13.287C0.737603 13.3384 0.868485 13.3652 1.00079 13.3658C1.1331 13.3652 1.26398 13.3384 1.38586 13.287C1.50773 13.2355 1.61818 13.1603 1.71079 13.0658L7.37079 7.4158C7.4723 7.32216 7.55331 7.2085 7.60871 7.08201C7.66412 6.95551 7.69273 6.8189 7.69273 6.6808C7.69273 6.5427 7.66412 6.40609 7.60871 6.27959C7.55331 6.15309 7.4723 6.03944 7.37079 5.9458Z" fill="white" />
@@ -34,7 +35,7 @@ const PopularReviewsComponent: React.FC<Partial<GetReviews>> = function (props
             </div>
 
             <div className="flex items-center justify-between">
-                <Link href={`/user-account`}><div className="flex items-center gap-x-3"><img width={20} className="rounded-full object-cover w-7 h-7" src={user?.avatar || "/assets/images/user.png"} alt="" /><p className="text-sm">Review by <span className="text-pink">{user?.username}</span></p></div></Link>
+                <Link href={`/user`}><div className="flex items-center gap-x-3"><img width={20} className="rounded-full object-cover w-7 h-7" src={user?.avatar || "/assets/images/user.png"} alt="" /><p className="text-sm">Review by <span className="text-pink">{user?.username}</span></p></div></Link>
                 <div className="flex items-center gap-x-5">
                     {comments?.length === 0 ? null : <div className="flex items-center gap-x-1.5">
                         <img src="/assets/icons/comment.svg" alt="comment-icon" />

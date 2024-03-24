@@ -3,7 +3,7 @@
 import ButtonComponent from "@/components/shared/button.component";
 import ProfileTabComponent from "@/components/ui/user-profile-tab.component";
 
-const page = () => {
+const UserProfile = () => {
   return (
     <div className='mx-auto mt-8 flex flex-col gap-y-8 md:w-standard'>
       <div className="flex items-center gap-x-4">
@@ -26,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default UserProfile;

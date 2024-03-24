@@ -83,7 +83,7 @@ const ListedVideo: React.FC<IProps> = function (props
             {" "}
             <Link href={`/videos/${_id}`}><Image
               src={image || `/assets/images/4some.png`}
-              width={88}
+              width={100}
               height={50}
               className="rounded-sm"
               alt="foursome"
@@ -91,7 +91,7 @@ const ListedVideo: React.FC<IProps> = function (props
             </Link>
 
             <div className="text-sm flex flex-col gap-y-4">
-              <Link href={`/videos/${_id}`}><p>{title}</p></Link>
+              <Link href={`/videos/${_id}`}><p className="line-clamp-1">{title}</p></Link>
               <img src="/assets/images/rating.png" width={100} alt="" />
             </div>
           </div>

@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncGetList, asyncGetListVideos, selectList, selectListVideos } from "@/services/list-services/async-actions";
 import { useRouter } from "next/navigation";
 import { asyncGetAllTags, selectAllTags } from "@/services/tags-services/async-actions";
+import { selectIsAuthenticated } from "@/services/auth-services/selector";
 
 
 type SuggestedTags = {
@@ -60,6 +61,15 @@ const EditList = ({ params }: { params: { id: string } }) => {
   const listvideos = useSelector(selectListVideos);
   const alltags = useSelector(selectAllTags)
   const navigate = useRouter()
+
+  const isAuthenticated = useSelector(selectIsAuthenticated); // selector to get the authentication status
+
+  // Check if the user is not authenticated and redirect to the homepage
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate.push('/');
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
     dispatch(asyncGetList({ id }))
