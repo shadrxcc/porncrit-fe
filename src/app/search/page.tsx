@@ -70,7 +70,7 @@ const fansOptions = [
 
 const page = () => {
   return (
-    <Suspense fallback={<LoaderComponent/>}>
+    <Suspense fallback={<LoaderComponent />}>
       <SearchPage />
     </Suspense>
   )
@@ -156,6 +156,7 @@ const SearchPage = () => {
   return (
     <>
       <div className="space-y-5 md:w-standard mt-8 mx-auto">
+        {isLoading && <LoaderComponent />}
         {!isLoading && <>
           <h1 className="text-xl font-extrabold leading-7">{subheading}</h1>
           <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">

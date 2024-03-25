@@ -52,7 +52,7 @@ const MyReviewsComponent: React.FC<Partial<ReviewsModel>> = function (props
         </div>
 
         <div className="flex gap-5">
-          <Button onClick={() => router.push('/my-account/lists/edit')} variant="outline">Edit</Button>
+          <Button onClick={() => router.push(`/videos/edit-review/${videoId}?review=${_id}`)} variant="outline">Edit</Button>
           <Button variant="outline">Delete</Button>
         </div>
       </div>

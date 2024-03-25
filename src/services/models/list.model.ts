@@ -133,6 +133,7 @@ export interface Reviews {
 
 export type ReviewsType = {
     myreview: Reviews;
+    review:ReviewsModel
     allreviews: GetReviews[];
     popular: GetReviews[]
     status: FetchStatusType;
@@ -180,6 +181,12 @@ export interface UpdateVideo {
 
 export interface ReviewVideo {
     videoId: string;
+    note: string;
+    rating: number;
+}
+
+export interface UpdateReview {
+    reviewId: string;
     note: string;
     rating: number;
 }

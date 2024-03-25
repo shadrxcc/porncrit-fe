@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ListData, ListType, Reviews, ReviewsType } from "../models/list.model";
-import { asyncGetAllReviews, asyncGetPopularReviews, asyncGetUserReviews } from "./async-actions";
+import { ListData, ListType, Reviews, ReviewsModel, ReviewsType } from "../models/list.model";
+import { asyncGetAllReviews, asyncGetPopularReviews, asyncGetReview, asyncGetUserReviews } from "./async-actions";
 
 
 // Check if localStorage is available before accessing it
@@ -11,7 +11,8 @@ const initialState: ReviewsType = {
     totalData: 0,
     allreviews: [],
     popular: [],
-    myreview: {} as Reviews
+    myreview: {} as Reviews,
+    review: {} as ReviewsModel
 };
 
 export const reviewsSlice = createSlice({
@@ -30,6 +31,10 @@ export const reviewsSlice = createSlice({
         builder.addCase(asyncGetPopularReviews.fulfilled, (state, action) => {
             state.status = "fulfilled";
             state.popular = action.payload.data;
+        });
+        builder.addCase(asyncGetReview.fulfilled, (state, action) => {
+            state.status = "fulfilled";
+            state.review = action.payload.data;
         });
     },
 });

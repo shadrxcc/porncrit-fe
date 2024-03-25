@@ -63,17 +63,46 @@ export const asyncGetPopularReviews = createAsyncThunk<HttpResponse<GetReviews[]
     }
 );
 
+
+interface GetReviewParams {
+    reviewId: string;
+}
+
+export const asyncGetReview = createAsyncThunk<HttpResponse<ReviewsModel>, GetReviewParams>(
+    "reviews/review",
+    async (params) => {
+        try {
+            const response = await axiosInstance.get(`${API_URL}/reviews/get-details/${params.reviewId}`);
+            const review = response?.data;
+
+            return review;
+        } catch (error) {
+            const customError = error as CustomError;
+            const errorMessage =
+                customError?.response?.data?.message ||
+                customError.message ||
+                "There was an error";
+            toast.error(errorMessage)
+        }
+    }
+);
+
 export const selectMyReviews
-: (state: RootStateType) => Reviews = (
-    state
-) => state.reviews.myreview;
+    : (state: RootStateType) => Reviews = (
+        state
+    ) => state.reviews.myreview;
 
 export const selectAllReviews
-: (state: RootStateType) => GetReviews[] = (
-    state
-) => state.reviews.allreviews;
+    : (state: RootStateType) => GetReviews[] = (
+        state
+    ) => state.reviews.allreviews;
 
 export const selectPopularReviews
-: (state: RootStateType) => GetReviews[] = (
-    state
-) => state.reviews.popular;
+    : (state: RootStateType) => GetReviews[] = (
+        state
+    ) => state.reviews.popular;
+
+    export const selectReview
+    : (state: RootStateType) => ReviewsModel = (
+        state
+    ) => state.reviews.review;
