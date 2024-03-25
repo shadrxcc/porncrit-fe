@@ -86,7 +86,7 @@ const ListedVideo: React.FC<IProps> = function (props
               src={image || `/assets/images/4some.png`}
               width={100}
               height={50}
-              className="rounded-sm"
+              className="rounded-sm max-w-none object-cover"
               alt="foursome"
             />
             </Link>
