@@ -128,13 +128,10 @@ const page = () => {
           if (err?.response?.status === 409) {
             const videoId = err?.response?.data?.data._id
             router.push(`/videos/exists/${videoId}`)
-          }
-
-          if (err?.response?.status === 400) {
+          } else if (err?.response?.status === 400) {
             router.push(`/videos/not-found`)
-          }
-          if (err?.response?.status !== 400 || err?.response?.status !== 409) {
-            toast.error(err?.response?.message)
+          } else {
+            toast.error(`Ooops! we couldn't complete your request. Try again later.`)
           }
         }).finally(() => {
           setIsLinking(false)
@@ -148,13 +145,13 @@ const page = () => {
       case 1:
         return <>
           <div className="flex flex-col gap-y-10">
-            {filteredPopular.length===0?<p className='text-sm text-center text-mauve'>No reviews available</p>:
-            <>
-             {filteredPopular?.map((review) => (
-              <PopularReviewsComponent key={review?._id} {...review} />
-            ))}
-            </>}
-           
+            {filteredPopular.length === 0 ? <p className='text-sm text-center text-mauve'>No reviews available</p> :
+              <>
+                {filteredPopular?.map((review) => (
+                  <PopularReviewsComponent key={review?._id} {...review} />
+                ))}
+              </>}
+
           </div>
         </>
       case 2:

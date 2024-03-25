@@ -16,6 +16,7 @@ import { selectIsAuthenticated } from "@/services/auth-services/selector";
 import { useState } from "react";
 import axiosInstance from "@/services/httpClient";
 import { API_URL } from "@/services/utils";
+import { toast } from "react-toastify";
 
 type ReviewsType = {
   data: Reviews['reviews']
@@ -52,10 +53,10 @@ const MyReviews = (props: ReviewsType) => {
           if (err?.response?.status === 409) {
             const videoId = err?.response?.data?.data._id
             router.push(`/videos/exists/${videoId}`)
-          }
-
-          if (err?.response?.status === 400) {
+          } else if (err?.response?.status === 400) {
             router.push(`/videos/not-found`)
+          } else {
+            toast.error(`Ooops! we couldn't complete your request. Try again later.`)
           }
         }).finally(() => {
           setIsLinking(false)

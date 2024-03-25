@@ -54,6 +54,12 @@ const nextConfig = {
                 port: '',
                 pathname: '/videos/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'thumb-nss.xhcdn.com',
+                port: '',
+                pathname: '/a/**',
+            },
         ],
     },
 };

@@ -101,13 +101,13 @@ const Video = ({ params }: { params: { id: string } }) => {
   const [write, setWrite] = useState(false);
   const [LikefilterOption, setLikeFilterOption] = useState('');
   const [Listfilter, setListFilter] = useState('');
+  const [reviewfilter, setReviewFilter] = useState('')
 
   const router = useRouter()
 
   const [liked, setLiked] = useState(false)
   const [list, setList] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
-  const [clickedReview, setClickedReview] = useState('')
 
   const dispatch: AppDispatchType = useDispatch();
   const video = useSelector(selectVideo);
@@ -117,12 +117,22 @@ const Video = ({ params }: { params: { id: string } }) => {
   const route = useRouter();
   const searchParams = useSearchParams();
 
-  // useEffect(() => {
-  //   if (!isLoading) {
-
-  //   }
-  // }, [route, searchParams])
-
+  const sortVideoReviews = (option: string) => {
+    switch (option) {
+      case "Most popular":
+        return [...video?.reviews].sort((a, b) => (b.likesCount && b.comments.length - a.likesCount && a.comments.length));
+      case "Top rated":
+        return [...video?.reviews].sort((a, b) => (b.likesCount - a.likesCount));
+      case "Lowest rated":
+        return [...video?.reviews].sort((a, b) => (a.likesCount - b.likesCount));
+      case "Newest":
+        return [...video?.reviews].sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) as number);
+      case "Oldest":
+        return [...video?.reviews].sort((a, b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) as number);
+      default:
+        return video?.reviews;
+    }
+  };
 
   const sortVideoLikes = (option: string) => {
     switch (option) {
@@ -136,6 +146,7 @@ const Video = ({ params }: { params: { id: string } }) => {
   };
 
   const filteredlikes = sortVideoLikes(LikefilterOption)
+  const filteredreviews = sortVideoReviews(reviewfilter)
 
   const sortVideoLists = (option: string) => {
     switch (option) {
@@ -159,6 +170,10 @@ const Video = ({ params }: { params: { id: string } }) => {
     setListFilter(option);
   };
 
+  const handleReviews = (option: string) => {
+    setReviewFilter(option);
+  };
+
   const { signup, login,
     forgotPassword,
     verifymail, reset,
@@ -179,14 +194,8 @@ const Video = ({ params }: { params: { id: string } }) => {
       });
     const params = searchParams.get('review')
     if (params) {
-      console.log(params);
-
       const element = document.getElementById(`review-${params}`)
-      toast.success("")
-    
       if (element) {
-       
-
         element.scrollIntoView({ behavior: 'smooth' })
         element.style.border = "1px solid #F71D7F"
         element.classList.add('target')
@@ -199,6 +208,11 @@ const Video = ({ params }: { params: { id: string } }) => {
   const onTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
+
+  const onRefresh = () => {
+    dispatch(asyncGetLinkedVideo({ id }))
+  };
+
 
   function writeReview() {
     if (!isAuthenticated) {
@@ -213,25 +227,31 @@ const Video = ({ params }: { params: { id: string } }) => {
     if (!isAuthenticated) {
       openLogin()
     } else {
+      setLiked(true)
       axiosInstance.post(`${API_URL}/likes/like-video`, { videoId })
         .then((res) => {
           setLiked(true)
+          onRefresh && onRefresh()
           toast(res?.data?.message)
         })
         .catch((err) => {
           toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+          setLiked(false)
         })
     }
   }
 
   function unLikeVideo(videoId: string) {
+    setLiked(false)
     axiosInstance.post(`${API_URL}/likes/like-video`, { videoId })
       .then((res) => {
         setLiked(false)
+        onRefresh && onRefresh()
         toast(res?.data?.message)
       })
       .catch((err) => {
         toast(err?.response?.data?.message || 'Error Completing request. Try again later.')
+        setLiked(true)
       })
   }
 
@@ -248,7 +268,7 @@ const Video = ({ params }: { params: { id: string } }) => {
   const getTabContent = () => {
     switch (activeTabIndex) {
       case 0:
-        return <VideoListsComponent data={video} isAuthenticated={isAuthenticated} openLogin={openLogin} />;
+        return <VideoListsComponent data={filteredreviews} isAuthenticated={isAuthenticated} openLogin={openLogin} />;
       case 1:
         return <VideoListed data={filteredLists} />;
       case 2:
@@ -334,7 +354,7 @@ const Video = ({ params }: { params: { id: string } }) => {
           <div className="mt-9">
             <div className="flex relative sm:flex-row-reverse sm:justify-end gap-x-5 items-center">
               <div className='flex items-center gap-x-1'>
-                {activeTabIndex === 0 && <FilterComponent data={reviewOptions} />}
+                {activeTabIndex === 0 && <FilterComponent data={reviewOptions} onFilterChange={handleReviews}/>}
                 {activeTabIndex === 1 && <FilterComponent data={listOptions} onFilterChange={handleListFilterChange} />}
                 {activeTabIndex === 2 && <FilterComponent data={likeOptions} onFilterChange={handleLikeFilterChange} />}
                 {activeTabIndex === 3 && <FilterComponent data={viewOptions} />}

@@ -1,9 +1,9 @@
 import React from 'react'
-import { VideoModel } from '@/services/models/list.model'
+import { ReviewsModel, VideoModel } from '@/services/models/list.model'
 import VideoReview from './videoreview.component'
 
 type VideoReviewsProp = {
-    data: VideoModel;
+    data: ReviewsModel[];
     isAuthenticated: boolean;
     openLogin: () => void;
 }
@@ -13,9 +13,9 @@ const VideoListsComponent = (props: VideoReviewsProp) => {
     return (
         <>
             <div>
-                {data?.reviews?.length === 0 ? <p className='text-sm text-mauve text-center'>No reviews for this video yet. Be the first to review.</p> :
+                {data?.length === 0 ? <p className='text-sm text-mauve text-center'>No reviews for this video yet. Be the first to review.</p> :
                     <div className='flex flex-col gap-y-6'>
-                        {data?.reviews?.map((review) => (
+                        {data?.map((review) => (
                             <VideoReview key={review._id} {...review} openLogin={openLogin} isAuthenticated={isAuthenticated} />
                         ))}
                     </div>}
