@@ -29,8 +29,6 @@ const HeroComponent = ({ signin, username }: { signin: () => void, username: str
                     router.push(`/videos/new/${videoId}`)
                 })
                 .catch((err) => {
-                    console.log(err);
-
                     if (err?.response?.status === 409) {
                         const videoId = err?.response?.data?.data._id
                         router.push(`/videos/exists/${videoId}`)
@@ -40,7 +38,9 @@ const HeroComponent = ({ signin, username }: { signin: () => void, username: str
                         router.push(`/videos/not-found`)
                     }
 
-                    // toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
+                    if (err?.response?.status !== 400 || err?.response?.status !== 409) {
+                        toast.error('Error Completing request. Try again later.')
+                    }
                 }).finally(() => {
                     setIsLinking(false)
                 })

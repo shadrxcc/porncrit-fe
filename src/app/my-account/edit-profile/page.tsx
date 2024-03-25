@@ -154,7 +154,7 @@ const EditProfile = () => {
     axiosInstance.patch(`${API_URL}/users/update-avatar`, { avatar: avatar?.split("base64,")[1] })
       .then((res) => {
         toast.success(res?.data?.message)
-        setChangePassword(false);
+        refresh && refresh()
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message || 'Error Completing request. Try again later.')
@@ -169,6 +169,11 @@ const EditProfile = () => {
     dispatch(getUserProfile());
     dispatch(asyncGetAllTags())
   }, [dispatch]);
+
+
+  const refresh = () => {
+    dispatch(getUserProfile());
+  }
 
   useEffect(() => {
     const updatedTags = user?.tags?.map(tag => ({
