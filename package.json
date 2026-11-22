@@ -10,8 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
-    "@heroicons/react": "^2.2.0",
+    "@headlessui/react": "^2.2.10",
+    "@heroicons/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.6.7",
     "clsx": "^2.1.1",
