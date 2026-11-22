@@ -12,9 +12,9 @@
   "dependencies": {
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.1.1",
-    "@reduxjs/toolkit": "^2.15.0",
-    "axios": "^1.6.7",
-    "clsx": "^2.1.1",
+    "@reduxjs/toolkit": "^2.2.1",
+    "axios": "^1.21.1",
+    "clsx": "^2.1.0",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "formik": "^2.4.9",
